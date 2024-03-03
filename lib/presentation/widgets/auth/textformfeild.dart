@@ -22,7 +22,7 @@ class TFormFeild extends StatelessWidget {
                     borderSide: const BorderSide(width: 1, color: Colors.white),
                     borderRadius: BorderRadius.circular(5.0),
                   ),
-                  hintText: 'OTP',
+                  hintText: 'Hint veno bro',
                   hintStyle: const TextStyle(
                     color: Colors.white,
                   )),

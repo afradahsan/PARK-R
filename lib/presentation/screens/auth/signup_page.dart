@@ -59,7 +59,8 @@ class SignupPage extends StatelessWidget {
                 if (userExists) {
                   print('exists');
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return LoginPage();
+                    print(phoneNoController.text);
+                    return LoginPage(phoneNumber: phoneNoController.text);
                   }));
                 } else {
                   print('doesnt');

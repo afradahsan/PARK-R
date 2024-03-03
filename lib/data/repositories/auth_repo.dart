@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parkr/data/models/usermodel.dart';
 import 'package:http/http.dart' as http;
+import 'package:parkr/presentation/screens/homepage.dart';
 import 'package:parkr/presentation/widgets/auth/snackbar.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/errorhandling.dart';
@@ -23,53 +24,80 @@ class AuthRepo {
           phone: phone,
           password: password,
           type: '',
-          token: ''
-      );
+          token: '');
 
-    http.Response res = await http.post(Uri.parse('$uri/api/signup'),
-    body: user.toJson(),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    });
-    print(res.body);
+      http.Response res = await http.post(Uri.parse('$uri/api/signup'),
+          body: user.toJson(),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          });
+      print(res.body);
 
-    httpErrorHandle(response: res, context: context, onSuccess: (){
-      showSnackbar(context, 'Account Created Successfully!');
-    });
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            showSnackbar(context, 'Account Created Successfully!');
+            Navigator.of(context).push(MaterialPageRoute(builder: (context){
+              return Homepage();
+            }));
+          });
     } catch (e) {
       showSnackbar(context, e.toString());
     }
   }
 
   Future<bool> checkUser({
-  required String phoneNumber,
-}) async {
-  print('checkUser');
-  try {
-    final http.Response res = await http.post(
-      Uri.parse('$uri/check-user'),
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({'phone': phoneNumber}),
-    );
+    required String phoneNumber,
+  }) async {
+    print('checkUser');
+    try {
+      final http.Response res = await http.post(
+        Uri.parse('$uri/api/check-user'),
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'phone': phoneNumber}),
+      );
 
-    print('Response status code: ${res.statusCode}');
-    print('Response body: ${res.body}');
+      print('Response status code: ${res.statusCode}');
+      print('Response body: ${res.body}');
 
-    if (res.statusCode == 200) {
-      final Map<String, dynamic> data = json.decode(res.body);
-      print('Data from response: $data');
-      final bool existingUser = data['existingUser'];
-      print('Existing User: $existingUser');
-      return existingUser;
-    } else {
-      print('Error 201');
+      if (res.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(res.body);
+        print('Data from response: $data');
+        final bool existingUser = data['existingUser'];
+        print('Existing User: $existingUser');
+        return existingUser;
+      } else {
+        print('Error 201');
+        return false;
+      }
+    } catch (error) {
+      print('Error: $error');
       return false;
     }
-  } catch (error) {
-    print('Error: $error');
-    return false;
   }
-}
 
+  void signinUser({required String phone, required String password, required BuildContext context}) async {
+    try {
+      final http.Response res = await http.post(
+        Uri.parse('$uri/api/signin'),
+        body: json.encode({"phone": phone, "password": password}),
+        headers: {'Content-Type': 'application/json'}
+      );
+      print('Response status code: ${res.statusCode}');
+      print('Response body: ${res.body}');
 
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            showSnackbar(context, 'Logged in Successfully!');
+            Navigator.of(context).push(MaterialPageRoute(builder: (context){
+              return Homepage();
+            }));
+          });
+    } catch (e) {
+      showSnackbar(context, e.toString());
+    }
+  }
 }
