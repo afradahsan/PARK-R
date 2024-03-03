@@ -34,11 +34,11 @@ class KTextTheme {
     headlineLarge: const TextStyle().copyWith(
         fontSize: 32.0, fontWeight: FontWeight.bold, color: greenColor),
     headlineMedium: const TextStyle().copyWith(
-        fontSize: 24.0, fontWeight: FontWeight.w600, color: greenColor),
+        fontSize: 32.0, fontWeight: FontWeight.w600, color: greenColor),
     headlineSmall: const TextStyle().copyWith(
         fontSize: 32.0, fontWeight: FontWeight.w600, color: greenColor),
     titleLarge: const TextStyle().copyWith(
-        fontSize: 16.0, fontWeight: FontWeight.w600, color: greenColor),
+        fontSize: 24.0, fontWeight: FontWeight.bold, color: greenColor),
     titleMedium: const TextStyle().copyWith(
         fontSize: 16.0, fontWeight: FontWeight.w500, color: greenColor),
     titleSmall: const TextStyle().copyWith(

@@ -5,6 +5,11 @@ String uri = 'http://192.168.1.7:3000';
 SizedBox sizedten(BuildContext ctx) {
   return SizedBox(height: (MediaQuery.of(ctx).size.height)/80,);
 }
+
+SizedBox sizedfive(BuildContext ctx) {
+  return SizedBox(height: (MediaQuery.of(ctx).size.height)/160,);
+}
+
 SizedBox sizedtwenty(BuildContext ctx) {
   return SizedBox(height: (MediaQuery.of(ctx).size.height)/40,);
 }
