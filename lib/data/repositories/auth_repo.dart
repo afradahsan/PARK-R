@@ -40,4 +40,36 @@ class AuthRepo {
       showSnackbar(context, e.toString());
     }
   }
+
+  Future<bool> checkUser({
+  required String phoneNumber,
+}) async {
+  print('checkUser');
+  try {
+    final http.Response res = await http.post(
+      Uri.parse('$uri/check-user'),
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'phone': phoneNumber}),
+    );
+
+    print('Response status code: ${res.statusCode}');
+    print('Response body: ${res.body}');
+
+    if (res.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(res.body);
+      print('Data from response: $data');
+      final bool existingUser = data['existingUser'];
+      print('Existing User: $existingUser');
+      return existingUser;
+    } else {
+      print('Error 201');
+      return false;
+    }
+  } catch (error) {
+    print('Error: $error');
+    return false;
+  }
+}
+
+
 }
