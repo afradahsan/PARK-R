@@ -11,10 +11,16 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Column(
+          child: Stack(
         children: [
           Container(
-            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+              width: double.maxFinite,
+              child: Image.asset(
+                'assets/maps-sample-image.png',
+                fit: BoxFit.cover,
+              )),
+          Container(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
             height: 220,
             width: double.maxFinite,
             decoration: BoxDecoration(
@@ -43,20 +49,80 @@ class Homepage extends StatelessWidget {
                       color: greenColor,
                     ),
                     sizedwfive(context),
-                    Text('Vyttila, Ernakulam', style: KTextTheme.darkTextTheme.titleMedium,)
+                    Text(
+                      'Vyttila, Ernakulam',
+                      style: KTextTheme.darkTextTheme.titleMedium,
+                    )
                   ],
                 ),
                 sizedfive(context),
-                 Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ServiceContainer(text: 'Let our Valet Park!', image: 'assets/man-valet-park-3d.png', imageheight: 100,),
-                    ServiceContainer(text: 'Book a Parking Lot!', image: 'assets/car-q3-parked.png', imageheight: 70,),
+                    ServiceContainer(
+                      text: 'Let our Valet Park!',
+                      image: 'assets/man-valet-park-3d.png',
+                      imageheight: 100,
+                    ),
+                    ServiceContainer(
+                      text: 'Book a Parking Lot!',
+                      image: 'assets/car-q3-parked.png',
+                      imageheight: 70,
+                    ),
                   ],
                 ),
               ],
             ),
-          )
+          ),
+          Positioned(
+              bottom: 170,
+              left: 185,
+              child: Image.asset(
+                'assets/parking-emoji.png',
+                height: 20,
+              )),
+          Positioned(
+              bottom: 70,
+              left: 180,
+              child: Image.asset(
+                'assets/parking-emoji.png',
+                height: 20,
+              )),
+          Positioned(
+              bottom: 390,
+              left: 180,
+              child: Image.asset(
+                'assets/parking-emoji.png',
+                height: 20,
+              )),
+          Positioned(
+              bottom: 420,
+              left: 185,
+              child: Image.asset(
+                'assets/parking-emoji.png',
+                height: 20,
+              )),
+          Positioned(
+              bottom: 430,
+              left: 160,
+              child: Image.asset(
+                'assets/parking-emoji.png',
+                height: 20,
+              )),
+          Positioned(
+              bottom: 295,
+              right: 175,
+              child: Image.asset(
+                'assets/parking-emoji.png',
+                height: 20,
+              )),
+          Positioned(
+              bottom: 330,
+              right: 35,
+              child: Image.asset(
+                'assets/parking-emoji.png',
+                height: 20,
+              )),
         ],
       )),
     );
