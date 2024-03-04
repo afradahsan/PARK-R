@@ -26,41 +26,37 @@ class LoginPage extends StatelessWidget {
         body: SafeArea(
             child: Padding(
       padding: const EdgeInsets.all(12.0),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Welcome Back! 👋',
-              style: KTextTheme.darkTextTheme.titleLarge,
-            ),
-            Text(
-              'Log in to continue',
-              style: KTextTheme.darkTextTheme.titleSmall,
-            ),
-            sizedten(context),
-            TFormFeild(
-              icon: Icons.password_rounded,
-              controller: passwordController,
-              hintText: 'Password',
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Enter a valid Password';
-                } else {
-                  return null;
-                }
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            'Welcome Back! 👋',
+            style: KTextTheme.darkTextTheme.titleLarge,
+          ),
+          Text(
+            'Log in to continue',
+            style: KTextTheme.darkTextTheme.titleSmall,
+          ),
+          sizedten(context),
+          TFormFeild(
+            icon: Icons.password_rounded,
+            controller: passwordController,
+            hintText: 'Password',
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Enter a valid Password';
+              } else {
+                return null;
+              }
+            },
+          ),
+          sizedten(context),
+          AuthButton(
+              onPressed: () {
+              signinUser(passwordController.text, phoneNumber);
               },
-            ),
-            sizedten(context),
-            AuthButton(
-                onPressed: () {
-                  if (_formKey.currentState != null &&
-                      _formKey.currentState!.validate()){signinUser(passwordController.text, phoneNumber);}
-                },
-                ButtonText: 'Log In')
-          ],
-        ),
+              ButtonText: 'Log In')
+        ],
       ),
     )));
   }

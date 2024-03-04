@@ -2,8 +2,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parkr/presentation/screens/auth/signupwemail.dart';
-import 'package:parkr/presentation/screens/homepage.dart';
+import 'package:parkr/presentation/screens/navscreens.dart/homepage.dart';
 import 'package:parkr/presentation/widgets/auth/elevatedbutton.dart';
+import 'package:parkr/presentation/widgets/auth/grayedbutton.dart';
 import 'package:parkr/presentation/widgets/auth/textformfeild.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
@@ -52,6 +53,8 @@ class VerifyOtp extends StatelessWidget {
                 },
               ),
               sizedten(context),
+              GrayedButton(onPressed: (){}, ButtonText: 'Resend Code'),
+              sizedfive(context),
               AuthButton(
                   onPressed: () async {
                     if (_formKey.currentState != null &&
@@ -76,7 +79,7 @@ class VerifyOtp extends StatelessWidget {
                       ;
                     }
                   },
-                  ButtonText: 'Continue')
+                  ButtonText: 'Verify'),
             ],
           ),
         ),

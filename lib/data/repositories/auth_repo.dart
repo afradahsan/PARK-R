@@ -4,7 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parkr/data/models/usermodel.dart';
 import 'package:http/http.dart' as http;
-import 'package:parkr/presentation/screens/homepage.dart';
+import 'package:parkr/presentation/screens/navscreens.dart/bottomnav.dart';
+import 'package:parkr/presentation/screens/navscreens.dart/homepage.dart';
 import 'package:parkr/presentation/widgets/auth/snackbar.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/errorhandling.dart';
@@ -39,7 +40,7 @@ class AuthRepo {
           onSuccess: () {
             showSnackbar(context, 'Account Created Successfully!');
             Navigator.of(context).push(MaterialPageRoute(builder: (context){
-              return Homepage();
+              return BottomNav();
             }));
           });
     } catch (e) {
@@ -93,7 +94,7 @@ class AuthRepo {
           onSuccess: () {
             showSnackbar(context, 'Logged in Successfully!');
             Navigator.of(context).push(MaterialPageRoute(builder: (context){
-              return Homepage();
+              return BottomNav();
             }));
           });
     } catch (e) {
