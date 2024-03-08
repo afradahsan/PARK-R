@@ -1,11 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:parkr/business_logic/onboarding/bloc/onboarding_bloc.dart';
 import 'package:parkr/data/repositories/auth_repo.dart';
 import 'package:parkr/presentation/screens/auth/loginpage.dart';
 import 'package:parkr/presentation/screens/auth/verify_otp.dart';
 import 'package:parkr/presentation/widgets/auth/elevatedbutton.dart';
+import 'package:parkr/presentation/widgets/auth/snackbar.dart';
 import 'package:parkr/presentation/widgets/auth/textformfeild.dart';
-import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
 
@@ -42,7 +44,7 @@ class SignupPage extends StatelessWidget {
                 controller: phoneNoController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Enter OTP';
+                    return 'Enter Phone number';
                   } else {
                     return null;
                   }
@@ -51,26 +53,31 @@ class SignupPage extends StatelessWidget {
                 icon: Icons.phone,
               ),
               sizedten(context),
-              AuthButton(
-                ButtonText: 'Continue',
-                onPressed: () async {
-                  if (_formKey.currentState != null &&
-                      _formKey.currentState!.validate()) {
-                    bool userExists =
-                        await checkUserExists(context, phoneNoController.text);
-                    if (userExists) {
-                      print('exists');
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) {
-                        print(phoneNoController.text);
-                        return LoginPage(phoneNumber: phoneNoController.text);
-                      }));
-                    } else {
-                      print('doesnt');
-                      phoneAuthentication(phoneNoController.text, context);
-                    }
+              BlocListener<OnboardingBloc, OnboardingState>(
+                listener: (context, state) {
+                  debugPrint('Received state: $state');
+                  if (state is OnboardingSuccessState) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return LoginPage(phoneNumber: phoneNoController.text);
+                    }));
+                  } else if (state is OnboardingOTPState) {
+                    phoneAuthentication(phoneNoController.text, context);
+                  } else if (state is OnBoardingErrorState) {
+                    debugPrint('error occured.');
+                    showSnackbar(context, 'An Error Occured, Try Again');
                   }
                 },
+                child: AuthButton(
+                  ButtonText: 'Continue',
+                  onPressed: () async {
+                    if (_formKey.currentState != null &&
+                        _formKey.currentState!.validate()) {
+                      context.read<OnboardingBloc>().add(
+                        UserExistsEvent(phoneNo: phoneNoController.text));
+                    }
+                  },
+                ),
               ),
             ],
           ),
@@ -79,14 +86,14 @@ class SignupPage extends StatelessWidget {
     );
   }
 
-  Future<bool> checkUserExists(
-      BuildContext context, String phoneNoController) async {
-    print('Checking user with phone number: ${phoneNoController}');
-    return await authRepo.checkUser(phoneNumber: phoneNoController);
-  }
+  // Future<bool> checkUserExists(
+  //     BuildContext context, String phoneNoController) async {
+  //   debugPrint('Checking user with phone number: ${phoneNoController}');
+  //   return await authRepo.checkUser(phoneNumber: phoneNoController);
+  // }
 
   void phoneAuthentication(String phoneNo, BuildContext context) async {
-    print('continue');
+    debugPrint('continue');
     await auth.verifyPhoneNumber(
         phoneNumber: '+91$phoneNo',
         verificationCompleted: (credential) async {
@@ -94,10 +101,10 @@ class SignupPage extends StatelessWidget {
         },
         verificationFailed: (e) {
           if (e.code == 'Invalid Phone number') {
-            print('invalid');
+            debugPrint('invalid');
             SnackBar(content: Text('Invalid'));
           } else {
-            print('wrong');
+            debugPrint('wrong');
 
             SnackBar(content: Text('Something went wrong'));
           }

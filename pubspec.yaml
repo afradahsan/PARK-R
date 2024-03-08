@@ -39,6 +39,8 @@ dependencies:
   firebase_auth:
   firebase_core:
   http:
+  flutter_bloc:
+  equatable: 
 
 dev_dependencies:
   flutter_test:

@@ -21,7 +21,7 @@ class _BottomNavState extends State<BottomNav> {
     pages = [
       const Homepage(),
       const MyBookings(),
-      const Bookmarks(),
+      // const Bookmarks(),
       const ProfilePage()
     ];
     super.initState();

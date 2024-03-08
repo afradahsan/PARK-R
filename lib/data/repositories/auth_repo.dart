@@ -11,19 +11,16 @@ import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/errorhandling.dart';
 
 class AuthRepo {
-  void signupUser(
-      {required String name,
-      required String email,
-      required String phone,
-      required String password,
-      required BuildContext context}) async {
+  Future<String> signupUser(
+      {required UserModel usermodel, BuildContext? context}) async {
     try {
       UserModel user = UserModel(
+
           id: '',
-          name: name,
-          email: email,
-          phone: phone,
-          password: password,
+          name: usermodel.name,
+          email: usermodel.email,
+          phone: usermodel.phone,
+          password: usermodel.password,
           type: '',
           token: '');
 
@@ -32,23 +29,33 @@ class AuthRepo {
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           });
-      print(res.body);
+      debugPrint(res.body);
+      debugPrint('${res.statusCode}');
 
-      httpErrorHandle(
-          response: res,
-          context: context,
-          onSuccess: () {
-            showSnackbar(context, 'Account Created Successfully!');
-            Navigator.of(context).push(MaterialPageRoute(builder: (context){
-              return BottomNav();
-            }));
-          });
+      if (res.statusCode == 201) {
+        // ignore: use_build_context_synchronously
+        showSnackbar(context!, 'Account Created Successfully!');
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+          return const BottomNav();
+        }));
+        return 'success';
+      }
+      if (res.statusCode == 400) {
+        return 'invalid-otp';
+      }
+
+      if (res.statusCode == 409) {
+        return 'Email/Phone No. Already Exists';
+      }
+      return 'error';
     } catch (e) {
-      showSnackbar(context, e.toString());
+      debugPrint(e.toString());
+      return 'error';
     }
   }
 
-  Future<bool> checkUser({
+  Future<String> checkUser({
     required String phoneNumber,
   }) async {
     print('checkUser');
@@ -67,24 +74,28 @@ class AuthRepo {
         print('Data from response: $data');
         final bool existingUser = data['existingUser'];
         print('Existing User: $existingUser');
-        return existingUser;
+        if (existingUser) {
+          return 'exists';
+        } else {
+          return 'new user';
+        }
       } else {
-        print('Error 201');
-        return false;
+        return 'error';
       }
     } catch (error) {
       print('Error: $error');
-      return false;
+      return 'HTTP Error';
     }
   }
 
-  void signinUser({required String phone, required String password, required BuildContext context}) async {
+  void signinUser(
+      {required String phone,
+      required String password,
+      required BuildContext context}) async {
     try {
-      final http.Response res = await http.post(
-        Uri.parse('$uri/api/signin'),
-        body: json.encode({"phone": phone, "password": password}),
-        headers: {'Content-Type': 'application/json'}
-      );
+      final http.Response res = await http.post(Uri.parse('$uri/api/signin'),
+          body: json.encode({"phone": phone, "password": password}),
+          headers: {'Content-Type': 'application/json'});
       print('Response status code: ${res.statusCode}');
       print('Response body: ${res.body}');
 
@@ -93,7 +104,7 @@ class AuthRepo {
           context: context,
           onSuccess: () {
             showSnackbar(context, 'Logged in Successfully!');
-            Navigator.of(context).push(MaterialPageRoute(builder: (context){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
               return BottomNav();
             }));
           });

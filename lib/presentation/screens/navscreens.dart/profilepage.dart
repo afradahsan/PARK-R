@@ -9,7 +9,7 @@ class ProfilePage extends StatelessWidget {
     return const Scaffold(
       body: SafeArea(
           child: Column(
-        children: [Text('MY BOOKINGS')],
+        children: [Text('Profile', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),)],
       )),
     );
   }
