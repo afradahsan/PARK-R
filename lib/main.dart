@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parkr/business_logic/onboarding/bloc/onboarding_bloc.dart';
+import 'package:parkr/business_logic/signin/bloc/signin_bloc.dart';
 import 'package:parkr/business_logic/signup/bloc/signup_bloc.dart';
 import 'package:parkr/firebase_options.dart';
 import 'package:parkr/presentation/screens/auth/onboarding_page.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => SignupBloc(),
         ),
+        BlocProvider(create: (context) => SigninBloc())
       ],
       child: MaterialApp(
         title: 'Parkr',

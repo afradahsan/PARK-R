@@ -11,25 +11,23 @@ part 'signup_state.dart';
 
 class SignupBloc extends Bloc<SignupEvent, SignupState> {
   SignupBloc() : super(SignupInitial()) {
-    // on<SigningUpEvent>();
+    on<SigningUpEvent>(signingupevent);
   }
 
-  FutureOr<void>signingupevent(SigningUpEvent event, Emitter<SignupState> emit) async{
+  FutureOr<void> signingupevent(
+    SigningUpEvent event, Emitter<SignupState> emit) async {
     emit(SignUpLoadingState());
 
-    String response = await AuthRepo().signupUser(usermodel: event.user,);
+    String response = await AuthRepo().signupUser(
+      usermodel: event.user,
+    );
     debugPrint('response: $response');
-    
-    if(response=='success'){
+
+    if (response == 'success') {
       emit(SignUpSuccessState());
-    }
-    else if(response=='invalid-otp'){
-      emit(SignupOTPErrorState());
-    }
-    else if(response=='Email/Phone No. Already Exists'){
-      emit(UserExistsState());
-    }
-    else {
+    } else if (response == 'Try Again') {
+      emit(SignUpTryAgainState());
+    } else {
       emit(SignUpErrorState());
     }
   }
