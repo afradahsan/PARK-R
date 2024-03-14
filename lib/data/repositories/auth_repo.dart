@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:parkr/data/models/usermodel.dart';
 import 'package:http/http.dart' as http;
 import 'package:parkr/data/providers/user_provider.dart';
-import 'package:parkr/presentation/screens/auth/onboarding_page.dart';
+import 'package:parkr/presentation/screens/auth/signupage.dart';
 import 'package:parkr/presentation/widgets/auth/snackbar.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:provider/provider.dart';

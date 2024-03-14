@@ -32,7 +32,10 @@ class ProfilePage extends StatelessWidget {
             const ProfileContainer(),
             sizedtwenty(context),
             const ProfileListWidget(
-                iconname: Icons.directions_car_rounded, text: 'My Vehicles', returnpage: MyVehicles(),),
+              iconname: Icons.directions_car_rounded,
+              text: 'My Vehicles',
+              returnpage: MyVehicles(),
+            ),
             sizedten(context),
             const ProfileListWidget(iconname: Icons.wallet, text: 'Wallet'),
             sizedten(context),
@@ -44,9 +47,12 @@ class ProfilePage extends StatelessWidget {
             sizedten(context),
             const ProfileListWidget(iconname: Icons.settings, text: 'Settings'),
             sizedtwenty(context),
-            ElevatedButton.icon(onPressed: (){
-              AuthRepo().logOut(context);
-            }, icon: Icon(Icons.logout), label: Text('Log Out'))
+            ElevatedButton.icon(
+                onPressed: () {
+                  AuthRepo().logOut(context);
+                },
+                icon: const Icon(Icons.logout),
+                label: const Text('Log Out'))
           ],
         ),
       )),

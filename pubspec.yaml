@@ -43,6 +43,7 @@ dependencies:
   equatable: 
   shared_preferences: ^2.2.2
   provider: ^6.1.2
+  concentric_transition: ^1.0.3
 
 dev_dependencies:
   flutter_test:

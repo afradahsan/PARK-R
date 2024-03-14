@@ -8,7 +8,9 @@ import 'package:parkr/business_logic/signup/bloc/signup_bloc.dart';
 import 'package:parkr/data/providers/user_provider.dart';
 import 'package:parkr/data/repositories/auth_repo.dart';
 import 'package:parkr/firebase_options.dart';
-import 'package:parkr/presentation/screens/auth/onboarding_page.dart';
+import 'package:parkr/presentation/screens/admin/pages/adminnav.dart';
+import 'package:parkr/presentation/screens/auth/onboardingpage.dart';
+import 'package:parkr/presentation/screens/auth/signupage.dart';
 import 'package:parkr/presentation/screens/navscreens.dart/bottomnav.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/themes.dart';
@@ -68,8 +70,10 @@ class _MyAppState extends State<MyApp> {
                 final userProvider =
                     Provider.of<UserProvider>(context, listen: false);
                 return userProvider.user.token.isNotEmpty
-                    ? const BottomNav()
-                    : SignupPage();
+                    ? userProvider.user.type == 'user'
+                        ? const BottomNav()
+                        : const AdminNav()
+                    : OnboardingPage();
               },
             ));
       },
