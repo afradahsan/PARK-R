@@ -45,12 +45,12 @@ class _BottomNavState extends State<BottomNav> {
         width: screenWidth,
         decoration: BoxDecoration(
           shape: BoxShape.rectangle,
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
           ),
           color: darkbgColor, // Set the color to darkbgColor
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: Color.fromARGB(100, 0, 0, 0),
               blurRadius: 2,

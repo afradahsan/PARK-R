@@ -3,10 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:parkr/data/models/usermodel.dart';
 import 'package:http/http.dart' as http;
-import 'package:parkr/presentation/screens/navscreens.dart/bottomnav.dart';
+import 'package:parkr/data/providers/user_provider.dart';
 import 'package:parkr/presentation/widgets/auth/snackbar.dart';
 import 'package:parkr/utils/constants.dart';
-import 'package:parkr/utils/errorhandling.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class AuthRepo {
   Future<String> signupUser(
@@ -44,7 +46,7 @@ class AuthRepo {
   Future<String> checkUser({
     required String phoneNumber,
   }) async {
-    print('checkUser');
+    debugPrint('checkUser');
     try {
       final http.Response res = await http.post(
         Uri.parse('$uri/api/check-user'),
@@ -52,14 +54,14 @@ class AuthRepo {
         body: json.encode({'phone': phoneNumber}),
       );
 
-      print('Response status code: ${res.statusCode}');
-      print('Response body: ${res.body}');
+      debugPrint('Response status code: ${res.statusCode}');
+      debugPrint('Response body: ${res.body}');
 
       if (res.statusCode == 200) {
         final Map<String, dynamic> data = json.decode(res.body);
-        print('Data from response: $data');
+        debugPrint('Data from response: $data');
         final bool existingUser = data['existingUser'];
-        print('Existing User: $existingUser');
+        debugPrint('Existing User: $existingUser');
         if (existingUser) {
           return 'exists';
         } else {
@@ -74,9 +76,9 @@ class AuthRepo {
     }
   }
 
-  Future<String> signinUser(
-      {required String phone,
-      required String password}) async {
+  Future<String> signinUser(BuildContext context,
+  {required String phone,
+  required String password}) async {
     try {
       final http.Response res = await http.post(Uri.parse('$uri/api/signin'),
           body: json.encode({"phone": phone, "password": password}),
@@ -85,7 +87,12 @@ class AuthRepo {
       debugPrint('Response body: ${res.body}');
 
       if (res.statusCode == 200) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        debugPrint('go to setuser');
+        Provider.of<UserProvider>(context, listen: false).setUser(res.body);
+        await prefs.setString('auth-token', jsonDecode(res.body)['token']);
         return 'success';
+        
       } else {
         return 'error';
       }
@@ -93,4 +100,44 @@ class AuthRepo {
       return 'error';
     }
   }
+
+  void getUserData(BuildContext context) async{
+    try{
+      debugPrint('getuserdata called..');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('auth-token');
+      debugPrint('token: $token');
+      if(token == null){
+        debugPrint('token null');
+        prefs.setString('auth-token', '');
+      }
+
+      var tokenRes = await http.post(
+        Uri.parse('$uri/tokenisValid'),
+        headers: <String, String>{
+          'Content-type': 'application/json; charset=UTF-8',
+          'auth-token': token!
+        },
+      );
+
+      var response = jsonDecode(tokenRes.body);
+      debugPrint('resp: $response');
+      if(response==true){
+        debugPrint('hello');
+       http.Response userRes = await http.get(Uri.parse('$uri/'),
+       headers: <String, String>{
+        'Content-type': 'application/json; charset=UTF-8',
+        'auth-token': token
+       }
+       );
+        debugPrint('userres: ${userRes.body}');
+       var userProvider = Provider.of<UserProvider>(context, listen: false);
+       debugPrint('into setuserr');
+       userProvider.setUser(userRes.body);
+      }
+    } catch (e) {
+          debugPrint('Exception in getUserData: $e');
+      // showSnackbar(context, e.toString());
+    }
+  } 
 }
