@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:parkr/data/models/usermodel.dart';
 import 'package:http/http.dart' as http;
 import 'package:parkr/data/providers/user_provider.dart';
+import 'package:parkr/presentation/screens/auth/onboarding_page.dart';
 import 'package:parkr/presentation/widgets/auth/snackbar.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 class AuthRepo {
   Future<String> signupUser(
@@ -77,8 +77,7 @@ class AuthRepo {
   }
 
   Future<String> signinUser(BuildContext context,
-  {required String phone,
-  required String password}) async {
+      {required String phone, required String password}) async {
     try {
       final http.Response res = await http.post(Uri.parse('$uri/api/signin'),
           body: json.encode({"phone": phone, "password": password}),
@@ -92,7 +91,6 @@ class AuthRepo {
         Provider.of<UserProvider>(context, listen: false).setUser(res.body);
         await prefs.setString('auth-token', jsonDecode(res.body)['token']);
         return 'success';
-        
       } else {
         return 'error';
       }
@@ -101,13 +99,13 @@ class AuthRepo {
     }
   }
 
-  void getUserData(BuildContext context) async{
-    try{
+  void getUserData(BuildContext context) async {
+    try {
       debugPrint('getuserdata called..');
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('auth-token');
       debugPrint('token: $token');
-      if(token == null){
+      if (token == null) {
         debugPrint('token null');
         prefs.setString('auth-token', '');
       }
@@ -122,22 +120,28 @@ class AuthRepo {
 
       var response = jsonDecode(tokenRes.body);
       debugPrint('resp: $response');
-      if(response==true){
+      if (response == true) {
         debugPrint('hello');
-       http.Response userRes = await http.get(Uri.parse('$uri/'),
-       headers: <String, String>{
-        'Content-type': 'application/json; charset=UTF-8',
-        'auth-token': token
-       }
-       );
+        http.Response userRes = await http.get(Uri.parse('$uri/'),
+            headers: <String, String>{
+              'Content-type': 'application/json; charset=UTF-8',
+              'auth-token': token
+            });
         debugPrint('userres: ${userRes.body}');
-       var userProvider = Provider.of<UserProvider>(context, listen: false);
-       debugPrint('into setuserr');
-       userProvider.setUser(userRes.body);
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        debugPrint('into setuserr');
+        userProvider.setUser(userRes.body);
       }
     } catch (e) {
-          debugPrint('Exception in getUserData: $e');
+      debugPrint('Exception in getUserData: $e');
       // showSnackbar(context, e.toString());
     }
-  } 
+  }
+
+  //LOG-OUT USER
+  void logOut(BuildContext context) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('auth-token', '');
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => SignupPage()), (route) => false);
+  }
 }

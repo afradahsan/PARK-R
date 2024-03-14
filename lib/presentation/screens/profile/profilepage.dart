@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parkr/data/repositories/auth_repo.dart';
 import 'package:parkr/presentation/screens/profile/myvehicles.dart';
 import 'package:parkr/presentation/screens/profile/widgets/profilecontainer.dart';
 import 'package:parkr/presentation/screens/profile/widgets/profilelistwidget.dart';
@@ -42,6 +43,10 @@ class ProfilePage extends StatelessWidget {
             const ProfileListWidget(iconname: Icons.discount, text: 'Coupons'),
             sizedten(context),
             const ProfileListWidget(iconname: Icons.settings, text: 'Settings'),
+            sizedtwenty(context),
+            ElevatedButton.icon(onPressed: (){
+              AuthRepo().logOut(context);
+            }, icon: Icon(Icons.logout), label: Text('Log Out'))
           ],
         ),
       )),
