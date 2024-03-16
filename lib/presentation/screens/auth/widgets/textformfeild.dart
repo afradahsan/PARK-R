@@ -6,12 +6,13 @@ class TFormFeild extends StatelessWidget {
       {super.key,
       required this.controller,
       required this.hintText,
-      required this.validator, required this.icon});
+      required this.validator, required this.icon, this.obscure});
 
   final TextEditingController controller;
   final String hintText;
   final String? Function(String?)? validator;
   final IconData icon;
+  final bool? obscure;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,6 @@ class TFormFeild extends StatelessWidget {
             hintStyle: const TextStyle(
               color: Colors.white,
             )),
-        validator: validator);
+        validator: validator, obscureText: obscure==true ? true : false,);
   }
 }

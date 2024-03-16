@@ -1,7 +1,7 @@
 import 'package:concentric_transition/concentric_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:parkr/presentation/screens/auth/signupage.dart';
-import 'package:parkr/presentation/widgets/auth/cardplanetdata.dart';
+import 'package:parkr/presentation/screens/auth/widgets/cardplanetdata.dart';
 import 'package:parkr/utils/colors.dart';
 
 class OnboardingPage extends StatelessWidget {

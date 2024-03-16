@@ -5,9 +5,9 @@ import 'package:parkr/business_logic/onboarding/bloc/onboarding_bloc.dart';
 import 'package:parkr/data/repositories/auth_repo.dart';
 import 'package:parkr/presentation/screens/auth/loginpage.dart';
 import 'package:parkr/presentation/screens/auth/verify_otp.dart';
-import 'package:parkr/presentation/widgets/auth/elevatedbutton.dart';
-import 'package:parkr/presentation/widgets/auth/snackbar.dart';
-import 'package:parkr/presentation/widgets/auth/textformfeild.dart';
+import 'package:parkr/presentation/screens/auth/widgets/elevatedbutton.dart';
+import 'package:parkr/presentation/screens/auth/widgets/snackbar.dart';
+import 'package:parkr/presentation/screens/auth/widgets/textformfeild.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
 

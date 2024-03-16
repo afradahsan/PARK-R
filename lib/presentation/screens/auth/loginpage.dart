@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parkr/business_logic/signin/bloc/signin_bloc.dart';
-import 'package:parkr/presentation/screens/navscreens.dart/bottomnav.dart';
-import 'package:parkr/presentation/widgets/auth/elevatedbutton.dart';
-import 'package:parkr/presentation/widgets/auth/snackbar.dart';
-import 'package:parkr/presentation/widgets/auth/textformfeild.dart';
+import 'package:parkr/data/providers/user_provider.dart';
+import 'package:parkr/presentation/screens/admin/pages/adminnav.dart';
+import 'package:parkr/presentation/screens/home/bottomnav.dart';
+import 'package:parkr/presentation/screens/auth/widgets/elevatedbutton.dart';
+import 'package:parkr/presentation/screens/auth/widgets/snackbar.dart';
+import 'package:parkr/presentation/screens/auth/widgets/textformfeild.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key, required this.phoneNumber});
@@ -39,6 +42,7 @@ class LoginPage extends StatelessWidget {
                 icon: Icons.password_rounded,
                 controller: passwordController,
                 hintText: 'Password',
+                obscure: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Enter a valid Password';
@@ -50,9 +54,12 @@ class LoginPage extends StatelessWidget {
             BlocListener<SigninBloc, SigninState>(
               listener: (context, state) {
                 if (state is SigninSuccessState) {
-                  Navigator.of(context)
+                  Provider.of<UserProvider>(context, listen: false).user.type == 'user' ? Navigator.of(context)
                       .push(MaterialPageRoute(builder: (context) {
                     return const BottomNav();
+                  })) : Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
+                    return const AdminNav();
                   }));
                 } else if (state is SigninErrorState) {
                   showSnackbar(context, 'Password Doesn\'t Match');

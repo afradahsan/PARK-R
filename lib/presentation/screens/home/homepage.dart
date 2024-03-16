@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:parkr/presentation/widgets/home/services_container.dart';
+import 'package:parkr/presentation/screens/home/widgets/services_container.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';

@@ -10,8 +10,7 @@ import 'package:parkr/data/repositories/auth_repo.dart';
 import 'package:parkr/firebase_options.dart';
 import 'package:parkr/presentation/screens/admin/pages/adminnav.dart';
 import 'package:parkr/presentation/screens/auth/onboardingpage.dart';
-import 'package:parkr/presentation/screens/auth/signupage.dart';
-import 'package:parkr/presentation/screens/navscreens.dart/bottomnav.dart';
+import 'package:parkr/presentation/screens/home/bottomnav.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/themes.dart';
 import 'package:provider/provider.dart';
@@ -53,8 +52,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => SigninBloc(context)),
       ],
       builder: (context, child) {
-        Provider.of<UserProvider>(context).user.token.isNotEmpty
-            ? debugPrint('not empty')
+        Provider.of<UserProvider>(context).user.token.isNotEmpty ? Provider.of<UserProvider>(context, listen: false).user.type == 'user'
+                        ? debugPrint('user') :
+             debugPrint('not empty')
             : debugPrint('empty');
         return MaterialApp(
             title: 'Parkr',

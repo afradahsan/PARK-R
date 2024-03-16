@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:parkr/presentation/widgets/home/bookings_container.dart';
+import 'package:parkr/presentation/screens/home/widgets/bookings_container.dart';
 import 'package:parkr/utils/constants.dart';
 
 class MyBookings extends StatelessWidget {

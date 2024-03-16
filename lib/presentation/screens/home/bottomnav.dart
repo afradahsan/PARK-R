@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:parkr/presentation/screens/navscreens.dart/bookmarks.dart';
-import 'package:parkr/presentation/screens/navscreens.dart/homepage.dart';
-import 'package:parkr/presentation/screens/navscreens.dart/mybookings.dart';
+import 'package:parkr/presentation/screens/home/bookmarks.dart';
+import 'package:parkr/presentation/screens/home/homepage.dart';
+import 'package:parkr/presentation/screens/home/mybookings.dart';
 import 'package:parkr/presentation/screens/profile/profilepage.dart';
 import 'package:parkr/utils/colors.dart';
 

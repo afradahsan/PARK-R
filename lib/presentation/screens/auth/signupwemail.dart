@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parkr/business_logic/signin/bloc/signin_bloc.dart';
 import 'package:parkr/business_logic/signup/bloc/signup_bloc.dart';
 import 'package:parkr/data/models/usermodel.dart';
-import 'package:parkr/presentation/screens/navscreens.dart/bottomnav.dart';
-import 'package:parkr/presentation/widgets/auth/elevatedbutton.dart';
-import 'package:parkr/presentation/widgets/auth/snackbar.dart';
-import 'package:parkr/presentation/widgets/auth/textformfeild.dart';
+import 'package:parkr/presentation/screens/home/bottomnav.dart';
+import 'package:parkr/presentation/screens/auth/widgets/elevatedbutton.dart';
+import 'package:parkr/presentation/screens/auth/widgets/snackbar.dart';
+import 'package:parkr/presentation/screens/auth/widgets/textformfeild.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
 

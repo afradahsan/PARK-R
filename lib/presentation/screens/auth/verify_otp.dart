@@ -2,10 +2,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parkr/presentation/screens/auth/signupwemail.dart';
-import 'package:parkr/presentation/screens/navscreens.dart/homepage.dart';
-import 'package:parkr/presentation/widgets/auth/elevatedbutton.dart';
-import 'package:parkr/presentation/widgets/auth/grayedbutton.dart';
-import 'package:parkr/presentation/widgets/auth/textformfeild.dart';
+import 'package:parkr/presentation/screens/home/homepage.dart';
+import 'package:parkr/presentation/screens/auth/widgets/elevatedbutton.dart';
+import 'package:parkr/presentation/screens/auth/widgets/grayedbutton.dart';
+import 'package:parkr/presentation/screens/auth/widgets/textformfeild.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';

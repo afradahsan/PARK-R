@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:parkr/presentation/widgets/auth/snackbar.dart';
+import 'package:parkr/presentation/screens/auth/widgets/snackbar.dart';
 
 void httpErrorHandle({
   required http.Response response,

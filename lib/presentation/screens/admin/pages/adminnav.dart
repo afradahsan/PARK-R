@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkr/presentation/screens/admin/pages/adminhome.dart';
+import 'package:parkr/presentation/screens/admin/pages/adminpark.dart';
 import 'package:parkr/presentation/screens/admin/pages/adminstats.dart';
 import 'package:parkr/utils/colors.dart';
 
@@ -18,7 +19,7 @@ class _AdminNavState extends State<AdminNav> {
   void initState() {
     pages = [
       const AdminHomePage(),
-      const AdminNav(),
+      const AdminPark(),
       const AdminStats()
     ];
     super.initState();
