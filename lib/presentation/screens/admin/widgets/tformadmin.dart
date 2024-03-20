@@ -7,11 +7,13 @@ class TFormAdmin extends StatelessWidget {
     required this.controller,
     required this.hintText,
     required this.validator,
+    this.textinputtype
   });
 
   final TextEditingController controller;
   final String hintText;
   final String? Function(String?)? validator;
+  final TextInputType? textinputtype;
   // final IconData icon;
 
   @override
@@ -33,8 +35,9 @@ class TFormAdmin extends StatelessWidget {
             ),
             hintText: hintText,
             hintStyle: const TextStyle(
-              color: Color.fromARGB(100, 255, 255, 255),
+              color: Color.fromARGB(100, 255, 255, 255), fontSize: 14
             )),
+            keyboardType: textinputtype,
         validator: validator);
   }
 }

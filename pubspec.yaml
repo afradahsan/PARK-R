@@ -45,6 +45,10 @@ dependencies:
   provider: ^6.1.2
   concentric_transition: ^1.0.3
   file_picker: ^6.2.0
+  carousel_slider: ^4.2.1
+  geolocator: ^11.0.0
+  geocoding: ^3.0.0
+  cloudinary_public: ^0.23.1
 
 dev_dependencies:
   flutter_test:

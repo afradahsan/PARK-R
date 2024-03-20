@@ -60,14 +60,14 @@ class Homepage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ServiceContainer(
-                      text: 'Let our Valet Park!',
-                      image: 'assets/man-valet-park-3d.png',
-                      imageheight: 100,
-                    ),
-                    ServiceContainer(
                       text: 'Book a Parking Lot!',
                       image: 'assets/car-q3-parked.png',
                       imageheight: 70,
+                    ),
+                    ServiceContainer(
+                      text: 'Let our Valet Park!',
+                      image: 'assets/man-valet-park-3d.png',
+                      imageheight: 100,
                     ),
                   ],
                 ),
