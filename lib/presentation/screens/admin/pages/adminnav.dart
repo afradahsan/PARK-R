@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parkr/presentation/screens/admin/pages/addparking.dart';
 import 'package:parkr/presentation/screens/admin/pages/adminhome.dart';
 import 'package:parkr/presentation/screens/admin/pages/adminpark.dart';
 import 'package:parkr/presentation/screens/admin/pages/adminstats.dart';
@@ -24,12 +25,30 @@ class _AdminNavState extends State<AdminNav> {
     ];
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.sizeOf(context).width;
-    double screenHeight = MediaQuery.sizeOf(context).height;
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
-      body: pages[selectedIndex],
+      body: Stack(
+        children: [
+          pages[selectedIndex],
+          selectedIndex==0 ? Positioned(
+            bottom: screenHeight / 10 + 16, // Adjust as needed
+            right: 16,
+            child: FloatingActionButton(
+              backgroundColor: greenColor,
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return AddParking();
+                }));
+              },
+              child: Icon(Icons.add, color: darkbgColor,),
+            ),
+          ) : const Text('')
+        ],
+      ),
       extendBody: true,
       bottomNavigationBar: Container(
         padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
@@ -41,7 +60,7 @@ class _AdminNavState extends State<AdminNav> {
             topLeft: Radius.circular(30),
             topRight: Radius.circular(30),
           ),
-          color: darkbgColor, // Set the color to darkbgColor
+          color: darkbgColor,
           boxShadow: const [
             BoxShadow(
               color: Color.fromARGB(100, 0, 0, 0),
@@ -60,7 +79,7 @@ class _AdminNavState extends State<AdminNav> {
               selectedIndex = index;
             });
           },
-          backgroundColor: Colors.transparent, // Set the color to darkbgColor
+          backgroundColor: Colors.transparent,
           items: [
             BottomNavigationBarItem(
               icon: selectedIndex == 0

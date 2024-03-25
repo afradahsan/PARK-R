@@ -11,6 +11,7 @@ import 'package:parkr/firebase_options.dart';
 import 'package:parkr/presentation/screens/admin/pages/adminnav.dart';
 import 'package:parkr/presentation/screens/auth/onboardingpage.dart';
 import 'package:parkr/presentation/screens/home/bottomnav.dart';
+import 'package:parkr/utils/buttontheme.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/themes.dart';
 import 'package:provider/provider.dart';
@@ -52,19 +53,21 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => SigninBloc(context)),
       ],
       builder: (context, child) {
-        Provider.of<UserProvider>(context).user.token.isNotEmpty ? Provider.of<UserProvider>(context, listen: false).user.type == 'user'
-                        ? debugPrint('user') :
-             debugPrint('not empty')
+        Provider.of<UserProvider>(context).user.token.isNotEmpty
+            ? Provider.of<UserProvider>(context, listen: false).user.type ==
+                    'user'
+                ? debugPrint('user')
+                : debugPrint('not empty')
             : debugPrint('empty');
         return MaterialApp(
             title: 'Parkr',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              scaffoldBackgroundColor: darkbgColor,
-              fontFamily: GoogleFonts.montserrat().fontFamily,
-              textTheme: KTextTheme.darkTextTheme,
-              useMaterial3: true,
-            ),
+                scaffoldBackgroundColor: darkbgColor,
+                fontFamily: GoogleFonts.montserrat().fontFamily,
+                textTheme: KTextTheme.darkTextTheme,
+                useMaterial3: true,
+                elevatedButtonTheme: kButtonTheme.elevatedButtonTheme),
             home: Builder(
               builder: (context) {
                 final userProvider =

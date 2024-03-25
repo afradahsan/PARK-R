@@ -24,9 +24,9 @@ class ParkingLotContainer extends StatelessWidget {
               children: [
               Container(width: 75, height: 75 ,
               decoration: BoxDecoration(
-                color: Colors.amber,
+                // color: Colors.amber,
                 borderRadius: BorderRadius.circular(10)
-              ), ),
+              ),child: Image.network('${parkinglotList![index].image}', fit: BoxFit.cover,), ),
               sizedwten(context), 
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

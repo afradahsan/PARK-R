@@ -4,6 +4,7 @@ import 'package:parkr/data/repositories/admin/admin_repo.dart';
 import 'package:parkr/presentation/screens/home/widgets/loader.dart';
 import 'package:parkr/presentation/screens/home/widgets/parkinglotcontainer.dart';
 import 'package:parkr/utils/colors.dart';
+import 'package:parkr/utils/constants.dart';
 
 class ParkingLots extends StatefulWidget {
   const ParkingLots({super.key});
@@ -18,34 +19,42 @@ class _ParkingLotsState extends State<ParkingLots> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchAllParkingLots();
   }
 
-  fetchAllParkingLots() async{
+  fetchAllParkingLots() async {
     parkinglotList = await adminRepo.fetchParkingLots(context);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return parkinglotList == null ? Loader() : Scaffold(
-      appBar: AppBar(
-        title: Text('Parking Lots near you!', style:TextStyle(color: greenColor, fontSize: 18)),
-        iconTheme: IconThemeData(color: greenColor),
-        backgroundColor: darkbgColor,
-        elevation: 0,
-        actions: [
-          Icon(Icons.search)
-        ],
-      ),
-      body: SafeArea(child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: ListView.builder(itemBuilder: (context, index) {
-          return ParkingLotContainer(parkinglotList: parkinglotList!, index: index);
-        }, itemCount: 1,),
-      )),
-    );
+    return parkinglotList == null
+        ? const Loader()
+        : Scaffold(
+            appBar: AppBar(
+              title: Text('Parking Lots near you!',
+                  style: TextStyle(color: greenColor, fontSize: 18)),
+              iconTheme: IconThemeData(color: greenColor),
+              backgroundColor: darkbgColor,
+              elevation: 0,
+              actions: const [Icon(Icons.search)],
+            ),
+            body: SafeArea(
+                child: Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: ListView.separated(
+                itemBuilder: (context, index) {
+                  return ParkingLotContainer(
+                      parkinglotList: parkinglotList!, index: index);
+                },
+                itemCount: parkinglotList!.length,
+                separatorBuilder: (context, index) {
+                  return sizedten(context);
+                },
+              ),
+            )),
+          );
   }
 }

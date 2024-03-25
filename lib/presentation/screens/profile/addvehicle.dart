@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:parkr/data/repositories/myvehicles/myvehicle_repo.dart';
+import 'package:parkr/presentation/screens/auth/widgets/elevatedbutton.dart';
+import 'package:parkr/presentation/screens/auth/widgets/textformfeild.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 
@@ -13,6 +16,13 @@ class _AddVehicleState extends State<AddVehicle> {
   var vehicletypes = ['Two Wheeler', 'Three Wheeler', 'Four Wheeler'];
 
   String dropdownvalue = '';
+
+  final TextEditingController vehicleNameC = TextEditingController();
+  final TextEditingController vehicleNumberC = TextEditingController();
+
+  void saveVehicle(){
+    MyVehicleRepo().addVehicles(context: context, vehicleName: vehicleNameC.text, vehicleNumber: vehicleNumberC.text, vehicleType: dropdownvalue);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +60,7 @@ class _AddVehicleState extends State<AddVehicle> {
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton(
                     dropdownColor: darkbgColor,
-                    value: vehicletypes[0],
+                    value: dropdownvalue=='' ? vehicletypes[0]: dropdownvalue,
                     icon: const Icon(Icons.keyboard_arrow_down),
                     items: vehicletypes.map((String items) {
                       return DropdownMenuItem(
@@ -64,7 +74,26 @@ class _AddVehicleState extends State<AddVehicle> {
                       });
                     },
                   ),
-                ))
+                )),
+                sizedten(context),
+                TFormFeild(controller: vehicleNameC, hintText: 'Vehicle Name', validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter name';
+                  } else {
+                    return null;
+                  }
+                }, icon: Icons.local_taxi),
+                sizedten(context),
+                TFormFeild(controller: vehicleNumberC, hintText: 'Vehicle Number', validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Enter number';
+                  } else {
+                    return null;
+                  }
+                }, icon: Icons.confirmation_number_sharp),
+                AuthButton(onPressed: (){
+                  saveVehicle();
+                }, ButtonText: 'Save')
           ],
         ),
       )),
