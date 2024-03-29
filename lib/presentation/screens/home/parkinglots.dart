@@ -31,7 +31,7 @@ class _ParkingLotsState extends State<ParkingLots> {
   @override
   Widget build(BuildContext context) {
     return parkinglotList == null
-        ? const Loader()
+        ? const Loader(appbartext: 'Parking Lots Near You',)
         : Scaffold(
             appBar: AppBar(
               title: Text('Parking Lots near you!',

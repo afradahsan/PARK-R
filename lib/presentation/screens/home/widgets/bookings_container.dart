@@ -11,11 +11,11 @@ class BookingsContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       height: 93,
       width: double.maxFinite,
       decoration: BoxDecoration(
-          color: Color.fromRGBO(158, 158, 158, 0.25),
+          color: const Color.fromRGBO(158, 158, 158, 0.25),
           borderRadius: BorderRadius.circular(10)),
       child: Stack(
         children: [
@@ -24,7 +24,7 @@ class BookingsContainer extends StatelessWidget {
               Container(
                   height: 85,
                   width: 85,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage('assets/mall-parking-image.png'),
                           fit: BoxFit.cover))),
@@ -35,13 +35,13 @@ class BookingsContainer extends StatelessWidget {
                 children: [
                   Text(
                     location,
-                    style: TextStyle(
+                    style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
                         fontWeight: FontWeight.bold),
                   ),
                   Text(time,
-                      style: TextStyle(
+                      style: const TextStyle(
                           color: Color.fromRGBO(255, 255, 255, 0.6),
                           fontSize: 14,
                           fontWeight: FontWeight.bold))

@@ -10,7 +10,7 @@ class ParkingDetails extends StatelessWidget {
         Container(
           height: 300,
           width: double.maxFinite,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.amber
           ),
         ),

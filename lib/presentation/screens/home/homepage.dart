@@ -13,7 +13,7 @@ class Homepage extends StatelessWidget {
       body: SafeArea(
           child: Stack(
         children: [
-          Container(
+          SizedBox(
               width: double.maxFinite,
               child: Image.asset(
                 'assets/maps-sample-image.png',

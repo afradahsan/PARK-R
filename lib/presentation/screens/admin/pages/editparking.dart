@@ -37,6 +37,8 @@ class _EditParkingState extends State<EditParking> {
   bool security = false;
   bool wheelchair = false;
   bool indoor = false;
+    bool isLoading = false;
+
 
   File? image;
 
@@ -63,6 +65,10 @@ class _EditParkingState extends State<EditParking> {
   }
 
   void editParking() {
+    setState(() {
+      isLoading = true;
+    });
+
     if (addParkingFormKey.currentState!.validate()) {
       adminRepo.editParking(
           context: context,
@@ -99,10 +105,13 @@ class _EditParkingState extends State<EditParking> {
         elevation: 0,
         actions: [
           ElevatedButton(
+             style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(greenColor)),
               onPressed: () {
                 editParking();
               },
-              child: Text('Update'))
+              child: isLoading
+                  ? Center(child: SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: darkbgColor)))
+                  : Text('Update', style: TextStyle(color: darkbgColor),))
         ],
       ),
       body: SafeArea(

@@ -1,59 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:parkr/data/models/vehiclemodel.dart';
+import 'package:parkr/data/repositories/myvehicles/myvehicle_repo.dart';
 import 'package:parkr/presentation/screens/profile/addvehicle.dart';
 import 'package:parkr/presentation/screens/profile/widgets/vehiclecontainer.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 
-class MyVehicles extends StatelessWidget {
+class MyVehicles extends StatefulWidget {
   const MyVehicles({super.key});
+
+  @override
+  State<MyVehicles> createState() => _MyVehiclesState();
+}
+
+class _MyVehiclesState extends State<MyVehicles> {
+  List<Vehicle> vehicleList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchVehicles();
+  }
+
+  void fetchVehicles() async {
+    List<Vehicle> fetchedVehicles = await MyVehicleRepo().getVehicles(context);
+    setState(() {
+      vehicleList = fetchedVehicles;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: Icon(Icons.arrow_back, color: Colors.white,),
-        title: Text('Add Vehicle', style: TextStyle(color: Colors.white),),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context){
-              return AddVehicle();
-            }));
-          },
-          child: Icon(
-            Icons.add,
-            color: darkbgColor,
+        appBar: AppBar(
+          iconTheme: const IconThemeData(color: Colors.white),
+          title: const Text(
+            'My Vehicles',
+            style: TextStyle(color: Colors.white),
           ),
-          backgroundColor: greenColor),
-      body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-                        VehicleContainer(
-                image: 'assets/audi-q3.png',
-                modelName: 'Audi Q3',
-                regNo: 'KL 11 AQ 999'),
-            sizedten(context),
-            VehicleContainer(
-                image: 'assets/LC-prado.png',
-                modelName: 'LC Prado',
-                regNo: 'KL 11 N 11'),
-            sizedten(context),
-            VehicleContainer(
-                image: 'assets/vrs_rs245.png',
-                modelName: 'Octavia RS 245',
-                regNo: 'KL 11 RS 245'),
-                sizedten(context),
-            VehicleContainer(
-                image: 'assets/himalayan_411.jpg',
-                modelName: 'Himalayan 411',
-                regNo: 'KL 11 BZ 411'),
-          ],
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
-      )),
-    );
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return const AddVehicle();
+              }));
+            },
+            backgroundColor: greenColor,
+            child: Icon(
+              Icons.add,
+              color: darkbgColor,
+            )), 
+        body: SafeArea(
+            child: ListView.separated(
+          padding: const EdgeInsets.all(15),
+          itemCount: vehicleList.length,
+          separatorBuilder: (context, index) {
+            return sizedten(context);
+          },
+          itemBuilder: (context, index) {
+            return VehicleContainer(
+                image: vehicleList[index].vehicleType == 'Four Wheeler'
+                    ? 'assets/audi-q3.png'
+                    : 'assets/himalayan_411.jpg',
+                modelName: vehicleList[index].vehicleName,
+                regNo: vehicleList[index].vehicleNumber, vehicle: vehicleList[index],);
+          },
+        )));
   }
 }

@@ -12,7 +12,7 @@ class ServiceContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context){ return ParkingLots();}));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context){ return const ParkingLots();}));
       },
       child: Container(
         height: 140,
@@ -34,12 +34,12 @@ class ServiceContainer extends StatelessWidget {
                 blurStyle: BlurStyle.normal,
               )
             ]),
-        padding: EdgeInsets.only(top: 10, left: 10),
+        padding: const EdgeInsets.only(top: 10, left: 10),
         child: Stack(
           children: [
             Text(
               text,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
             ),
             Positioned(

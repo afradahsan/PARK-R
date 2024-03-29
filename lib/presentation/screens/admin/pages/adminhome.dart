@@ -31,15 +31,16 @@ class _AdminHomePageState extends State<AdminHomePage> {
   @override
   Widget build(BuildContext context) {
     return parkinglotList == null
-        ? const Loader()
+        ? const Loader(appbartext: 'Hello, Admin',)
         : Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               title: Text('Hello, Admin!',
                   style: TextStyle(color: greenColor, fontSize: 18)),
-              iconTheme: IconThemeData(color: greenColor),
+              // iconTheme: IconThemeData(color: greenColor),
               backgroundColor: darkbgColor,
               elevation: 0,
-              actions: const [Icon(Icons.search)],
+              // actions: const [Icon(Icons.search)],
             ),
             body: SafeArea(
                 child: Padding(

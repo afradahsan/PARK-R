@@ -1,35 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:parkr/data/models/vehiclemodel.dart';
 import 'package:parkr/data/repositories/myvehicles/myvehicle_repo.dart';
 import 'package:parkr/presentation/screens/auth/widgets/elevatedbutton.dart';
 import 'package:parkr/presentation/screens/auth/widgets/textformfeild.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 
-class AddVehicle extends StatefulWidget {
-  const AddVehicle({super.key});
+class EditVehicle extends StatefulWidget {
+  const EditVehicle({super.key, required this.vehicle});
+
+  final Vehicle vehicle;
 
   @override
-  State<AddVehicle> createState() => _AddVehicleState();
+  State<EditVehicle> createState() => _EditVehicleState();
 }
 
-class _AddVehicleState extends State<AddVehicle> {
+class _EditVehicleState extends State<EditVehicle> {
+
   var vehicletypes = ['Two Wheeler', 'Three Wheeler', 'Four Wheeler'];
 
   String dropdownvalue = '';
 
-  final TextEditingController vehicleNameC = TextEditingController();
-  final TextEditingController vehicleNumberC = TextEditingController();
-  bool isLoading = false; // Track loading state
+  TextEditingController vehicleNameC = TextEditingController();
+  TextEditingController vehicleNumberC = TextEditingController();
+  bool isLoading = false;
 
-  void saveVehicle() {
+  @override
+  void initState() {
+    super.initState();
+    vehicleNameC = TextEditingController(text: widget.vehicle.vehicleName);
+    vehicleNumberC = TextEditingController(text: widget.vehicle.vehicleNumber);
+    dropdownvalue = widget.vehicle.vehicleType;
+  }
+
+  void editvehicle() {
     setState(() {
-      isLoading = true; // Set loading state to true when API call starts
+      isLoading = true; 
     });
-    MyVehicleRepo().addVehicles(
-        context: context,
-        vehicleName: vehicleNameC.text,
-        vehicleNumber: vehicleNumberC.text,
-        vehicleType: dropdownvalue);
+    MyVehicleRepo().editVehicle(context: context, vehicleName: vehicleNameC.text, vehicleNumber: vehicleNumberC.text, vehicleType: dropdownvalue, vehicleId: widget.vehicle.id!);
   }
 
   @override
@@ -41,7 +49,7 @@ class _AddVehicleState extends State<AddVehicle> {
           color: Colors.white,
         ),
         title: const Text(
-          'Add Vehicle',
+          'Edit Vehicle',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.transparent,
@@ -115,9 +123,9 @@ class _AddVehicleState extends State<AddVehicle> {
                         CircularProgressIndicator()) // Show loader if isLoading is true
                 : AuthButton(
                     onPressed: () {
-                      saveVehicle();
+                      editvehicle();
                     },
-                    ButtonText: 'Save')
+                    ButtonText: 'Update')
           ],
         ),
       )),

@@ -33,6 +33,7 @@ class _AddParkingState extends State<AddParking> {
   bool security = false;
   bool wheelchair = false;
   bool indoor = false;
+  bool isLoading = false;
 
   File? image;
 
@@ -41,6 +42,11 @@ class _AddParkingState extends State<AddParking> {
   }
 
   void addParking(){
+
+    setState(() {
+      isLoading = true; // Set loading state to true when API call starts
+    });
+
     if(addParkingFormKey.currentState!.validate() && image!= null && currentPosition!=null){
       adminRepo.addParking(context: context, image: image!, parkingName: parkingnameController.text, locationName: locationNameCntrlr.text, position: ('${currentPosition!.latitude}, ${currentPosition!.longitude}').toString(), totalSpots: int.parse(totalspots.text), parkingFee: int.parse(parkingFee.text), indoor: indoor, carWash: carWash, evCharge: evCharge);
     } else {
@@ -64,9 +70,13 @@ class _AddParkingState extends State<AddParking> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
-          ElevatedButton(onPressed: (){
+          ElevatedButton(
+            style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(greenColor)),
+            onPressed: (){
             addParking();
-          }, child: Text('Save'))
+          }, child: isLoading
+                  ? Center(child: SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: darkbgColor)))
+                  : Text('Save', style: TextStyle(color: darkbgColor),))
         ],
       ),
       body: SafeArea(
@@ -189,7 +199,7 @@ class _AddParkingState extends State<AddParking> {
                             carWash = value!;
                           });
                         })),
-                    Text('Car Wash'),
+                    const Text('Car Wash'),
                     sizedwten(context),
                     Checkbox(
                         checkColor: darkbgColor,
@@ -200,7 +210,7 @@ class _AddParkingState extends State<AddParking> {
                             evCharge = value!;
                           });
                         })),
-                    Text('EV Charging'),
+                    const Text('EV Charging'),
                   ],
                 ),
               ],
