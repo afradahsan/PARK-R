@@ -8,9 +8,9 @@ class KTextTheme {
     headlineLarge: const TextStyle().copyWith(
         fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.black),
     headlineMedium: const TextStyle().copyWith(
-        fontSize: 24.0, fontWeight: FontWeight.w600, color: Colors.black),
+        fontSize: 24.0, fontWeight: FontWeight.bold, color: Colors.black),
     headlineSmall: const TextStyle().copyWith(
-        fontSize: 32.0, fontWeight: FontWeight.w600, color: Colors.black),
+        fontSize: 32.0, fontWeight: FontWeight.bold, color: Colors.black),
     titleLarge: const TextStyle().copyWith(
         fontSize: 16.0, fontWeight: FontWeight.w600, color: Colors.black),
     titleMedium: const TextStyle().copyWith(
@@ -34,17 +34,17 @@ class KTextTheme {
     headlineLarge: const TextStyle().copyWith(
         fontSize: 32.0, fontWeight: FontWeight.bold, color: greenColor),
     headlineMedium: const TextStyle().copyWith(
-        fontSize: 32.0, fontWeight: FontWeight.w600, color: greenColor),
-    headlineSmall: const TextStyle().copyWith(
-        fontSize: 32.0, fontWeight: FontWeight.w600, color: greenColor),
-    titleLarge: const TextStyle().copyWith(
         fontSize: 24.0, fontWeight: FontWeight.bold, color: greenColor),
+    headlineSmall: const TextStyle().copyWith(
+        fontSize: 24.0, fontWeight: FontWeight.bold, color: greenColor),
+    titleLarge: const TextStyle().copyWith(
+        fontSize: 20.0, fontWeight: FontWeight.bold, color: greenColor),
     titleMedium: const TextStyle().copyWith(
-        fontSize: 18.0, fontWeight: FontWeight.bold, color: greenColor),
+        fontSize: 18.0, fontWeight: FontWeight.w600, color: greenColor),
     titleSmall: const TextStyle().copyWith(
-        fontSize: 16.0, fontWeight: FontWeight.bold, color: greenColor),
+        fontSize: 18.0, fontWeight: FontWeight.w600, color: greenColor),
     bodyLarge: const TextStyle().copyWith(
-        fontSize: 14.0, fontWeight: FontWeight.w500, color: greenColor),
+        fontSize: 16.0, fontWeight: FontWeight.w500, color: greenColor),
     bodyMedium: const TextStyle().copyWith(
         fontSize: 14.0, fontWeight: FontWeight.normal, color: greenColor),
     bodySmall: const TextStyle().copyWith(

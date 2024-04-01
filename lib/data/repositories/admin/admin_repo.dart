@@ -97,7 +97,6 @@ class AdminRepo {
       debugPrint('status: ${res.statusCode.toString()}');
       debugPrint('${res.body}');
 
-      // ignore: use_build_context_synchronously
       httpErrorHandle(
           response: res,
           context: context,

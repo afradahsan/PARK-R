@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parkr/business_logic/onboarding/bloc/onboarding_bloc.dart';
+import 'package:parkr/business_logic/parkingdetails/parkingdetails_bloc.dart';
 import 'package:parkr/business_logic/signin/bloc/signin_bloc.dart';
 import 'package:parkr/business_logic/signup/bloc/signup_bloc.dart';
 import 'package:parkr/data/providers/user_provider.dart';
@@ -51,6 +52,9 @@ class _MyAppState extends State<MyApp> {
           create: (context) => SignupBloc(),
         ),
         BlocProvider(create: (context) => SigninBloc(context)),
+        BlocProvider(
+          create: (context) => ParkingdetailsBloc(context),
+        )
       ],
       builder: (context, child) {
         Provider.of<UserProvider>(context).user.token.isNotEmpty
