@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkr/data/models/parkingmodel.dart';
+import 'package:parkr/presentation/screens/parking/widgets/parkingbutton.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
@@ -15,39 +16,66 @@ class ParkingDWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(15.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          mainImage(parkinglist, index),
-          sizedtwenty(context),
-          mainTitle(parkinglist, index),
-          sizedtwenty(context),
-          
-        ],
+      child: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            mainImage(parkinglist, index, context),
+            sizedtwenty(context),
+            mainTitle(parkinglist, index),
+            sizedtwenty(context),
+            subCategories('10AM to 12PM', Icons.watch_later, context),
+            subCategories('${parkinglist[index].totalSpots} spots available',
+                Icons.check_circle, context),
+            subCategories(
+                parkinglist[index].indoor
+                    ? 'Indoor Parking'
+                    : 'Outdoor Parking',
+                parkinglist[index].indoor ? Icons.apartment : Icons.fence,
+                context),
+            subCategories(
+                parkinglist[index].evCharge && parkinglist[index].carWash
+                    ? 'Carwash, EV Charging, Security'
+                    : parkinglist[index].carWash
+                        ? 'Carwash, Security'
+                        : parkinglist[index].evCharge
+                            ? 'EV Charging, Security'
+                            : 'Security',
+                Icons.bolt,
+                context),
+            const SizedBox(
+              height: 170,
+            ),
+            const ParkingButton()
+          ],
+        ),
       ),
     );
   }
 }
 
-Widget mainImage(List<ParkingModel> parkinglist, int index) {
+Widget mainImage(
+    List<ParkingModel> parkinglist, int index, BuildContext context) {
   return Stack(
     children: [
       ClipRRect(
           borderRadius: BorderRadius.circular(12),
-          child: Container(
+          child: SizedBox(
             height: 220,
             width: double.maxFinite,
             child: Image.network(
-              parkinglist[0].image,
+              parkinglist[index].image,
               fit: BoxFit.cover,
             ),
           )),
-      const Positioned(
-          top: 10,
-          left: 10,
-          child: Icon(
+      IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
             Icons.arrow_back,
-            color: Colors.white,
+            color: Color.fromARGB(255, 48, 48, 48),
           ))
     ],
   );
@@ -79,3 +107,27 @@ Widget mainTitle(List<ParkingModel> parkinglist, int index) {
   );
 }
 
+Widget subCategories(String text, IconData icon, BuildContext context) {
+  return Column(
+    children: [
+      Row(
+        children: [
+          Icon(
+            icon,
+            color: Colors.white,
+            size: 27,
+          ),
+          sizedwten(context),
+          Text(
+            text,
+            style: const TextStyle(
+                color: Color.fromARGB(150, 255, 255, 255),
+                fontSize: 17,
+                fontWeight: FontWeight.w600),
+          ),
+        ],
+      ),
+      sizedtwenty(context),
+    ],
+  );
+}
