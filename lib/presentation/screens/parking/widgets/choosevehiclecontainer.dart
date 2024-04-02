@@ -26,14 +26,20 @@ class ChooseVehiclesContainer extends StatelessWidget {
 Widget mainContainer(List<Vehicle> myvehiclesList, final BuildContext context, int index) {
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 15),
-    height: 100,
+    height: 80,
     width: double.maxFinite,
     decoration:
         BoxDecoration(color: whitet50, borderRadius: BorderRadius.circular(15)),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Image.asset('assets/audi-q3.png'),
+        Container(
+          height: 90,
+          width: 90,
+          child: Image.asset(myvehiclesList[index].vehicleType == 'Four Wheeler'
+                      ? 'assets/audi-q3.png'
+                      : 'assets/himalayan_411.jpg'),
+        ),
         sizedwten(context),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -41,11 +47,11 @@ Widget mainContainer(List<Vehicle> myvehiclesList, final BuildContext context, i
           children: [
             Text(
               myvehiclesList[index].vehicleName,
-              style: KTextTheme.darkTextTheme.titleLarge,
+              style: KTextTheme.darkwhiteTextTheme.titleLarge,
             ),
             Text(
               myvehiclesList[index].vehicleNumber,
-              style: TextStyle(color: whitet200, fontSize: 12),
+              style: KTextTheme.darkTextTheme.labelLarge,
             )
           ],
         ),

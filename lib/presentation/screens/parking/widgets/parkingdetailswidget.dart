@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkr/data/models/parkingmodel.dart';
+import 'package:parkr/presentation/screens/parking/choosevehicles.dart';
 import 'package:parkr/presentation/screens/parking/widgets/parkingbutton.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
@@ -47,7 +48,19 @@ class ParkingDWidget extends StatelessWidget {
             const SizedBox(
               height: 170,
             ),
-            const ParkingButton()
+            ParkingButton(
+              text: 'Book Parking',
+              onpressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) {
+                    return ChooseVehicle(
+                      parkingList: parkinglist,
+                      index: index,
+                    );
+                  },
+                ));
+              },
+            )
           ],
         ),
       ),
