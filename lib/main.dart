@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:parkr/business_logic/myvehicles/myvehicles_bloc.dart';
 import 'package:parkr/business_logic/onboarding/bloc/onboarding_bloc.dart';
 import 'package:parkr/business_logic/parkingdetails/parkingdetails_bloc.dart';
 import 'package:parkr/business_logic/signin/bloc/signin_bloc.dart';
@@ -54,7 +55,10 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => SigninBloc(context)),
         BlocProvider(
           create: (context) => ParkingdetailsBloc(context),
-        )
+        ),
+        BlocProvider(
+          create: (context) => MyvehiclesBloc(context),
+        ),
       ],
       builder: (context, child) {
         Provider.of<UserProvider>(context).user.token.isNotEmpty

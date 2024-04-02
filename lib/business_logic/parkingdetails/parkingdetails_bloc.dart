@@ -27,8 +27,7 @@ class ParkingdetailsBloc
       debugPrint('done');
       emit(ParkingDetailsSuccessState(parkingList: parkingList));
     } else {
-          debugPrint(' not done');
-
+      debugPrint('not done');
       emit(ParkingDetailsErrorState());
     }
   }
