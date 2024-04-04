@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parkr/presentation/screens/parking/paymentscreen.dart';
 import 'package:parkr/presentation/screens/parking/widgets/parkingbutton.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
@@ -43,7 +44,9 @@ class _ChooseParkingState extends State<ChooseParking> {
             sizedten(context),
             selectTime(),
             const Spacer(),
-            ParkingButton(text: 'Proceed', onpressed: () {})
+            ParkingButton(text: 'Proceed', onpressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaymentScreen(),));
+            })
           ],
         ),
       )),

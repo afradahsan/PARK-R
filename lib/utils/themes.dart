@@ -65,7 +65,7 @@ class KTextTheme {
     titleLarge: const TextStyle().copyWith(
         fontSize: 20.0, fontWeight: FontWeight.bold, color: white),
     titleMedium: const TextStyle().copyWith(
-        fontSize: 18.0, fontWeight: FontWeight.w600, color: white),
+        fontSize: 16.0, fontWeight: FontWeight.w600, color: white),
     titleSmall: const TextStyle().copyWith(
         fontSize: 18.0, fontWeight: FontWeight.w600, color: white),
     bodyLarge: const TextStyle().copyWith(
