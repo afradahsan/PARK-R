@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parkr/business_logic/myvehicles/myvehicles_bloc.dart';
 import 'package:parkr/data/models/parkingmodel.dart';
+import 'package:parkr/presentation/screens/parking/choseparking.dart';
 import 'package:parkr/presentation/screens/parking/widgets/choosevehiclecontainer.dart';
+import 'package:parkr/presentation/screens/parking/widgets/includewash.dart';
 import 'package:parkr/presentation/screens/parking/widgets/parkingbutton.dart';
+import 'package:parkr/presentation/screens/profile/addvehicle.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
@@ -49,7 +52,7 @@ class ChooseVehicle extends StatelessWidget {
                       sizedten(context),
                       addvehContainer(context),
                       sizedtwenty (context),
-                      parkingList[index].carWash ? includewash() : sizedten(context)
+                      parkingList[index].carWash ? const IncludeWash() : sizedten(context)
                     ],
                   );
                 } else if (state is MyVehiclesError) {
@@ -60,7 +63,11 @@ class ChooseVehicle extends StatelessWidget {
               },
             ),
             const Spacer(),
-            ParkingButton(text: 'Proceed', onpressed: () {})
+            ParkingButton(text: 'Proceed', onpressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return const ChooseParking();
+              },));
+            })
           ],
         ),
       )),
@@ -81,51 +88,32 @@ AppBar appbar() {
 }
 
 Widget addvehContainer(BuildContext context) {
-  return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 15),
-    height: 60,
-    width: double.maxFinite,
-    decoration:
-        BoxDecoration(color: whitet50, borderRadius: BorderRadius.circular(15)),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.add_circle,
-          color: greenColor,
-        ),
-        sizedwten(context),
-        Text(
-          'Add Another Vehicle',
-          style: KTextTheme.darkwhiteTextTheme.titleMedium,
-        )
-      ],
-    ),
-  );
-}
-
-Widget includewash() {
-  return Row(
-    children: [
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+  return GestureDetector(
+    onTap: () {
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+        return const AddVehicle();
+      },));
+    },
+    child: Container(
+      padding: const EdgeInsets.symmetric(horizontal: 15),
+      height: 60,
+      width: double.maxFinite,
+      decoration:
+          BoxDecoration(color: whitet50, borderRadius: BorderRadius.circular(15)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Include Washing',
-            style: KTextTheme.darkwhiteTextTheme.titleMedium,
+          Icon(
+            Icons.add_circle,
+            color: greenColor,
           ),
+          sizedwten(context),
           Text(
-            'Price ranges between ₹299 to ₹499',
-            style: KTextTheme.darkwhiteTextTheme.labelMedium,
+            'Add Another Vehicle',
+            style: KTextTheme.darkwhiteTextTheme.titleMedium,
           )
         ],
       ),
-      const Spacer(),
-      Icon(
-        Icons.toggle_on,
-        color: greenColor,
-        size: 40,
-      )
-    ],
+    ),
   );
 }
