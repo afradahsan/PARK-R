@@ -1,39 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:parkr/business_logic/cubit/selectvehindex/selectvehindex_cubit.dart';
 import 'package:parkr/data/models/vehiclemodel.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
+import 'package:provider/provider.dart';
 
-class ChooseVehiclesContainer extends StatefulWidget {
-  const ChooseVehiclesContainer({super.key, required this.myvehiclesList});
+class ChooseVehiclesContainer extends StatelessWidget {
+  const ChooseVehiclesContainer({Key? key, required this.myvehiclesList}) : super(key: key);
 
   final List<Vehicle> myvehiclesList;
 
   @override
-  State<ChooseVehiclesContainer> createState() => _ChooseVehiclesContainerState();
-}
-
-class _ChooseVehiclesContainerState extends State<ChooseVehiclesContainer> {
-
-  int selectedIndex = 0;
-
-  @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      shrinkWrap: true,
-        itemBuilder: (context, index) {
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                selectedIndex = index;
-              });
-            },
-            child: mainContainer(widget.myvehiclesList, context, index, selectedIndex));
-        },
-        separatorBuilder: (context, index) {
-          return sizedten(context);
-        },
-        itemCount: widget.myvehiclesList.length);
+    return BlocBuilder<SelectvehindexCubit, int>(
+      builder: (context, selectedIndex) {
+        return ListView.separated(
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return GestureDetector(
+              onTap: () {
+                context.read<SelectvehindexCubit>().updateSelectedIndex(index);
+              },
+              child: mainContainer(myvehiclesList, context, index, selectedIndex),
+            );
+          },
+          separatorBuilder: (context, index) {
+            return sizedten(context);
+          },
+          itemCount: myvehiclesList.length,
+        );
+      },
+    );
   }
 }
 
@@ -42,20 +41,20 @@ Widget mainContainer(List<Vehicle> myvehiclesList, final BuildContext context, i
     padding: const EdgeInsets.symmetric(horizontal: 15),
     height: 80,
     width: double.maxFinite,
-    decoration:
-        BoxDecoration(
-          color: whitet50, borderRadius: BorderRadius.circular(15),
-          border: selectedIndex == index ? Border.all(color: greenColor, width: 1) : Border.all(width: 0)
-          ),
+    decoration: BoxDecoration(
+      color: whitet50,
+      borderRadius: BorderRadius.circular(15),
+      border: Border.all(color: selectedIndex == index ? greenColor : Colors.transparent, width: 1),
+    ),
     child: Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Container(
           height: 90,
           width: 90,
-          child: Image.asset(myvehiclesList[index].vehicleType == 'Four Wheeler'
-                      ? 'assets/audi-q3.png'
-                      : 'assets/himalayan_411.jpg'),
+          child: Image.asset(
+            myvehiclesList[index].vehicleType == 'Four Wheeler' ? 'assets/audi-q3.png' : 'assets/himalayan_411.jpg',
+          ),
         ),
         sizedwten(context),
         Column(
@@ -73,10 +72,10 @@ Widget mainContainer(List<Vehicle> myvehiclesList, final BuildContext context, i
           ],
         ),
         const Spacer(),
-        selectedIndex==index ? Icon(Icons.radio_button_checked, color: greenColor,) : Icon(
-          Icons.radio_button_off,
-          color: white,
-        )
+        Icon(
+          selectedIndex == index ? Icons.radio_button_checked : Icons.radio_button_off,
+          color: selectedIndex == index ? greenColor : white,
+        ),
       ],
     ),
   );

@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:cloudinary_public/cloudinary_public.dart';
@@ -44,7 +43,7 @@ class AdminRepo {
 
       ParkingModel parkingModel = ParkingModel(
         image:
-            imageUrl ?? '', // Use empty string as fallback if imageUrl is null
+        imageUrl ?? '',
         parkingName: parkingName,
         locationName: locationName,
         position: position.toString(),

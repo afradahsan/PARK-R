@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-String uri = 'http://192.168.155.182:3000';
+String uri = 'http://192.168.137.1:3000';
 
 SizedBox sizedten(BuildContext ctx) {
   return SizedBox(height: (MediaQuery.of(ctx).size.height)/80,);

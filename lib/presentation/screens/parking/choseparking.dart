@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parkr/data/models/parkingmodel.dart';
 import 'package:parkr/presentation/screens/parking/paymentscreen.dart';
 import 'package:parkr/presentation/screens/parking/widgets/parkingbutton.dart';
 import 'package:parkr/utils/colors.dart';
@@ -6,7 +7,11 @@ import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
 
 class ChooseParking extends StatefulWidget {
-  const ChooseParking({super.key});
+  const ChooseParking({super.key, required this.parkingid, required this.vehicleNumber, required this.parkingList});
+
+  final String parkingid;
+  final String vehicleNumber;
+  final List<ParkingModel> parkingList;
 
   @override
   State<ChooseParking> createState() => _ChooseParkingState();
@@ -45,7 +50,7 @@ class _ChooseParkingState extends State<ChooseParking> {
             selectTime(),
             const Spacer(),
             ParkingButton(text: 'Proceed', onpressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaymentScreen(),));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaymentScreen(parkingid: widget.parkingid, startTime: reachTime.toString(), endTime: leaveTime.toString(), startDate: date.toString(), endDate: date.toString(), parkingList: widget.parkingList,),));
             })
           ],
         ),
