@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:parkr/business_logic/cubit/selectvehindex/selectvehindex_cubit.dart';
+import 'package:parkr/business_logic/cubits/selectvehindex/selectvehindex_cubit.dart';
 import 'package:parkr/data/models/vehiclemodel.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';

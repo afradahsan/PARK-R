@@ -21,7 +21,10 @@ class AdminRepo {
     required String locationName,
     required String position,
     required int totalSpots,
-    required int parkingFee,
+    required int carparkingFee,
+    required int bikeparkingFee,
+    required int truckparkingFee,
+    int? carwashFee,
     required bool indoor,
     required bool carWash,
     required bool evCharge,
@@ -42,17 +45,18 @@ class AdminRepo {
       }
 
       ParkingModel parkingModel = ParkingModel(
-        image:
-        imageUrl ?? '',
-        parkingName: parkingName,
-        locationName: locationName,
-        position: position.toString(),
-        totalSpots: totalSpots,
-        parkingFee: parkingFee,
-        indoor: indoor,
-        carWash: carWash,
-        evCharge: evCharge,
-      );
+          image: imageUrl ?? '',
+          parkingName: parkingName,
+          locationName: locationName,
+          position: position.toString(),
+          totalSpots: totalSpots,
+          indoor: indoor,
+          carWash: carWash,
+          evCharge: evCharge,
+          carparkingFee: carparkingFee,
+          bikeparkingFee: bikeparkingFee,
+          truckparkingFee: truckparkingFee,
+          carwashFee: carwashFee);
 
       debugPrint('Parking model JSON: ${parkingModel.toJson()}');
 
@@ -83,8 +87,8 @@ class AdminRepo {
   }
 
   Future<List<ParkingModel>> fetchParkingLots(BuildContext context) async {
-    // final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<ParkingModel> parkingList = [];
+    debugPrint('fetching..');
     try {
       http.Response res = await http.get(
         Uri.parse('$uri/admin/get-parking'),
@@ -100,16 +104,16 @@ class AdminRepo {
           response: res,
           context: context,
           onSuccess: () {
-            for (int i = 0; i < jsonDecode(res.body).length; i++) {
-              parkingList.add(
-                  ParkingModel.fromJson(jsonEncode(jsonDecode(res.body)[i])));
-            }
+            final List<dynamic> responseData = jsonDecode(res.body);
+            parkingList = responseData
+                .map((data) => ParkingModel.fromMap(data))
+                .toList(); // Convert each item to ParkingModel and collect into a list
           });
     } catch (e) {
       debugPrint(e.toString());
       showSnackbar(context, e.toString());
     }
-    return parkingList;
+    return parkingList; // Return the list of ParkingModel instances
   }
 
   Future<ParkingModel> fetchParkingByID(String id) async {
@@ -140,7 +144,10 @@ class AdminRepo {
     required String locationName,
     required String position,
     required int totalSpots,
-    required int parkingFee,
+    required int carparkingFee,
+    required int bikeparkingFee,
+    required int truckparkingFee,
+    required int carwashFee,
     required bool indoor,
     required bool carWash,
     required bool evCharge,
@@ -168,14 +175,15 @@ class AdminRepo {
 
       // Construct the updated parking model
       ParkingModel parkingModel = ParkingModel(
-        image: imageUrl ??
-            existingParkingDetails
-                .image, // Use the new image URL if available, otherwise use existing image URL
+        image: imageUrl ?? existingParkingDetails.image,
         parkingName: parkingName,
         locationName: locationName,
         position: position.toString(),
         totalSpots: totalSpots,
-        parkingFee: parkingFee,
+        carparkingFee: carparkingFee,
+        bikeparkingFee: bikeparkingFee,
+        truckparkingFee: truckparkingFee,
+        carwashFee: carwashFee,
         indoor: indoor,
         carWash: carWash,
         evCharge: evCharge,
@@ -209,12 +217,11 @@ class AdminRepo {
     }
   }
 
-  void deleteParking({
-    required BuildContext context,
-    required ParkingModel parkingModel,
-    required VoidCallback onSuccess
-  }) async {
-        final userProvider = Provider.of<UserProvider>(context, listen: false);
+  void deleteParking(
+      {required BuildContext context,
+      required ParkingModel parkingModel,
+      required VoidCallback onSuccess}) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
 
     try {
       http.Response res = await http.post(

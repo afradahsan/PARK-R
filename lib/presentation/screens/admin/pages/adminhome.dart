@@ -25,6 +25,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
 
   fetchAllParkingLots() async {
     parkinglotList = await adminRepo.fetchParkingLots(context);
+    debugPrint('fetched.');
     setState(() {});
   }
 
@@ -47,6 +48,7 @@ class _AdminHomePageState extends State<AdminHomePage> {
               padding: const EdgeInsets.all(12.0),
               child: ListView.separated(
                 itemBuilder: (context, index) {
+                  debugPrint('list: $parkinglotList');
                   return ParkingAdminContainer(
                       parkinglotList: parkinglotList!, index: index);
                 },

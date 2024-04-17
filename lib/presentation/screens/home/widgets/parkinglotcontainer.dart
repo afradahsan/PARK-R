@@ -60,7 +60,7 @@ class ParkingLotContainer extends StatelessWidget {
                       'assets/Rupee3x.png',
                       height: 30,
                     ),
-                    Text('${parkinglotList[index].parkingFee.toString()}/hr')
+                    Text('${parkinglotList[index].carparkingFee.toString()}/hr')
                   ],
                 )
               ],

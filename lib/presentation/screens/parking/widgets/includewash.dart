@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:parkr/business_logic/cubit/wash/wash_cubit.dart';
+import 'package:parkr/business_logic/cubits/wash/wash_cubit.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/themes.dart';
 
@@ -29,7 +29,7 @@ class IncludeWash extends StatelessWidget {
           builder: (context, wash) {
             return IconButton(
                 onPressed: () {
-                  context.read<WashCubit>().updateIncWash();
+                  context.read<WashCubit>().updateIncWash();  
                 },
                 icon: wash==true
                     ? Icon(

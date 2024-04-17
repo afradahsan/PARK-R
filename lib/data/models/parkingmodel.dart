@@ -7,21 +7,30 @@ class ParkingModel {
   final String locationName;
   final String position;
   final int totalSpots;
-  final int parkingFee;
+  final int carparkingFee;
+  final int bikeparkingFee;
+  final int truckparkingFee;
+  final int? carwashFee;
   final bool indoor;
   final bool carWash;
   final bool evCharge;
+  final bool? approved;
   String? id;
+
   ParkingModel({
+    this.carwashFee,
+    this.approved,
     required this.image,
     required this.parkingName,
     required this.locationName,
     required this.position,
     required this.totalSpots,
-    required this.parkingFee,
     required this.indoor,
     required this.carWash,
     required this.evCharge,
+    required this.carparkingFee,
+    required this.bikeparkingFee,
+    required this.truckparkingFee,
     this.id,
   });
 
@@ -32,11 +41,15 @@ class ParkingModel {
       'locationName': locationName,
       'position': position,
       'totalSpots': totalSpots,
-      'parkingFee': parkingFee,
+      'carparkingFee': carparkingFee,
+      'bikeparkingFee': bikeparkingFee,
+      'truckparkingFee': truckparkingFee,
+      'carwashFee': carwashFee,
       'indoor': indoor,
       'carWash': carWash,
       'evCharge': evCharge,
       'id': id,
+      'approved': approved
     };
   }
 
@@ -47,15 +60,20 @@ class ParkingModel {
       locationName: map['locationName'] as String,
       position: map['position'] as String,
       totalSpots: map['totalSpots'] as int,
-      parkingFee: map['parkingFee'] as int,
       indoor: map['indoor'] as bool,
       carWash: map['carWash'] as bool,
       evCharge: map['evCharge'] as bool,
       id: map['_id'] != null ? map['_id'] as String : null,
+      carparkingFee: map['carparkingFee'] as int,
+      bikeparkingFee: map['bikeparkingFee'] as int,
+      truckparkingFee: map['truckparkingFee'] as int,
+      approved: map['approved'] as bool?, // Nullable bool
+      carwashFee: map['carwashFee'] as int?, // Nullable int
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ParkingModel.fromJson(String source) => ParkingModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory ParkingModel.fromJson(String source) =>
+      ParkingModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

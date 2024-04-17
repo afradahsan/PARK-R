@@ -16,7 +16,7 @@ class ParkingdetailsBloc
   ParkingdetailsBloc(this.context) : super(ParkingdetailsInitial()) {
     on<ParkingdescEvent>(parkingdescevent);
   }
-
+  
   FutureOr<void> parkingdescevent(
       ParkingdescEvent event, Emitter<ParkingdetailsState> emit) async {
     emit(ParkingDetailsLoadingState());

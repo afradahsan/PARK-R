@@ -2,8 +2,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:parkr/business_logic/cubit/selectvehindex/selectvehindex_cubit.dart';
-import 'package:parkr/business_logic/cubit/wash/wash_cubit.dart';
+import 'package:parkr/business_logic/bookings_bloc/bookings_bloc.dart';
+import 'package:parkr/business_logic/cubits/addparking_cubit/addparking_cubit.dart';
+import 'package:parkr/business_logic/cubits/selectvehindex/selectvehindex_cubit.dart';
+import 'package:parkr/business_logic/cubits/wash/wash_cubit.dart';
 import 'package:parkr/business_logic/myvehicles/myvehicles_bloc.dart';
 import 'package:parkr/business_logic/onboarding/bloc/onboarding_bloc.dart';
 import 'package:parkr/business_logic/parkingdetails/parkingdetails_bloc.dart';
@@ -15,6 +17,8 @@ import 'package:parkr/firebase_options.dart';
 import 'package:parkr/presentation/screens/admin/pages/adminnav.dart';
 import 'package:parkr/presentation/screens/auth/onboardingpage.dart';
 import 'package:parkr/presentation/screens/home/bottomnav.dart';
+import 'package:parkr/presentation/screens/home/homepage.dart';
+import 'package:parkr/presentation/screens/home/parkinglots.dart';
 import 'package:parkr/utils/buttontheme.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/themes.dart';
@@ -66,6 +70,18 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => WashCubit(),
+        ),
+        BlocProvider(
+          create: (context) => IndoorCubit(),
+        ),
+        BlocProvider(
+          create: (context) => CarWashCubit(),
+        ),
+        BlocProvider(
+          create: (context) => EvChargeCubit(),
+        ),
+        BlocProvider(
+          create: (context) => BookingsBloc(),
         )
       ],
       builder: (context, child) {
@@ -84,6 +100,8 @@ class _MyAppState extends State<MyApp> {
                 textTheme: KTextTheme.darkTextTheme,
                 useMaterial3: true,
                 elevatedButtonTheme: kButtonTheme.elevatedButtonTheme),
+            routes: {'/home': (context) => const Homepage(),
+            '/parkinglots': (context) => const ParkingLots()},
             home: Builder(
               builder: (context) {
                 final userProvider =

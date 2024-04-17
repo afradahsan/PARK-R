@@ -1,8 +1,13 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:parkr/business_logic/cubits/addparking_cubit/addparking_cubit.dart';
 import 'package:parkr/data/models/parkingmodel.dart';
 import 'package:parkr/data/repositories/admin/admin_repo.dart';
+import 'package:parkr/presentation/screens/admin/widgets/animatedcarwashcontainer.dart';
+import 'package:parkr/presentation/screens/admin/widgets/checkboxes.dart';
+import 'package:parkr/presentation/screens/admin/widgets/parkingfeecontainer.dart';
 import 'package:parkr/presentation/screens/admin/widgets/pickimage.dart';
 import 'package:parkr/presentation/screens/admin/widgets/tformadmin.dart';
 import 'package:parkr/utils/colors.dart';
@@ -27,7 +32,10 @@ class _EditParkingState extends State<EditParking> {
   late TextEditingController locationNameCntrlr;
   late TextEditingController totalspots;
   late TextEditingController availspots;
-  late TextEditingController parkingFee;
+  late TextEditingController carparkingFee;
+  late TextEditingController bikeparkingFee;
+  late TextEditingController truckparkingFee;
+  late TextEditingController carwashFee;
 
   final AdminRepo adminRepo = AdminRepo();
   final addParkingFormKey = GlobalKey<FormState>();
@@ -37,8 +45,7 @@ class _EditParkingState extends State<EditParking> {
   bool security = false;
   bool wheelchair = false;
   bool indoor = false;
-    bool isLoading = false;
-
+  bool isLoading = false;
 
   File? image;
 
@@ -52,8 +59,8 @@ class _EditParkingState extends State<EditParking> {
 
     totalspots = TextEditingController(
         text: widget.parkinglotList[widget.index].totalSpots.toString());
-    parkingFee = TextEditingController(
-        text: widget.parkinglotList[widget.index].parkingFee.toString());
+    carparkingFee = TextEditingController(
+        text: widget.parkinglotList[widget.index].carparkingFee.toString());
 
     carWash = widget.parkinglotList[widget.index].carWash;
     evCharge = widget.parkinglotList[widget.index].evCharge;
@@ -79,7 +86,10 @@ class _EditParkingState extends State<EditParking> {
               ? widget.parkinglotList[widget.index].position
               : currentPosition.toString(),
           totalSpots: int.parse(totalspots.text),
-          parkingFee: int.parse(parkingFee.text),
+          carparkingFee: int.parse(carparkingFee.text),
+          bikeparkingFee: int.parse(bikeparkingFee.text),
+          truckparkingFee: int.parse(truckparkingFee.text),
+          carwashFee: int.parse(carwashFee.text),
           indoor: indoor,
           carWash: carWash,
           evCharge: evCharge);
@@ -105,13 +115,21 @@ class _EditParkingState extends State<EditParking> {
         elevation: 0,
         actions: [
           ElevatedButton(
-             style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(greenColor)),
+              style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(greenColor)),
               onPressed: () {
                 editParking();
               },
               child: isLoading
-                  ? Center(child: SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: darkbgColor)))
-                  : Text('Update', style: TextStyle(color: darkbgColor),))
+                  ? Center(
+                      child: SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(color: darkbgColor)))
+                  : Text(
+                      'Update',
+                      style: TextStyle(color: darkbgColor),
+                    ))
         ],
       ),
       body: SafeArea(
@@ -213,18 +231,18 @@ class _EditParkingState extends State<EditParking> {
                   textinputtype: TextInputType.number,
                 ),
                 sizedten(context),
-                TFormAdmin(
-                  controller: parkingFee,
-                  hintText: 'Parking Fee',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Enter the Fee';
-                    } else {
-                      return null;
-                    }
+                ParkingFeeContainer(
+                    carparkingFee: carparkingFee,
+                    bikeparkingFee: bikeparkingFee,
+                    truckparkingFee: truckparkingFee),
+                sizedten(context),
+                BlocBuilder<CarWashCubit, bool>(
+                  builder: (context, state) {
+                    return AnimCarWash(state: state, washingFee: carwashFee!);
                   },
-                  textinputtype: TextInputType.number,
                 ),
+                sizedfive(context),
+                CheckBoxes(),
                 Row(
                   children: [
                     Checkbox(

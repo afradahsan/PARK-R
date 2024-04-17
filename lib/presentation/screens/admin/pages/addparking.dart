@@ -1,7 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:parkr/business_logic/cubits/addparking_cubit/addparking_cubit.dart';
 import 'package:parkr/data/repositories/admin/admin_repo.dart';
+import 'package:parkr/presentation/screens/admin/widgets/animatedcarwashcontainer.dart';
+import 'package:parkr/presentation/screens/admin/widgets/checkboxes.dart';
+import 'package:parkr/presentation/screens/admin/widgets/parkingfeecontainer.dart';
 import 'package:parkr/presentation/screens/admin/widgets/pickimage.dart';
 import 'package:parkr/presentation/screens/admin/widgets/pickimagecontainer.dart';
 import 'package:parkr/presentation/screens/admin/widgets/tformadmin.dart';
@@ -23,7 +28,10 @@ class _AddParkingState extends State<AddParking> {
   final TextEditingController locationNameCntrlr = TextEditingController();
   final TextEditingController totalspots = TextEditingController();
   final TextEditingController availspots = TextEditingController();
-  final TextEditingController parkingFee = TextEditingController();
+  final TextEditingController carparkingFee = TextEditingController();
+  final TextEditingController bikeparkingFee = TextEditingController();
+  final TextEditingController truckparkingFee = TextEditingController();
+  final TextEditingController? carwashFee = TextEditingController();
 
   final AdminRepo adminRepo = AdminRepo();
   final addParkingFormKey = GlobalKey<FormState>();
@@ -41,14 +49,31 @@ class _AddParkingState extends State<AddParking> {
     image = await pickImages();
   }
 
-  void addParking(){
-
+  void addParking() {
     setState(() {
       isLoading = true; // Set loading state to true when API call starts
     });
 
-    if(addParkingFormKey.currentState!.validate() && image!= null && currentPosition!=null){
-      adminRepo.addParking(context: context, image: image!, parkingName: parkingnameController.text, locationName: locationNameCntrlr.text, position: ('${currentPosition!.latitude}, ${currentPosition!.longitude}').toString(), totalSpots: int.parse(totalspots.text), parkingFee: int.parse(parkingFee.text), indoor: indoor, carWash: carWash, evCharge: evCharge);
+    if (addParkingFormKey.currentState!.validate() &&
+        image != null &&
+        currentPosition != null) {
+      adminRepo.addParking(
+          context: context,
+          image: image!,
+          parkingName: parkingnameController.text,
+          locationName: locationNameCntrlr.text,
+          position:
+              ('${currentPosition!.latitude}, ${currentPosition!.longitude}')
+                  .toString(),
+          totalSpots: int.parse(totalspots.text),
+          carparkingFee: int.parse(carparkingFee.text),
+          bikeparkingFee: int.parse(bikeparkingFee.text),
+          truckparkingFee: int.parse(truckparkingFee.text),
+          carwashFee: carwashFee==null ? int.parse(carwashFee!.text) : 0,
+          indoor: indoor,
+          carWash: carWash,
+          evCharge: evCharge);
+          debugPrint('done creating.');
     } else {
       debugPrint('Nulll');
     }
@@ -59,6 +84,7 @@ class _AddParkingState extends State<AddParking> {
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
+        forceMaterialTransparency: true,
         shadowColor: Colors.transparent,
         surfaceTintColor: greenColor,
         foregroundColor: greenColor,
@@ -71,20 +97,29 @@ class _AddParkingState extends State<AddParking> {
         elevation: 0,
         actions: [
           ElevatedButton(
-            style: ButtonStyle(backgroundColor: MaterialStatePropertyAll(greenColor)),
-            onPressed: (){
-            addParking();
-          }, child: isLoading
-                  ? Center(child: SizedBox(height: 20, width: 20, child: CircularProgressIndicator(color: darkbgColor)))
-                  : Text('Save', style: TextStyle(color: darkbgColor),))
+              style: ButtonStyle(
+                  backgroundColor: MaterialStatePropertyAll(greenColor)),
+              onPressed: () {
+                addParking();
+              },
+              child: isLoading
+                  ? Center(
+                      child: SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(color: darkbgColor)))
+                  : Text(
+                      'Save',
+                      style: TextStyle(color: darkbgColor),
+                    ))
         ],
       ),
       body: SafeArea(
           child: Form(
-            key: addParkingFormKey,
-            child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: SingleChildScrollView(
+        key: addParkingFormKey,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             child: Column(
               children: [
@@ -162,62 +197,20 @@ class _AddParkingState extends State<AddParking> {
                   textinputtype: TextInputType.number,
                 ),
                 sizedten(context),
-                TFormAdmin(
-                  controller: parkingFee,
-                  hintText: 'Parking Fee',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Enter the Fee';
-                    } else {
-                      return null;
-                    }
+                ParkingFeeContainer(carparkingFee: carparkingFee, bikeparkingFee: bikeparkingFee, truckparkingFee: truckparkingFee,),
+                sizedten(context),
+                BlocBuilder<CarWashCubit, bool>(
+                  builder: (context, state) {
+                    return AnimCarWash(state: state, washingFee: carwashFee!);
                   },
-                  textinputtype: TextInputType.number,
                 ),
-                Row(
-                  children: [
-                    Checkbox(
-                        checkColor: darkbgColor,
-                        activeColor: greenColor,
-                        value: indoor,
-                        onChanged: ((value) {
-                          setState(() {
-                            indoor = value!;
-                          });
-                        })),
-                    Text('Indoor Parking'),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Checkbox(
-                        checkColor: darkbgColor,
-                        activeColor: greenColor,
-                        value: carWash,
-                        onChanged: ((value) {
-                          setState(() {
-                            carWash = value!;
-                          });
-                        })),
-                    const Text('Car Wash'),
-                    sizedwten(context),
-                    Checkbox(
-                        checkColor: darkbgColor,
-                        activeColor: greenColor,
-                        value: evCharge,
-                        onChanged: ((value) {
-                          setState(() {
-                            evCharge = value!;
-                          });
-                        })),
-                    const Text('EV Charging'),
-                  ],
-                ),
+                sizedfive(context),
+                CheckBoxes(),         
               ],
             ),
-                  ),
-                ),
-          )),
+          ),
+        ),
+      )),
     );
   }
 

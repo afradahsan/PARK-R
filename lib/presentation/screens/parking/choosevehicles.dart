@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:parkr/business_logic/cubit/selectvehindex/selectvehindex_cubit.dart';
+import 'package:parkr/business_logic/cubits/selectvehindex/selectvehindex_cubit.dart';
 import 'package:parkr/business_logic/myvehicles/myvehicles_bloc.dart';
 import 'package:parkr/data/models/parkingmodel.dart';
 import 'package:parkr/presentation/screens/parking/choseparking.dart';
@@ -20,7 +20,7 @@ class ChooseVehicle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String parkingid = parkingList[index].id!;
+    String parkingname = parkingList[index].parkingName;
     String myVehNumber = '';
     return Scaffold(
       appBar: appbar(),
@@ -71,7 +71,7 @@ class ChooseVehicle extends StatelessWidget {
             const Spacer(),
             ParkingButton(text: 'Proceed', onpressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return ChooseParking(parkingid: parkingid, vehicleNumber: myVehNumber, parkingList: parkingList,);
+                return ChooseParking(parkingname: parkingname, vehicleNumber: myVehNumber, parkingList: parkingList,);
               },));
             })
           ],

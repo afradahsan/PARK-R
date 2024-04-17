@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:parkr/business_logic/cubit/selectvehindex/selectvehindex_cubit.dart';
-import 'package:parkr/business_logic/cubit/wash/wash_cubit.dart';
+import 'package:parkr/business_logic/cubits/selectvehindex/selectvehindex_cubit.dart';
+import 'package:parkr/business_logic/cubits/wash/wash_cubit.dart';
 import 'package:parkr/business_logic/myvehicles/myvehicles_bloc.dart';
+import 'package:parkr/data/models/bookingmodel.dart';
 import 'package:parkr/data/models/parkingmodel.dart';
 import 'package:parkr/data/repositories/bookings/booking_repo.dart';
 import 'package:parkr/data/repositories/payment/razorpay.dart';
@@ -20,22 +21,24 @@ import '../../../utils/themes.dart';
 class PaymentScreen extends StatelessWidget {
   const PaymentScreen(
       {super.key,
-      required this.parkingid,
+      required this.parkingname,
       required this.startTime,
       required this.endTime,
       required this.startDate,
       required this.endDate,
       required this.parkingList});
 
-  final String parkingid;
+  final String parkingname;
   final String startTime;
   final String endTime;
   final String startDate;
   final String endDate;
   final List<ParkingModel> parkingList;
 
+
   @override
   Widget build(BuildContext context) {
+    debugPrint('rea - $startTime');
     final userProvider = Provider.of<UserProvider>(context);
     final currentUser = userProvider.user;
 
@@ -52,19 +55,9 @@ class PaymentScreen extends StatelessWidget {
           : '';
     }
 
-    Future<void> bookParking() async {
+    Future<void> bookParking(BookingModel bookingModel) async {
       await BookingRepo().bookParking(
-          user: currentUser.id,
-          parkingLot: parkingid,
-          startTime: startTime,
-          endTime: endTime,
-          startDate: startDate,
-          endDate: endDate,
-          vehicleNumber: vehNumber,
-          qrCodeData: 'qrCodeData',
-          status: 'confirmed',
-          paymentStatus: 'paid',
-          totalPrice: 100,
+          bookingmodel: bookingModel,
           context: context);
     }
 
@@ -92,19 +85,40 @@ class PaymentScreen extends StatelessWidget {
             const CouponsContainer(),
             const Spacer(),
             ParkingButton(
-                text: 'Tap to Pay',
-                onpressed: () async {
-                  await RazorPayService.checkoutOrder(bookin, onSuccess: (response){
-                    bookParking();
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) {
-                      return SuccessScreen();
-                    },
-                  ));
-                  }, onFailure: (response){
+              text: 'Tap to Pay',
+              onpressed: () async {
+                debugPrint('time: $startTime');
+                BookingModel bookingModel = BookingModel(
+                  user: currentUser.id,
+                  parkingLot: parkingname,
+                  startTime: startTime,
+                  endTime: endTime,
+                  startDate: startDate,
+                  endDate: endDate,
+                  vehicleNumber: vehNumber,
+                  qrCodeData: 'qrCodeData',
+                  status: 'confirmed',
+                  paymentStatus: 'paid',
+                  totalPrice: 453,
+                );
+
+                await RazorPayService.checkoutOrder(
+                  bookingModel,
+                  onSuccess: (response) {
+                    bookParking(bookingModel);
+                    Navigator.popUntil(context, ModalRoute.withName('/parkinglots'));
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) {
+                        return const SuccessScreen();
+                      },
+                    ));
+                  },
+                  onFailure: (response) {
                     debugPrint('payment failed');
-                  });
-                })
+                  },
+                );
+              },
+            )
           ],
         ),
       )),
