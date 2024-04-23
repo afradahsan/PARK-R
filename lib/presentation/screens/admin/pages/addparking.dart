@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:parkr/business_logic/cubits/addparking_cubit/addparking_cubit.dart';
+import 'package:parkr/data/providers/user_provider.dart';
 import 'package:parkr/data/repositories/admin/admin_repo.dart';
 import 'package:parkr/presentation/screens/admin/widgets/animatedcarwashcontainer.dart';
 import 'package:parkr/presentation/screens/admin/widgets/checkboxes.dart';
@@ -13,6 +14,7 @@ import 'package:parkr/presentation/screens/admin/widgets/tformadmin.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/permissions.dart';
+import 'package:provider/provider.dart';
 
 class AddParking extends StatefulWidget {
   AddParking({super.key});
@@ -32,6 +34,7 @@ class _AddParkingState extends State<AddParking> {
   final TextEditingController bikeparkingFee = TextEditingController();
   final TextEditingController truckparkingFee = TextEditingController();
   final TextEditingController? carwashFee = TextEditingController();
+  final TextEditingController? bikewashFee = TextEditingController();
 
   final AdminRepo adminRepo = AdminRepo();
   final addParkingFormKey = GlobalKey<FormState>();
@@ -82,6 +85,9 @@ class _AddParkingState extends State<AddParking> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final userId = userProvider.user.id;
+    debugPrint("userid: $userId");
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
@@ -201,7 +207,7 @@ class _AddParkingState extends State<AddParking> {
                 sizedten(context),
                 BlocBuilder<CarWashCubit, bool>(
                   builder: (context, state) {
-                    return AnimCarWash(state: state, washingFee: carwashFee!);
+                    return AnimCarWash(state: state, carWashFee: carwashFee!, bikeWashFee: bikewashFee!,);
                   },
                 ),
                 sizedfive(context),

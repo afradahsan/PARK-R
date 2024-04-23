@@ -22,6 +22,8 @@ class ChooseVehicle extends StatelessWidget {
   Widget build(BuildContext context) {
     String parkingname = parkingList[index].parkingName;
     String myVehNumber = '';
+    String vehicletype = '';
+    
     return Scaffold(
       appBar: appbar(),
       body: SafeArea(
@@ -49,6 +51,7 @@ class ChooseVehicle extends StatelessWidget {
                 } else if (state is MyVehiclesSuccess) {
                   final selectedIndex = context.read<SelectvehindexCubit>().state;
                   myVehNumber = state.myVehicles[selectedIndex].vehicleNumber;
+                  vehicletype = state.myVehicles[selectedIndex].vehicleType;
 
                   return Column(
                     children: [
@@ -71,7 +74,7 @@ class ChooseVehicle extends StatelessWidget {
             const Spacer(),
             ParkingButton(text: 'Proceed', onpressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return ChooseParking(parkingname: parkingname, vehicleNumber: myVehNumber, parkingList: parkingList,);
+                return ChooseParking(parkingname: parkingname, vehicleType: vehicletype, index: index,);
               },));
             })
           ],

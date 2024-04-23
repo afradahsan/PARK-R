@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parkr/business_logic/cubits/selectvehindex/selectvehindex_cubit.dart';
+import 'package:parkr/business_logic/cubits/totalprice_cubit/totalprice_cubit.dart';
 import 'package:parkr/business_logic/cubits/wash/wash_cubit.dart';
 import 'package:parkr/business_logic/myvehicles/myvehicles_bloc.dart';
 import 'package:parkr/data/models/bookingmodel.dart';
-import 'package:parkr/data/models/parkingmodel.dart';
 import 'package:parkr/data/repositories/bookings/booking_repo.dart';
 import 'package:parkr/data/repositories/payment/razorpay.dart';
-import 'package:parkr/presentation/screens/parking/success.dart';
+import 'package:parkr/presentation/screens/parking/successscreen.dart';
 import 'package:parkr/presentation/screens/parking/widgets/coupons.dart';
 import 'package:parkr/presentation/screens/parking/widgets/parkingbutton.dart';
 import 'package:parkr/presentation/screens/parking/widgets/paymentmethod.dart';
@@ -26,14 +26,14 @@ class PaymentScreen extends StatelessWidget {
       required this.endTime,
       required this.startDate,
       required this.endDate,
-      required this.parkingList});
+      required this.index,});
 
   final String parkingname;
   final String startTime;
   final String endTime;
   final String startDate;
   final String endDate;
-  final List<ParkingModel> parkingList;
+  final int index;
 
 
   @override
@@ -44,14 +44,25 @@ class PaymentScreen extends StatelessWidget {
 
     final wash = BlocProvider.of<WashCubit>(context).state;
 
+    int totalPrice = 0;
+
+    void updateTotalPrice(int price) {
+      totalPrice = price;
+    }
+
     final vehIndex = BlocProvider.of<SelectvehindexCubit>(context).state;
 
     final myvehiclesState = BlocProvider.of<MyvehiclesBloc>(context).state;
     String vehNumber = '';
+    String vehicleType = '';
+
     if (myvehiclesState is MyVehiclesSuccess) {
       final myvehiclesList = myvehiclesState.myVehicles;
       vehNumber = myvehiclesList.isNotEmpty
           ? myvehiclesList[vehIndex].vehicleNumber
+          : '';
+      vehicleType = myvehiclesList.isNotEmpty
+          ? myvehiclesList[vehIndex].vehicleType
           : '';
     }
 
@@ -72,7 +83,7 @@ class PaymentScreen extends StatelessWidget {
             Text('Total Amount',
                 style: KTextTheme.darkwhiteTextTheme.titleMedium),
             sizedten(context),
-            const TotalPayContainer(),
+            TotalPayContainer(index: index, vehicleType: vehicleType, wash: wash,),
             sizedtwenty(context),
             Text('Choose Payment Method',
                 style: KTextTheme.darkwhiteTextTheme.titleMedium),
@@ -87,6 +98,7 @@ class PaymentScreen extends StatelessWidget {
             ParkingButton(
               text: 'Tap to Pay',
               onpressed: () async {
+                debugPrint('totaall: ${BlocProvider.of<TotalpriceCubit>(context).state.toString()}');
                 debugPrint('time: $startTime');
                 BookingModel bookingModel = BookingModel(
                   user: currentUser.id,
@@ -99,7 +111,7 @@ class PaymentScreen extends StatelessWidget {
                   qrCodeData: 'qrCodeData',
                   status: 'confirmed',
                   paymentStatus: 'paid',
-                  totalPrice: 453,
+                  totalPrice: BlocProvider.of<TotalpriceCubit>(context).state,
                 );
 
                 await RazorPayService.checkoutOrder(

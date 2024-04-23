@@ -10,7 +10,7 @@ class PayMethodContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(15),
-      height: 171,
+      height: 175,
       width: double.maxFinite,
       decoration: BoxDecoration(
           color: whitet50, borderRadius: BorderRadius.circular(15)),

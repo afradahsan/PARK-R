@@ -25,9 +25,11 @@ class AdminRepo {
     required int bikeparkingFee,
     required int truckparkingFee,
     int? carwashFee,
+    int? bikewashFee,
     required bool indoor,
     required bool carWash,
     required bool evCharge,
+    required String userId
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {

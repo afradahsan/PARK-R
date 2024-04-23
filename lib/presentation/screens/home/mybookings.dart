@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parkr/business_logic/bookings_bloc/bookings_bloc.dart';
-import 'package:parkr/presentation/screens/home/widgets/parkinglotcontainer.dart';
 import 'package:parkr/presentation/screens/parking/widgets/bookingcontainer.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
+import 'package:parkr/utils/themes.dart';
 
 class MyBookings extends StatelessWidget {
   const MyBookings({Key? key}) : super(key: key);
@@ -12,47 +12,64 @@ class MyBookings extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Padding(
-        padding: EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'My Bookings',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            sizedtwenty(context),
-            BlocBuilder<BookingsBloc, BookingsState>(
-              builder: (context, state) {
-                if (state is BookingsInitial) {
-                  context.read<BookingsBloc>().add(BookingdetailsEvent(context: context));
-                  return CircularProgressIndicator(
-                    color: white,
-                  );
-                } else if (state is BookingsLoadingState) {
-                  return CircularProgressIndicator(
-                    color: greenColor,
-                  );
-                } else if (state is BookingSuccessState) {
-                  return BookingContainer(bookingList: state.bookingList, index: 0);
-                } else if (state is BookingErrorState) {
-                  return const Text('Error: Failed to load parking details');
-                } else {
-                  return const Text('Unknown state');
-                }
-              },
-            )
-          ],
-        ),
-      )),
+      appBar: appbar(),
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: SafeArea(
+            child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              BlocBuilder<BookingsBloc, BookingsState>(
+                builder: (context, state) {
+                  if (state is BookingsInitial) {
+                    context
+                        .read<BookingsBloc>()
+                        .add(BookingdetailsEvent(context: context));
+                    return CircularProgressIndicator(
+                      color: white,
+                    );
+                  } else if (state is BookingsLoadingState) {
+                    return CircularProgressIndicator(
+                      color: greenColor,
+                    );
+                  } else if (state is BookingSuccessState) {
+                    return ListView.separated(
+                        physics: BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return BookingContainer(
+                              bookingList: state.bookingList, index: index);
+                        },
+                        separatorBuilder: (context, index) {
+                          return sizedten(context);
+                        },
+                        itemCount: state.bookingList.length);
+                  } else if (state is BookingErrorState) {
+                    return const Text('Error: Failed to load parking details');
+                  } else {
+                    return const Text('Unknown state');
+                  }
+                },
+              )
+            ],
+          ),
+        )),
+      ),
+    );
+  }
+
+  AppBar appbar() {
+    return AppBar(
+      title: Text(
+        'My Bookings',
+        style: KTextTheme.darkTextTheme.headlineMedium,
+      ),
+      centerTitle: true,
+      iconTheme: IconThemeData(color: greenColor),
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      forceMaterialTransparency: true,
     );
   }
 }
