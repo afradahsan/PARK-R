@@ -7,30 +7,36 @@ class ParkingModel {
   final String locationName;
   final String position;
   final int totalSpots;
+  final int availSpots;
   final int carparkingFee;
   final int bikeparkingFee;
   final int truckparkingFee;
   final int? carwashFee;
+  final int? bikewashFee;
   final bool indoor;
   final bool carWash;
   final bool evCharge;
-  final bool? approved;
+  bool? approved;
+  final String? userId;
   String? id;
 
   ParkingModel({
     this.carwashFee,
+    this.bikewashFee,
     this.approved,
     required this.image,
     required this.parkingName,
     required this.locationName,
     required this.position,
     required this.totalSpots,
+    required this.availSpots,
     required this.indoor,
     required this.carWash,
     required this.evCharge,
     required this.carparkingFee,
     required this.bikeparkingFee,
     required this.truckparkingFee,
+    this.userId,
     this.id,
   });
 
@@ -41,14 +47,17 @@ class ParkingModel {
       'locationName': locationName,
       'position': position,
       'totalSpots': totalSpots,
+      'availSpots': availSpots,
       'carparkingFee': carparkingFee,
       'bikeparkingFee': bikeparkingFee,
       'truckparkingFee': truckparkingFee,
       'carwashFee': carwashFee,
+      'bikewashFee': bikewashFee,
       'indoor': indoor,
       'carWash': carWash,
       'evCharge': evCharge,
       'id': id,
+      'userId': userId,
       'approved': approved
     };
   }
@@ -60,6 +69,7 @@ class ParkingModel {
       locationName: map['locationName'] as String,
       position: map['position'] as String,
       totalSpots: map['totalSpots'] as int,
+      availSpots: map['availSpots'] as int,
       indoor: map['indoor'] as bool,
       carWash: map['carWash'] as bool,
       evCharge: map['evCharge'] as bool,
@@ -68,7 +78,9 @@ class ParkingModel {
       bikeparkingFee: map['bikeparkingFee'] as int,
       truckparkingFee: map['truckparkingFee'] as int,
       approved: map['approved'] as bool?, // Nullable bool
-      carwashFee: map['carwashFee'] as int?, // Nullable int
+      carwashFee: map['carwashFee'] as int?,
+      bikewashFee: map['bikewashFee'] as int?,
+      userId: map['userId'] as String?,
     );
   }
 

@@ -36,6 +36,7 @@ class _EditParkingState extends State<EditParking> {
   late TextEditingController bikeparkingFee;
   late TextEditingController truckparkingFee;
   late TextEditingController carwashFee;
+  late TextEditingController bikewashFee;
 
   final AdminRepo adminRepo = AdminRepo();
   final addParkingFormKey = GlobalKey<FormState>();
@@ -90,6 +91,7 @@ class _EditParkingState extends State<EditParking> {
           bikeparkingFee: int.parse(bikeparkingFee.text),
           truckparkingFee: int.parse(truckparkingFee.text),
           carwashFee: int.parse(carwashFee.text),
+          bikewashFee: int.parse(bikewashFee.text),
           indoor: indoor,
           carWash: carWash,
           evCharge: evCharge);
@@ -238,7 +240,7 @@ class _EditParkingState extends State<EditParking> {
                 sizedten(context),
                 BlocBuilder<CarWashCubit, bool>(
                   builder: (context, state) {
-                    return AnimCarWash(state: state, washingFee: carwashFee!);
+                    return AnimCarWash(state: state, carWashFee: carwashFee, bikeWashFee: bikewashFee,);
                   },
                 ),
                 sizedfive(context),

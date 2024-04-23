@@ -14,23 +14,22 @@ import 'package:parkr/utils/errorhandling.dart';
 import 'package:provider/provider.dart';
 
 class AdminRepo {
-  void addParking({
-    required BuildContext context,
-    required File image,
-    required String parkingName,
-    required String locationName,
-    required String position,
-    required int totalSpots,
-    required int carparkingFee,
-    required int bikeparkingFee,
-    required int truckparkingFee,
-    int? carwashFee,
-    int? bikewashFee,
-    required bool indoor,
-    required bool carWash,
-    required bool evCharge,
-    required String userId
-  }) async {
+  void addParking(
+      {required BuildContext context,
+      required File image,
+      required String parkingName,
+      required String locationName,
+      required String position,
+      required int totalSpots,
+      required int carparkingFee,
+      required int bikeparkingFee,
+      required int truckparkingFee,
+      int? carwashFee,
+      int? bikewashFee,
+      required bool indoor,
+      required bool carWash,
+      required bool evCharge,
+      String? userId}) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
       debugPrint('addParking called');
@@ -52,13 +51,17 @@ class AdminRepo {
           locationName: locationName,
           position: position.toString(),
           totalSpots: totalSpots,
+          availSpots: totalSpots,
           indoor: indoor,
           carWash: carWash,
           evCharge: evCharge,
           carparkingFee: carparkingFee,
           bikeparkingFee: bikeparkingFee,
           truckparkingFee: truckparkingFee,
-          carwashFee: carwashFee);
+          carwashFee: carwashFee,
+          bikewashFee: bikewashFee,
+          userId: userId,
+          approved: false);
 
       debugPrint('Parking model JSON: ${parkingModel.toJson()}');
 
@@ -149,7 +152,8 @@ class AdminRepo {
     required int carparkingFee,
     required int bikeparkingFee,
     required int truckparkingFee,
-    required int carwashFee,
+    int? carwashFee,
+    int? bikewashFee,
     required bool indoor,
     required bool carWash,
     required bool evCharge,
@@ -182,10 +186,12 @@ class AdminRepo {
         locationName: locationName,
         position: position.toString(),
         totalSpots: totalSpots,
+        availSpots: totalSpots,
         carparkingFee: carparkingFee,
         bikeparkingFee: bikeparkingFee,
         truckparkingFee: truckparkingFee,
         carwashFee: carwashFee,
+        bikewashFee: bikewashFee,
         indoor: indoor,
         carWash: carWash,
         evCharge: evCharge,

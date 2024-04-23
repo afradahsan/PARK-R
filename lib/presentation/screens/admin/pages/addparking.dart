@@ -39,11 +39,6 @@ class _AddParkingState extends State<AddParking> {
   final AdminRepo adminRepo = AdminRepo();
   final addParkingFormKey = GlobalKey<FormState>();
 
-  bool carWash = false;
-  bool evCharge = false;
-  bool security = false;
-  bool wheelchair = false;
-  bool indoor = false;
   bool isLoading = false;
 
   File? image;
@@ -56,6 +51,12 @@ class _AddParkingState extends State<AddParking> {
     setState(() {
       isLoading = true; // Set loading state to true when API call starts
     });
+
+    bool carWash = context.read<CarWashCubit>().state;
+    bool evCharge = context.read<EvChargeCubit>().state;
+    bool security = false;
+    bool wheelchair = false;
+    bool indoor = context.read<IndoorCubit>().state;
 
     if (addParkingFormKey.currentState!.validate() &&
         image != null &&
@@ -72,11 +73,13 @@ class _AddParkingState extends State<AddParking> {
           carparkingFee: int.parse(carparkingFee.text),
           bikeparkingFee: int.parse(bikeparkingFee.text),
           truckparkingFee: int.parse(truckparkingFee.text),
-          carwashFee: carwashFee==null ? int.parse(carwashFee!.text) : 0,
+          carwashFee: carwashFee != null ? int.parse(carwashFee!.text) : 0,
+          bikewashFee: bikewashFee != null ? int.parse(bikewashFee!.text) : 0,
+          userId: Provider.of<UserProvider>(context, listen: false).user.id,
           indoor: indoor,
           carWash: carWash,
           evCharge: evCharge);
-          debugPrint('done creating.');
+      debugPrint('done creating.');
     } else {
       debugPrint('Nulll');
     }
@@ -203,15 +206,23 @@ class _AddParkingState extends State<AddParking> {
                   textinputtype: TextInputType.number,
                 ),
                 sizedten(context),
-                ParkingFeeContainer(carparkingFee: carparkingFee, bikeparkingFee: bikeparkingFee, truckparkingFee: truckparkingFee,),
+                ParkingFeeContainer(
+                  carparkingFee: carparkingFee,
+                  bikeparkingFee: bikeparkingFee,
+                  truckparkingFee: truckparkingFee,
+                ),
                 sizedten(context),
                 BlocBuilder<CarWashCubit, bool>(
                   builder: (context, state) {
-                    return AnimCarWash(state: state, carWashFee: carwashFee!, bikeWashFee: bikewashFee!,);
+                    return AnimCarWash(
+                      state: state,
+                      carWashFee: carwashFee!,
+                      bikeWashFee: bikewashFee!,
+                    );
                   },
                 ),
                 sizedfive(context),
-                CheckBoxes(),         
+                CheckBoxes(),
               ],
             ),
           ),
