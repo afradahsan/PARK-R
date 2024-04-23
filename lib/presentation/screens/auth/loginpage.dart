@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parkr/business_logic/signin/bloc/signin_bloc.dart';
 import 'package:parkr/data/providers/user_provider.dart';
-import 'package:parkr/presentation/owner/pages/ownernav.dart';
+import 'package:parkr/presentation/screens/owner/pages/ownernav.dart';
 import 'package:parkr/presentation/screens/admin/pages/adminnav.dart';
 import 'package:parkr/presentation/screens/home/bottomnav.dart';
 import 'package:parkr/presentation/screens/auth/widgets/elevatedbutton.dart';

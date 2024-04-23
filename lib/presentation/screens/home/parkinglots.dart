@@ -31,7 +31,9 @@ class _ParkingLotsState extends State<ParkingLots> {
   @override
   Widget build(BuildContext context) {
     return parkinglotList == null
-        ? const Loader(appbartext: 'Parking Lots Near You',)
+        ? const Loader(
+            appbartext: 'Parking Lots Near You',
+          )
         : Scaffold(
             appBar: AppBar(
               title: Text('Parking Lots near you!',
@@ -46,8 +48,12 @@ class _ParkingLotsState extends State<ParkingLots> {
               padding: const EdgeInsets.all(12.0),
               child: ListView.separated(
                 itemBuilder: (context, index) {
-                  return ParkingLotContainer(
-                      parkinglotList: parkinglotList!, index: index);
+                  if (parkinglotList![index].approved == true) {
+                    return ParkingLotContainer(
+                        parkinglotList: parkinglotList!, index: index);
+                  } else {
+                    return const Text('Admin Approval Pending');
+                  }
                 },
                 itemCount: parkinglotList!.length,
                 separatorBuilder: (context, index) {

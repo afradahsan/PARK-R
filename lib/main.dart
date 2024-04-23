@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:parkr/business_logic/bookings_bloc/bookings_bloc.dart';
 import 'package:parkr/business_logic/cubits/addparking_cubit/addparking_cubit.dart';
+import 'package:parkr/business_logic/cubits/appproveparking/approveparking_cubit.dart';
 import 'package:parkr/business_logic/cubits/selectvehindex/selectvehindex_cubit.dart';
 import 'package:parkr/business_logic/cubits/totalprice_cubit/totalprice_cubit.dart';
 import 'package:parkr/business_logic/cubits/wash/wash_cubit.dart';
@@ -84,7 +85,12 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
           create: (context) => BookingsBloc(),
         ),
-        BlocProvider(create: (context) => TotalpriceCubit(),)
+        BlocProvider(
+          create: (context) => TotalpriceCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ApproveParkingCubit(),
+        )
       ],
       builder: (context, child) {
         Provider.of<UserProvider>(context).user.token.isNotEmpty

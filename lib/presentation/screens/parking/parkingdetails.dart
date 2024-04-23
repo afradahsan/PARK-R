@@ -23,7 +23,10 @@ class ParkingDetails extends StatelessWidget {
                       .add(ParkingdescEvent(id: index));
                   return CircularProgressIndicator(color: greenColor);
                 } else if (state is ParkingDetailsSuccessState) {
-                  return ParkingDWidget(parkinglist: state.parkingList, index: index,);
+                    return ParkingDWidget(
+                      parkinglist: state.parkingList,
+                      index: index,
+                    );
                 } else if (state is ParkingDetailsErrorState) {
                   return const Text('Error: Failed to load parking details');
                 } else {

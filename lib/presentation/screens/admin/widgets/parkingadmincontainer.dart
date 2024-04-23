@@ -17,7 +17,7 @@ class ParkingAdminContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
-      width: double.maxFinite,
+      width: 350,
       height: 100,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),

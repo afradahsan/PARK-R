@@ -225,6 +225,39 @@ class AdminRepo {
     }
   }
 
+  void approveParking({
+    required BuildContext context,
+    required String parkingId,
+    required bool approved,
+  }) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    try {
+      final http.Response res = await http.post(
+        Uri.parse('$uri/admin/approve-parking/$parkingId'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'auth-token': userProvider.user.token,
+        },
+        body: jsonEncode({'approved': approved}),
+      );
+
+      debugPrint('Response status code: ${res.statusCode}');
+      debugPrint('Response body: ${res.body}');
+
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          debugPrint('Success: Parking lot approved!');
+          showSnackbar(context, 'Parking lot approved!');
+          // Perform any additional actions upon successful approval
+        },
+      );
+    } catch (e) {
+      debugPrint('Error: $e');
+    }
+  }
+
   void deleteParking(
       {required BuildContext context,
       required ParkingModel parkingModel,

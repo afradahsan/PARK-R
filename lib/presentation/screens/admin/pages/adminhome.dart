@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:parkr/business_logic/cubits/appproveparking/approveparking_cubit.dart';
 import 'package:parkr/data/models/parkingmodel.dart';
 import 'package:parkr/data/repositories/admin/admin_repo.dart';
+import 'package:parkr/presentation/screens/admin/widgets/approveparking.dart';
 import 'package:parkr/presentation/screens/admin/widgets/parkingadmincontainer.dart';
 import 'package:parkr/presentation/screens/home/widgets/loader.dart';
 import 'package:parkr/utils/colors.dart';
@@ -32,16 +35,16 @@ class _AdminHomePageState extends State<AdminHomePage> {
   @override
   Widget build(BuildContext context) {
     return parkinglotList == null
-        ? const Loader(appbartext: 'Hello, Admin',)
+        ? const Loader(
+            appbartext: 'Hello, Admin',
+          )
         : Scaffold(
             appBar: AppBar(
               automaticallyImplyLeading: false,
               title: Text('Hello, Admin!',
                   style: TextStyle(color: greenColor, fontSize: 18)),
-              // iconTheme: IconThemeData(color: greenColor),
               backgroundColor: darkbgColor,
               elevation: 0,
-              // actions: const [Icon(Icons.search)],
             ),
             body: SafeArea(
                 child: Padding(
@@ -49,8 +52,17 @@ class _AdminHomePageState extends State<AdminHomePage> {
               child: ListView.separated(
                 itemBuilder: (context, index) {
                   debugPrint('list: $parkinglotList');
-                  return ParkingAdminContainer(
-                      parkinglotList: parkinglotList!, index: index);
+                  if (parkinglotList![index].approved == true) {
+                    return ParkingAdminContainer(
+                        parkinglotList: parkinglotList!, index: index);
+                  } else {
+                    debugPrint('approve brooo');
+                    return ApproveParking(
+                          parkinglotList: parkinglotList!,
+                          index: index,
+                          cubit: context.read<ApproveParkingCubit>(),
+                        );
+                  }
                 },
                 itemCount: parkinglotList!.length,
                 separatorBuilder: (context, index) {
