@@ -258,6 +258,32 @@ class AdminRepo {
     }
   }
 
+  Future<List<ParkingModel>> fetchParkingLotsForOwner(
+      BuildContext context, String ownerId) async {
+    List<ParkingModel> parkingList = [];
+    try {
+      http.Response res = await http.get(
+        Uri.parse(
+            '$uri/admin/owner-myparking/$ownerId'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      if (res.statusCode == 200) {
+        final List<dynamic> responseData = jsonDecode(res.body);
+        parkingList = responseData
+            .map((data) => ParkingModel.fromMap(data))
+            .toList();
+      } else {
+        throw Exception('Failed to fetch parking lots');
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      showSnackbar(context, e.toString());
+    }
+    return parkingList;
+  }
+
   void deleteParking(
       {required BuildContext context,
       required ParkingModel parkingModel,

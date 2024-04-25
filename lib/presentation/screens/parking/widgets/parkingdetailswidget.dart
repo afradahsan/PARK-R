@@ -15,10 +15,9 @@ class ParkingDWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(15.0),
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -45,9 +44,7 @@ class ParkingDWidget extends StatelessWidget {
                             : 'Security',
                 Icons.bolt,
                 context),
-            const SizedBox(
-              height: 170,
-            ),
+            const Spacer(),
             ParkingButton(
               text: 'Book Parking',
               onpressed: () {

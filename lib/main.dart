@@ -5,7 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:parkr/business_logic/bookings_bloc/bookings_bloc.dart';
 import 'package:parkr/business_logic/cubits/addparking_cubit/addparking_cubit.dart';
 import 'package:parkr/business_logic/cubits/appproveparking/approveparking_cubit.dart';
+import 'package:parkr/business_logic/cubits/choicechip/choicechip.dart';
 import 'package:parkr/business_logic/cubits/selectvehindex/selectvehindex_cubit.dart';
+import 'package:parkr/business_logic/cubits/showtruck/showtruckcubit.dart';
 import 'package:parkr/business_logic/cubits/totalprice_cubit/totalprice_cubit.dart';
 import 'package:parkr/business_logic/cubits/wash/wash_cubit.dart';
 import 'package:parkr/business_logic/myvehicles/myvehicles_bloc.dart';
@@ -21,6 +23,7 @@ import 'package:parkr/presentation/screens/auth/onboardingpage.dart';
 import 'package:parkr/presentation/screens/home/bottomnav.dart';
 import 'package:parkr/presentation/screens/home/homepage.dart';
 import 'package:parkr/presentation/screens/home/parkinglots.dart';
+import 'package:parkr/presentation/screens/owner/pages/ownernav.dart';
 import 'package:parkr/utils/buttontheme.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/themes.dart';
@@ -90,6 +93,18 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => ApproveParkingCubit(),
+        ),
+        BlocProvider(
+          create: (context) => BikeChoiceChipCubit(),
+        ),
+        BlocProvider(
+          create: (context) => CarChoiceChipCubit(),
+        ),
+        BlocProvider(
+          create: (context) => TruckChoiceChipCubit(),
+        ),
+        BlocProvider(
+          create: (context) => ShowTruckCubit(),
         )
       ],
       builder: (context, child) {
@@ -103,6 +118,7 @@ class _MyAppState extends State<MyApp> {
             title: 'Parkr',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
+              canvasColor: Colors.transparent,
                 scaffoldBackgroundColor: darkbgColor,
                 fontFamily: GoogleFonts.montserrat().fontFamily,
                 textTheme: KTextTheme.darkTextTheme,
@@ -119,7 +135,9 @@ class _MyAppState extends State<MyApp> {
                 return userProvider.user.token.isNotEmpty
                     ? userProvider.user.type == 'user'
                         ? const BottomNav()
-                        : const AdminNav()
+                        : userProvider.user.type == 'admin'
+                            ? const AdminNav()
+                            : const OwnerNav()
                     : OnboardingPage();
               },
             ));
