@@ -26,8 +26,10 @@ class MyBookings extends StatelessWidget {
                     context
                         .read<BookingsBloc>()
                         .add(BookingdetailsEvent(context: context));
-                    return CircularProgressIndicator(
-                      color: white,
+                    return Center(
+                      child: CircularProgressIndicator(
+                        color: white,
+                      ),
                     );
                   } else if (state is BookingsLoadingState) {
                     return CircularProgressIndicator(

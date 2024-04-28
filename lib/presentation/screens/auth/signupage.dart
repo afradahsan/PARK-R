@@ -21,6 +21,7 @@ class SignupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool? loading;
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -66,9 +67,12 @@ class SignupPage extends StatelessWidget {
                   } else if (state is OnBoardingErrorState) {
                     debugPrint('error occured.');
                     showSnackbar(context, 'An Error Occured, Try Again');
+                  } else if (state is OnboardingLoadingState){
+                    loading = true;
                   }
                 },
                 child: AuthButton(
+                  loading: loading ?? false,
                   ButtonText: 'Continue',
                   onPressed: () async {
                     if (_formKey.currentState != null &&

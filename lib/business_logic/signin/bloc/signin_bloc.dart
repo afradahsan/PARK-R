@@ -23,8 +23,10 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
 
     if (response == 'success') {
       emit(SigninSuccessState());
+    } else if (response == 'error'){
+      emit(SigninErrorState());
     } else {
-      SigninErrorState();
+      emit(SigninLoadingState());
     }
   }
 }

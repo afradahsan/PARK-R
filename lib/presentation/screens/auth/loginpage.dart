@@ -24,6 +24,7 @@ class LoginPage extends StatelessWidget {
     // void signinUser(String password, String phoneNo) {
     //   authRepo.signinUser(phone: phoneNo, password: password, context: context);
     // }
+    bool? loading;
 
     return Scaffold(
         body: SafeArea(
@@ -82,9 +83,12 @@ class LoginPage extends StatelessWidget {
                   }
                 } else if (state is SigninErrorState) {
                   showSnackbar(context, 'Password Doesn\'t Match');
+                } else if (state is SigninLoadingState){
+                  loading = true;
                 }
               },
               child: AuthButton(
+                loading: loading ?? false,
                   onPressed: () {
                     if (formKey.currentState != null &&
                         formKey.currentState!.validate()) {

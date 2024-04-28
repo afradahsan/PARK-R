@@ -7,7 +7,11 @@ import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
 
 class ChooseParking extends StatefulWidget {
-  const ChooseParking({super.key, required this.parkingname, required this.vehicleType, required this.index});
+  const ChooseParking(
+      {super.key,
+      required this.parkingname,
+      required this.vehicleType,
+      required this.index});
 
   final String parkingname;
   final String vehicleType;
@@ -49,9 +53,20 @@ class _ChooseParkingState extends State<ChooseParking> {
             sizedten(context),
             selectTime(),
             const Spacer(),
-            ParkingButton(text: 'Proceed', onpressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaymentScreen(parkingname: widget.parkingname, startTime: reachTime.toString(), endTime: leaveTime.toString(), startDate: date.toString(), endDate: date.toString(), index: widget.index,),));
-            })
+            ParkingButton(
+                text: 'Proceed',
+                onpressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => PaymentScreen(
+                      parkingname: widget.parkingname,
+                      startTime: reachTime.toString(),
+                      endTime: leaveTime.toString(),
+                      startDate: date.toString(),
+                      endDate: date.toString(),
+                      index: widget.index,
+                    ),
+                  ));
+                })
           ],
         ),
       )),
@@ -143,7 +158,7 @@ class _ChooseParkingState extends State<ChooseParking> {
           onTap: () async {
             leaveTime = await showTimePicker(
                 context: context,
-                initialTime: TimeOfDay.now(),
+                initialTime: TimeOfDay(hour: reachTime!.hour + 1, minute: reachTime!.minute),
                 helpText: 'Choose Time');
             if (leaveTime != null) {
               setState(() {
