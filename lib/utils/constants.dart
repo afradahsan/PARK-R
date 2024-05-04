@@ -47,6 +47,9 @@ BorderRadius kBordRadius(double num) {
   return BorderRadius.circular(num);
 }
 
-double screenW(BuildContext ctx) {
+double screenH(BuildContext ctx) {
   return MediaQuery.of(ctx).size.height;
+}
+double screenW(BuildContext ctx) {
+  return MediaQuery.of(ctx).size.width;
 }
