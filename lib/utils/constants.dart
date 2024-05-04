@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-String uri = 'http://192.168.10.73:3000';
+String uri = 'https://parkwiser.ddns.net';
 
 String formatTime(String timeString) {
   final List<String> parts =

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:parkr/presentation/screens/home/bookmarks.dart';
+import 'package:parkr/presentation/screens/home/home.dart';
 import 'package:parkr/presentation/screens/home/homepage.dart';
 import 'package:parkr/presentation/screens/home/mybookings.dart';
 import 'package:parkr/presentation/screens/profile/profilepage.dart';
@@ -19,7 +20,7 @@ class _BottomNavState extends State<BottomNav> {
   @override
   void initState() {
     pages = [
-      const Homepage(),
+      const HomeScreen(),
       const MyBookings(),
       // const Bookmarks(),
       const ProfilePage()

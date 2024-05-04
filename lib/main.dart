@@ -20,6 +20,7 @@ import 'package:parkr/data/repositories/auth_repo.dart';
 import 'package:parkr/firebase_options.dart';
 import 'package:parkr/presentation/screens/admin/pages/adminnav.dart';
 import 'package:parkr/presentation/screens/auth/onboardingpage.dart';
+import 'package:parkr/presentation/screens/auth/splashscreen.dart';
 import 'package:parkr/presentation/screens/home/bottomnav.dart';
 import 'package:parkr/presentation/screens/home/homepage.dart';
 import 'package:parkr/presentation/screens/home/parkinglots.dart';
@@ -118,6 +119,9 @@ class _MyAppState extends State<MyApp> {
             title: 'Parkr',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
+              pageTransitionsTheme: const PageTransitionsTheme(builders: {
+                TargetPlatform.android: FadeUpwardsPageTransitionsBuilder()
+              }),
               canvasColor: Colors.transparent,
                 scaffoldBackgroundColor: darkbgColor,
                 fontFamily: GoogleFonts.montserrat().fontFamily,
@@ -128,19 +132,7 @@ class _MyAppState extends State<MyApp> {
               '/home': (context) => const Homepage(),
               '/parkinglots': (context) => const ParkingLots()
             },
-            home: Builder(
-              builder: (context) {
-                final userProvider =
-                    Provider.of<UserProvider>(context, listen: false);
-                return userProvider.user.token.isNotEmpty
-                    ? userProvider.user.type == 'user'
-                        ? const BottomNav()
-                        : userProvider.user.type == 'admin'
-                            ? const AdminNav()
-                            : const OwnerNav()
-                    : OnboardingPage();
-              },
-            ));
+            home: const SplashScreen());
       },
     );
   }
