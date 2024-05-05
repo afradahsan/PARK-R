@@ -8,7 +8,7 @@ sealed class ParkingdetailsEvent extends Equatable {
 }
 
 class ParkingdescEvent extends ParkingdetailsEvent{
-  final int id;
+  final int? id;
 
-  const ParkingdescEvent({required this.id});
+  const ParkingdescEvent({this.id});
 }

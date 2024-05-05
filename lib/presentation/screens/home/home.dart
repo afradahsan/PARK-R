@@ -25,6 +25,11 @@ class HomeScreen extends StatelessWidget {
               controller: searchController,
             ),
             sizedtwenty(context),
+            Text(
+              'Parking Lot Nearby',
+              style: KTextTheme.darkTextTheme.titleMedium,
+            ),
+            sizedten(context),
             const NearbyLots(),
             sizedtwenty(context),
             Text(
