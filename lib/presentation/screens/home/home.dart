@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:parkr/business_logic/cubits/fetchlocation/fetchlocation_cubit.dart';
 import 'package:parkr/presentation/screens/home/widgets/nearbylotcontainer.dart';
 import 'package:parkr/presentation/screens/home/widgets/searchbar.dart';
 import 'package:parkr/utils/colors.dart';
@@ -12,7 +15,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController searchController = TextEditingController();
-
     return Scaffold(
       appBar: appBar(context),
       body: SafeArea(

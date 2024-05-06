@@ -6,6 +6,7 @@ import 'package:parkr/business_logic/bookings_bloc/bookings_bloc.dart';
 import 'package:parkr/business_logic/cubits/addparking_cubit/addparking_cubit.dart';
 import 'package:parkr/business_logic/cubits/appproveparking/approveparking_cubit.dart';
 import 'package:parkr/business_logic/cubits/choicechip/choicechip.dart';
+import 'package:parkr/business_logic/cubits/fetchlocation/fetchlocation_cubit.dart';
 import 'package:parkr/business_logic/cubits/selectvehindex/selectvehindex_cubit.dart';
 import 'package:parkr/business_logic/cubits/showtruck/showtruckcubit.dart';
 import 'package:parkr/business_logic/cubits/totalprice_cubit/totalprice_cubit.dart';
@@ -18,13 +19,9 @@ import 'package:parkr/business_logic/signup/bloc/signup_bloc.dart';
 import 'package:parkr/data/providers/user_provider.dart';
 import 'package:parkr/data/repositories/auth_repo.dart';
 import 'package:parkr/firebase_options.dart';
-import 'package:parkr/presentation/screens/admin/pages/adminnav.dart';
-import 'package:parkr/presentation/screens/auth/onboardingpage.dart';
 import 'package:parkr/presentation/screens/auth/splashscreen.dart';
-import 'package:parkr/presentation/screens/home/bottomnav.dart';
 import 'package:parkr/presentation/screens/home/homepage.dart';
 import 'package:parkr/presentation/screens/home/parkinglots.dart';
-import 'package:parkr/presentation/screens/owner/pages/ownernav.dart';
 import 'package:parkr/utils/buttontheme.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/themes.dart';
@@ -106,6 +103,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => ShowTruckCubit(),
+        ),
+        BlocProvider(
+          create: (context) => FetchlocationCubit(),
         )
       ],
       builder: (context, child) {

@@ -14,7 +14,12 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignupPage(),)));
+    Timer(const Duration(seconds: 3), () {
+      if (mounted) {
+        // Check if the widget is mounted before accessing context
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => SignupPage()));
+      }
+    });
   }
   @override
   Widget build(BuildContext context) {
