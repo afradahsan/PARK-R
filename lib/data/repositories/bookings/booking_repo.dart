@@ -86,8 +86,44 @@ class BookingRepo {
         httpErrorHandle(
           response: response,
           context: context,
-          onSuccess: () {
-          },
+          onSuccess: () {},
+        );
+      }
+    } catch (e) {
+      debugPrint('Error: $e');
+      showSnackbar(context, 'Error fetching bookings: $e');
+    }
+
+    return bookingList;
+  }
+
+  Future<List<BookingModel>> fetchBookingsForParkingLot(
+      BuildContext context, String parkingLotId) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<BookingModel> bookingList = [];
+
+    try {
+      http.Response response = await http.get(
+        Uri.parse('$uri/api/get-booking/$parkingLotId'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'auth-token': userProvider.user.token
+        },
+      );
+
+      debugPrint('statuscode: ${response.statusCode}');
+
+      if (response.statusCode == 200) {
+        debugPrint('res: ${response.body}');
+        final List<dynamic> responseData = jsonDecode(response.body);
+        bookingList =
+            responseData.map((data) => BookingModel.fromMap(data)).toList();
+        debugPrint('Booking list: $bookingList');
+      } else {
+        httpErrorHandle(
+          response: response,
+          context: context,
+          onSuccess: () {},
         );
       }
     } catch (e) {

@@ -17,7 +17,7 @@ class TotalPayContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(15),
-      height: 160,
+      height: 120,
       width: double.maxFinite,
       decoration: BoxDecoration(
           color: whitet50, borderRadius: BorderRadius.circular(15)),
@@ -30,7 +30,10 @@ class TotalPayContainer extends StatelessWidget {
           }
           else if (state is ParkingDetailsSuccessState){
             final int parkingfee = vehicleType == 'Four Wheeler' ? state.parkingList[index].carparkingFee : state.parkingList[index].bikeparkingFee;
-            final int total = parkingfee + state.parkingList[index].carwashFee!;
+            
+            final int? washFee = wash == true ? (vehicleType == 'Four Wheeler' ? state.parkingList[index].carwashFee : state.parkingList[index].bikewashFee) : 0;
+
+            final int total = parkingfee + (washFee!);
 
             BlocProvider.of<TotalpriceCubit>(context).updateTotalPrice(total);
 
@@ -66,14 +69,35 @@ class TotalPayContainer extends StatelessWidget {
                     ),
                     const Spacer(),
                     Text(
-                     '₹${state.parkingList[index].carwashFee.toString()}',
+                     '₹$washFee',
                       style: TextStyle(
                           color: whitet200,
                           fontSize: 16,
                           fontWeight: FontWeight.w600),
                     )
                   ],
-                ) : sizedfive(context),
+                ) : Row(
+                  children: [
+                    Text(
+                      'Complete Car Wash',
+                      style: KTextTheme.darkwhiteTextTheme.titleMedium!.copyWith(color: whitet50),
+                    ),
+                    sizedwfive(context),
+                    Icon(
+                      Icons.verified,
+                      color: greenColor.withOpacity(0.2),
+                      size: 20,
+                    ),
+                    const Spacer(),
+                    Text(
+                     '₹$washFee',
+                      style: TextStyle(
+                          color: whitet50,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600),
+                    )
+                  ],
+                ),
                 sizedten(context),
                 Container(
                   height: 2,

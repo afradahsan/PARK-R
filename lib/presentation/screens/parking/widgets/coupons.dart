@@ -29,7 +29,7 @@ class CouponsContainer extends StatelessWidget {
             ],
           ),
           sizedfive(context),
-          const Text('Yay, you\'re saving ₹58 on this order'),
+          const Text('Tap to reveal your coupons!'),
         ],
       ),
     );
