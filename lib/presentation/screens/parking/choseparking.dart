@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:parkr/data/models/parkingmodel.dart';
 import 'package:parkr/presentation/screens/parking/paymentscreen.dart';
 import 'package:parkr/presentation/screens/parking/widgets/parkingbutton.dart';
+import 'package:parkr/presentation/screens/parking/widgets/timerange/availability.dart';
+import 'package:parkr/presentation/screens/parking/widgets/timerange/timerangepicker.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
@@ -28,6 +29,34 @@ class _ChooseParkingState extends State<ChooseParking> {
   String reachText = 'Reaching Time';
   String leaveText = 'Leaving Time';
   String dateText = 'Select Date';
+
+  Availability availability = Availability(
+      date: DateTime.now(),
+      available: [
+        01,
+        02,
+        03,
+        04,
+        05,
+        06,
+        07,
+        08,
+        09,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24
+      ]);
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +138,7 @@ class _ChooseParkingState extends State<ChooseParking> {
           children: [
             Icon(
               Icons.calendar_month_rounded,
-              color: greenColor,
+              color: greenColor, 
             ),
             sizedwten(context),
             Text(dateText),
@@ -120,71 +149,85 @@ class _ChooseParkingState extends State<ChooseParking> {
   }
 
   Widget selectTime() {
-    return Row(
-      children: [
-        GestureDetector(
-          onTap: () async {
-            reachTime = await showTimePicker(
-              context: context,
-              initialTime: TimeOfDay.now(),
-              helpText: 'Choose Time',
-            );
-            if (reachTime != null) {
-              setState(() {
-                reachText = "${reachTime!.hour}:${reachTime!.minute}";
-              });
-            }
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            height: 50,
-            width: 170,
-            decoration: BoxDecoration(
-                color: whitet50, borderRadius: BorderRadius.circular(15)),
-            child: Row(
-              children: [
-                Text(reachText),
-                sizedwfive(context),
-                Icon(
-                  Icons.arrow_drop_down_outlined,
-                  color: white,
-                )
-              ],
-            ),
-          ),
-        ),
-        sizedwten(context),
-        GestureDetector(
-          onTap: () async {
-            leaveTime = await showTimePicker(
-                context: context,
-                initialTime: TimeOfDay(hour: reachTime!.hour + 1, minute: reachTime!.minute),
-                helpText: 'Choose Time');
-            if (leaveTime != null) {
-              setState(() {
-                leaveText = "${leaveTime!.hour}:${leaveTime!.minute}";
-              });
-            }
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            height: 50,
-            width: 170,
-            decoration: BoxDecoration(
-                color: whitet50, borderRadius: BorderRadius.circular(15)),
-            child: Row(
-              children: [
-                Text(leaveText),
-                sizedwfive(context),
-                Icon(
-                  Icons.arrow_drop_down_outlined,
-                  color: white,
-                )
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
+  return Flexible(
+    child: TimeRangePickerDialog(
+      availability,
+      4,
+      4,
+      40,
+      onTimeSelected: (startTime, endTime) {
+        setState(() {
+          reachTime = startTime;
+          leaveTime = endTime;
+
+          debugPrint('reach:$reachTime, $endTime');
+        });
+      },
+    ),
+  );
+}
+
+
+  // Widget selectTime() {
+  //
+  //   return Row(
+  //     children: [
+  //       GestureDetector(
+  //         onTap: () async {
+  //           reachTime = await showTimePicker(
+  //             context: context,
+  //             initialTime: TimeOfDay.now(),
+  //             helpText: 'Choose Time',
+  //           );
+  //           if (reachTime != null) {
+  //             setState(() {
+  //               reachText = "${reachTime!.hour}:${reachTime!.minute}";
+  //             });
+  //           }
+  //         },
+  //         child: Container(
+  //           padding: const EdgeInsets.symmetric(horizontal: 15),
+  //           height: 50,
+  //           width: 170,
+  //           decoration: BoxDecoration(
+  //               color: whitet50, borderRadius: BorderRadius.circular(15)),
+  //           child: Row(
+  //             children: [
+  //               Text(reachText),
+  //               sizedwfive(context),
+  //               Icon(
+  //                 Icons.arrow_drop_down_outlined,
+  //                 color: white,
+  //               )
+  //             ],
+  //           ),
+  //         ),
+  //       ),
+  //       sizedwten(context),
+
+  //       // if (leaveTime != null) {
+  //       //   setState(() {
+  //       //     leaveText = "${leaveTime!.hour}:${leaveTime!.minute}";
+  //       //   });
+  //       // }
+  //       // child: Container(
+  //       //   padding: const EdgeInsets.symmetric(horizontal: 15),
+  //       //   height: 50,
+  //       //   width: 170,
+  //       //   decoration: BoxDecoration(
+  //       //       color: whitet50, borderRadius: BorderRadius.circular(15)),
+  //       //   child: Row(
+  //       //     children: [
+  //       //       Text(leaveText),
+  //       //       sizedwfive(context),
+  //       //       Icon(
+  //       //         Icons.arrow_drop_down_outlined,
+  //       //         color: white,
+  //       //       )
+  //       //     ],
+  //       //   ),
+  //       // ),
+  //     ],
+  //   );
+  // }
 }
