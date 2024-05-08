@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:parkr/presentation/screens/admin/pages/addparking.dart';
 import 'package:parkr/presentation/screens/admin/pages/adminhome.dart';
 import 'package:parkr/presentation/screens/admin/pages/adminpark.dart';
-import 'package:parkr/presentation/screens/admin/pages/adminstats.dart';
+import 'package:parkr/presentation/screens/admin/pages/adminrevenue.dart';
 import 'package:parkr/utils/colors.dart';
 
 class AdminNav extends StatefulWidget {
@@ -20,8 +20,8 @@ class _AdminNavState extends State<AdminNav> {
   void initState() {
     pages = [
       const AdminHomePage(),
-      const AdminPark(),
-      const AdminStats()
+      const AdminRevenue(),
+      const AdminPark()
     ];
     super.initState();
   }

@@ -1,24 +1,22 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:parkr/data/models/bookingmodel.dart';
 import 'package:parkr/data/models/parkingmodel.dart';
 import 'package:parkr/data/providers/user_provider.dart';
 import 'package:parkr/data/repositories/admin/admin_repo.dart';
+import 'package:parkr/data/repositories/bookings/booking_repo.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../data/repositories/bookings/booking_repo.dart';
-
-class OwnerRevenue extends StatefulWidget {
-  const OwnerRevenue({Key? key}) : super(key: key);
+class AdminRevenue extends StatefulWidget {
+  const AdminRevenue({super.key});
 
   @override
-  _OwnerRevenueState createState() => _OwnerRevenueState();
+  State<AdminRevenue> createState() => _AdminRevenueState();
 }
 
-class _OwnerRevenueState extends State<OwnerRevenue> {
+class _AdminRevenueState extends State<AdminRevenue> {
   BookingRepo _bookingRepo = BookingRepo();
   AdminRepo _parkingRepo = AdminRepo();
   Map<String, int> parkingLotRevenues = {};
@@ -82,15 +80,23 @@ class _OwnerRevenueState extends State<OwnerRevenue> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                height: 150, width: double.maxFinite,
+                height: 150,
+                width: double.maxFinite,
                 decoration: BoxDecoration(
-                  color: whitet50, borderRadius: BorderRadius.circular(15)
-                ),
+                    color: whitet50, borderRadius: BorderRadius.circular(15)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('T O T A L   I N C O M E', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: white)),
-                    Text('₹$totalRevenue.00', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w700),),
+                    Text('T O T A L   I N C O M E',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: white)),
+                    Text(
+                      '₹$totalRevenue.00',
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.w700),
+                    ),
                   ],
                 ),
               ),
@@ -137,7 +143,11 @@ class _OwnerRevenueState extends State<OwnerRevenue> {
                                           Color.fromRGBO(248, 191, 73, 1),
                                           Color.fromRGBO(221, 126, 48, 1)
                                         ])),
-                                    child: Icon(Icons.payments_outlined, color: whitet200, size: 10,),
+                                    child: Icon(
+                                      Icons.payments_outlined,
+                                      color: whitet200,
+                                      size: 10,
+                                    ),
                                   ),
                                   sizedwten(context),
                                   Text(
@@ -158,7 +168,11 @@ class _OwnerRevenueState extends State<OwnerRevenue> {
                                           Color.fromRGBO(248, 191, 73, 1),
                                           Color.fromRGBO(221, 126, 48, 1)
                                         ])),
-                                    child: Icon(Icons.confirmation_number_rounded, color: whitet200, size: 10,),
+                                    child: Icon(
+                                      Icons.confirmation_number_rounded,
+                                      color: whitet200,
+                                      size: 10,
+                                    ),
                                   ),
                                   sizedwten(context),
                                   Text(
