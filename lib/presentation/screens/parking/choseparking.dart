@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parkr/presentation/screens/auth/widgets/snackbar.dart';
 import 'package:parkr/presentation/screens/parking/paymentscreen.dart';
 import 'package:parkr/presentation/screens/parking/widgets/parkingbutton.dart';
 import 'package:parkr/presentation/screens/parking/widgets/timerange/availability.dart';
@@ -64,8 +65,9 @@ class _ChooseParkingState extends State<ChooseParking> {
       appBar: appbar(),
       body: SafeArea(
           child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(15),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -81,20 +83,23 @@ class _ChooseParkingState extends State<ChooseParking> {
             ),
             sizedten(context),
             selectTime(),
-            const Spacer(),
+            Spacer(flex: 5,),
             ParkingButton(
                 text: 'Proceed',
                 onpressed: () {
+                  if(date != null && reachTime!=null && leaveTime!=null){
                   Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => PaymentScreen(
                       parkingname: widget.parkingname,
-                      startTime: reachTime.toString(),
-                      endTime: leaveTime.toString(),
+                      startTime: reachTime!,
+                      endTime: leaveTime!,
                       startDate: date.toString(),
                       endDate: date.toString(),
                       index: widget.index,
                     ),
-                  ));
+                  ));} else {
+                    showSnackbar(context, 'Please Choose Date & Time!');
+                  }
                 })
           ],
         ),

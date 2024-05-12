@@ -19,22 +19,22 @@ import '../../../data/providers/user_provider.dart';
 import '../../../utils/themes.dart';
 
 class PaymentScreen extends StatelessWidget {
-  const PaymentScreen(
-      {super.key,
-      required this.parkingname,
-      required this.startTime,
-      required this.endTime,
-      required this.startDate,
-      required this.endDate,
-      required this.index,});
+  const PaymentScreen({
+    super.key,
+    required this.parkingname,
+    required this.startTime,
+    required this.endTime,
+    required this.startDate,
+    required this.endDate,
+    required this.index,
+  });
 
   final String parkingname;
-  final String startTime;
-  final String endTime;
+  final TimeOfDay startTime;
+  final TimeOfDay endTime;
   final String startDate;
   final String endDate;
   final int index;
-
 
   @override
   Widget build(BuildContext context) {
@@ -61,15 +61,13 @@ class PaymentScreen extends StatelessWidget {
       vehNumber = myvehiclesList.isNotEmpty
           ? myvehiclesList[vehIndex].vehicleNumber
           : '';
-      vehicleType = myvehiclesList.isNotEmpty
-          ? myvehiclesList[vehIndex].vehicleType
-          : '';
+      vehicleType =
+          myvehiclesList.isNotEmpty ? myvehiclesList[vehIndex].vehicleType : '';
     }
 
     Future<void> bookParking(BookingModel bookingModel) async {
-      await BookingRepo().bookParking(
-          bookingmodel: bookingModel,
-          context: context);
+      await BookingRepo()
+          .bookParking(bookingmodel: bookingModel, context: context);
     }
 
     return Scaffold(
@@ -83,7 +81,13 @@ class PaymentScreen extends StatelessWidget {
             Text('Total Amount',
                 style: KTextTheme.darkwhiteTextTheme.titleMedium),
             sizedten(context),
-            TotalPayContainer(index: index, vehicleType: vehicleType, wash: wash,),
+            TotalPayContainer(
+              index: index,
+              vehicleType: vehicleType,
+              wash: wash,
+              startTime: startTime,
+              endTime: endTime,
+            ),
             sizedtwenty(context),
             Text('Choose Payment Method',
                 style: KTextTheme.darkwhiteTextTheme.titleMedium),
@@ -98,13 +102,14 @@ class PaymentScreen extends StatelessWidget {
             ParkingButton(
               text: 'Tap to Pay',
               onpressed: () async {
-                debugPrint('totaall: ${BlocProvider.of<TotalpriceCubit>(context).state.toString()}');
+                debugPrint(
+                    'totaall: ${BlocProvider.of<TotalpriceCubit>(context).state.toString()}');
                 debugPrint('time: $startTime');
                 BookingModel bookingModel = BookingModel(
                   user: currentUser.id,
                   parkingLot: parkingname,
-                  startTime: startTime,
-                  endTime: endTime,
+                  startTime: startTime.toString(),
+                  endTime: endTime.toString(),
                   startDate: startDate,
                   endDate: endDate,
                   vehicleNumber: vehNumber,
@@ -118,7 +123,8 @@ class PaymentScreen extends StatelessWidget {
                   bookingModel,
                   onSuccess: (response) {
                     bookParking(bookingModel);
-                    Navigator.popUntil(context, ModalRoute.withName('/parkinglots'));
+                    Navigator.popUntil(
+                        context, ModalRoute.withName('/parkinglots'));
                     Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) {
                         return const SuccessScreen();

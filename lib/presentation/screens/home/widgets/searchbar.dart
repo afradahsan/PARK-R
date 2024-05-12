@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:parkr/presentation/screens/home/widgets/animatedvehcontainer.dart';
+import 'package:parkr/presentation/screens/home/searchresult.dart';
 import 'package:parkr/presentation/screens/home/widgets/dropdownhome.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
@@ -30,7 +30,9 @@ class _SearchbarState extends State<Searchbar> {
           },
           onSubmitted: (value) {
             onChanged = false;
-            setState(() {});
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+              return SearchRes(searchQuery: widget.controller.text,);
+            },));
           },
           padding: const MaterialStatePropertyAll(
               EdgeInsets.only(left: 12, right: 12, bottom: 0, top: 0)),

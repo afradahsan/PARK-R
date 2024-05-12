@@ -11,6 +11,7 @@ import 'package:parkr/business_logic/cubits/selectvehindex/selectvehindex_cubit.
 import 'package:parkr/business_logic/cubits/showtruck/showtruckcubit.dart';
 import 'package:parkr/business_logic/cubits/totalprice_cubit/totalprice_cubit.dart';
 import 'package:parkr/business_logic/cubits/wash/wash_cubit.dart';
+import 'package:parkr/business_logic/fetch_address/fetchaddress_bloc.dart';
 import 'package:parkr/business_logic/myvehicles/myvehicles_bloc.dart';
 import 'package:parkr/business_logic/onboarding/bloc/onboarding_bloc.dart';
 import 'package:parkr/business_logic/parkingdetails/parkingdetails_bloc.dart';
@@ -106,6 +107,9 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (context) => FetchlocationCubit(),
+        ),
+        BlocProvider(
+          create: (context) => FetchaddressBloc(context),
         )
       ],
       builder: (context, child) {

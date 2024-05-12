@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:parkr/business_logic/bookings_bloc/bookings_bloc.dart';
 import 'package:parkr/data/providers/user_provider.dart';
 import 'package:parkr/presentation/screens/parking/widgets/tickettestwidget.dart';

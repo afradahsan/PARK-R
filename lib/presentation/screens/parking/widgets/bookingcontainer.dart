@@ -30,7 +30,7 @@ class BookingContainer extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10),
         width: double.maxFinite,
-        height: 140,
+        height: 120,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
           color: const Color.fromARGB(60, 255, 255, 255),
@@ -41,8 +41,8 @@ class BookingContainer extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: SizedBox(
-                width: 115,
-                height: 125,
+                width: 90,
+                height: 80,
                 child: Image.asset(
                   'assets/mall-parking-image.png',
                   fit: BoxFit.cover,
@@ -55,14 +55,14 @@ class BookingContainer extends StatelessWidget {
               children: [
                 Text(
                   bookingList[index].parkingLot,
-                  style: KTextTheme.darkwhiteTextTheme.titleLarge,
+                  style: KTextTheme.darkwhiteTextTheme.titleMedium,
                 ),
                 sizedfive(context),
                 Row(
                   children: [
                     Icon(
                       Icons.calendar_month_rounded,
-                      size: 22,
+                      size: 18,
                       color: whitet200,
                     ),
                     sizedwfive(context),
@@ -70,23 +70,23 @@ class BookingContainer extends StatelessWidget {
                       formattedDate,
                       style: TextStyle(
                           color: greenColor,
-                          fontSize: 16),
+                          fontSize: 14),
                     ),
                   ],
                 ),sizedfive(context),
                 Row(
                   children: [
-                    Icon(Icons.schedule, size: 22,
+                    Icon(Icons.schedule, size: 18,
                       color: whitet200,),
                     sizedwfive(context),
-                    Text('$startTime - $endTime', style: KTextTheme.darkTextTheme.bodyLarge,)
+                    Text('$startTime - $endTime', style: KTextTheme.darkTextTheme.bodyMedium,)
                   ],
                 ),
                 sizedfive(context),
                 Row(children: [
-                  Image.asset('assets/wash-sponge-emoji.png', height: 25,),
+                  Image.asset('assets/wash-sponge-emoji.png', height: 18,),
                   sizedwfive(context),
-                  Text('Washing Included')
+                  Text('Washing Included', style: KTextTheme.darkTextTheme.bodyMedium)
                 ],)
               ],
             )
