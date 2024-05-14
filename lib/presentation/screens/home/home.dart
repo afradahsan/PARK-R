@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:lottie/lottie.dart';
 import 'package:parkr/business_logic/cubits/fetchlocation/fetchlocation_cubit.dart';
@@ -30,13 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  // fetch() async {
-  //   placemark = await fetchCity(context);
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // debugPrint('addd${placemark.toString()}');
     TextEditingController searchController = TextEditingController();
     return Scaffold(
       appBar: appBar(context),
@@ -93,9 +87,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            Container(
-              child: Lottie.asset('assets/animations/location_lottie.json'),
-            )
           ],
         ),
       )),
@@ -110,12 +101,12 @@ AppBar appBar(BuildContext context) {
       builder: (context, state) {
         if (state is FetchaddressLoading) {
           debugPrint('loading');
-          return Lottie.asset('assets/animations/location_lottie.json',
-              height: 50);
+          return Lottie.asset('assets/animations/location.json');
         } else if (state is FetchaddressError) {
           debugPrint('load');
           return Text('Error');
         } else if (state is FetchaddressSuccess) {
+          debugPrint('success geocode ${state.address}');
           return Row(children: [
             Icon(
               Icons.location_on,
@@ -130,7 +121,8 @@ AppBar appBar(BuildContext context) {
           ]);
         } else {
           debugPrint('else');
-          return Text('data');
+          return Text('data',
+              style: KTextTheme.darkTextTheme.bodyLarge,);
         }
       },
     ),

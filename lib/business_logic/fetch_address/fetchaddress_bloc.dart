@@ -24,9 +24,9 @@ class FetchaddressBloc extends Bloc<FetchaddressEvent, FetchaddressState> {
       final position = await fetchPosition(context);
       List<Placemark> placemarks =
           await placemarkFromCoordinates(position.latitude, position.longitude);
+      debugPrint('list ${placemarks}');
       String address = '';
-      address += placemarks.reversed.last.subLocality ?? '';
-
+      address += placemarks.reversed.last.subLocality == '' ? placemarks.reversed.last.administrativeArea! : '';
 
       emit(FetchaddressSuccess(address));
     } catch (e) {
