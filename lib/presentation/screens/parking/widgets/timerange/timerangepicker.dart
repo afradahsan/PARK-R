@@ -27,7 +27,7 @@ class _TimeRangePickerDialogState extends State<TimeRangePickerDialog> {
   final double crossAxisSpacing;
   final int crossAxisCount;
   final double cellHeight;
-   final Function(TimeOfDay startTime, TimeOfDay endTime) onTimeSelected; // Add this
+   final Function(TimeOfDay startTime, TimeOfDay endTime) onTimeSelected;
 
 
   _TimeRangePickerDialogState(this.data, this.crossAxisSpacing, this.crossAxisCount, this.cellHeight, this.onTimeSelected);
@@ -50,10 +50,8 @@ class _TimeRangePickerDialogState extends State<TimeRangePickerDialog> {
             setState(() {
               handleSelection(data, index);
               if (data.periodStartIndex != null && data.periodEndIndex != null) {
-        // Convert selected hours to TimeOfDay
         TimeOfDay startTime = TimeOfDay(hour: data.hours[data.periodStartIndex!].hour, minute: 0);
         TimeOfDay endTime = TimeOfDay(hour: data.hours[data.periodEndIndex!].hour, minute: 0);
-        // Call onTimeSelected callback with selected start and end times
         widget.onTimeSelected(startTime, endTime);
       }
             });

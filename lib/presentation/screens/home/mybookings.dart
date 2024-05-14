@@ -5,6 +5,7 @@ import 'package:parkr/presentation/screens/parking/widgets/bookingcontainer.dart
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
+import 'package:shimmer/shimmer.dart';
 
 class MyBookings extends StatelessWidget {
   const MyBookings({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class MyBookings extends StatelessWidget {
     return Scaffold(
       appBar: appbar(),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: SafeArea(
             child: Padding(
           padding: const EdgeInsets.all(15.0),
@@ -26,18 +27,32 @@ class MyBookings extends StatelessWidget {
                     context
                         .read<BookingsBloc>()
                         .add(BookingdetailsEvent(context: context));
-                    return Center(
-                      child: CircularProgressIndicator(
-                        color: white,
-                      ),
-                    );
+                    return ListView.separated(
+                      shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Shimmer.fromColors(
+                            baseColor: Colors.grey.shade300,
+                            highlightColor: Colors.grey.shade100,
+                            child: Container(
+                              height: 130,
+                              width: screenW(context),
+                              decoration: BoxDecoration(
+                                  color: whitet50,
+                                  borderRadius: BorderRadius.circular(15)),
+                            ),
+                          );
+                        },
+                        separatorBuilder: (context, index) {
+                          return sizedten(context);
+                        },
+                        itemCount: 6);
                   } else if (state is BookingsLoadingState) {
                     return CircularProgressIndicator(
                       color: greenColor,
                     );
                   } else if (state is BookingSuccessState) {
                     return ListView.separated(
-                        physics: BouncingScrollPhysics(),
+                        physics: const BouncingScrollPhysics(),
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           return BookingContainer(

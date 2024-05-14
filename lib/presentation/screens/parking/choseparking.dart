@@ -83,7 +83,7 @@ class _ChooseParkingState extends State<ChooseParking> {
             ),
             sizedten(context),
             selectTime(),
-            Spacer(flex: 5,),
+            const Spacer(flex: 5,),
             ParkingButton(
                 text: 'Proceed',
                 onpressed: () {
@@ -136,7 +136,7 @@ class _ChooseParkingState extends State<ChooseParking> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15),
         height: 50,
-        width: 150,
+        width: 160,
         decoration: BoxDecoration(
             color: whitet50, borderRadius: BorderRadius.circular(15)),
         child: Row(
@@ -209,7 +209,6 @@ class _ChooseParkingState extends State<ChooseParking> {
   //         ),
   //       ),
   //       sizedwten(context),
-
   //       // if (leaveTime != null) {
   //       //   setState(() {
   //       //     leaveText = "${leaveTime!.hour}:${leaveTime!.minute}";

@@ -11,9 +11,11 @@ import 'package:parkr/presentation/screens/profile/addvehicle.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ChooseVehicle extends StatelessWidget {
-  const ChooseVehicle({super.key, required this.parkingList, required this.index});
+  const ChooseVehicle(
+      {super.key, required this.parkingList, required this.index});
 
   final List<ParkingModel> parkingList;
   final int index;
@@ -23,7 +25,7 @@ class ChooseVehicle extends StatelessWidget {
     String parkingname = parkingList[index].parkingName;
     String myVehNumber = '';
     String vehicletype = '';
-    
+
     return Scaffold(
       appBar: appbar(),
       body: SafeArea(
@@ -47,9 +49,49 @@ class ChooseVehicle extends StatelessWidget {
                     color: greenColor,
                   );
                 } else if (state is MyVehiclesLoading) {
-                  return const CircularProgressIndicator();
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ListView.separated(
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                height: 80,
+                                width: screenW(context),
+                                decoration: BoxDecoration(
+                                    color: whitet50,
+                                    borderRadius: BorderRadius.circular(15)),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return sizedten(context);
+                            },
+                            itemCount: 4),
+                        sizedten(context),
+                        Container(
+                          height: 10,
+                          width: screenW(context) - 300,
+                          decoration: BoxDecoration(
+                              color: whitet50,
+                              borderRadius: BorderRadius.circular(15)),
+                        ),
+                        sizedten(context),
+                        Container(
+                          height: 10,
+                          width: screenW(context) - 200,
+                          decoration: BoxDecoration(
+                              color: whitet50,
+                              borderRadius: BorderRadius.circular(15)),
+                        ),
+                      ],
+                    ),
+                  );
                 } else if (state is MyVehiclesSuccess) {
-                  final selectedIndex = context.read<SelectvehindexCubit>().state;
+                  final selectedIndex =
+                      context.read<SelectvehindexCubit>().state;
                   myVehNumber = state.myVehicles[selectedIndex].vehicleNumber;
                   vehicletype = state.myVehicles[selectedIndex].vehicleType;
 
@@ -60,8 +102,10 @@ class ChooseVehicle extends StatelessWidget {
                       ),
                       sizedten(context),
                       addvehContainer(context),
-                      sizedtwenty (context),
-                      parkingList[index].carWash ? const IncludeWash() : sizedten(context)
+                      sizedtwenty(context),
+                      parkingList[index].carWash
+                          ? const IncludeWash()
+                          : sizedten(context)
                     ],
                   );
                 } else if (state is MyVehiclesError) {
@@ -72,11 +116,19 @@ class ChooseVehicle extends StatelessWidget {
               },
             ),
             const Spacer(),
-            ParkingButton(text: 'Proceed', onpressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return ChooseParking(parkingname: parkingname, vehicleType: vehicletype, index: index,);
-              },));
-            })
+            ParkingButton(
+                text: 'Proceed',
+                onpressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return ChooseParking(
+                        parkingname: parkingname,
+                        vehicleType: vehicletype,
+                        index: index,
+                      );
+                    },
+                  ));
+                })
           ],
         ),
       )),
@@ -99,16 +151,18 @@ AppBar appbar() {
 Widget addvehContainer(BuildContext context) {
   return GestureDetector(
     onTap: () {
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-        return const AddVehicle();
-      },));
+      Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) {
+          return const AddVehicle();
+        },
+      ));
     },
     child: Container(
       padding: const EdgeInsets.symmetric(horizontal: 15),
       height: 60,
       width: double.maxFinite,
-      decoration:
-          BoxDecoration(color: whitet50, borderRadius: BorderRadius.circular(15)),
+      decoration: BoxDecoration(
+          color: whitet50, borderRadius: BorderRadius.circular(15)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

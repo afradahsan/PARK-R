@@ -4,7 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:lottie/lottie.dart';
 import 'package:parkr/business_logic/cubits/fetchlocation/fetchlocation_cubit.dart';
 import 'package:parkr/business_logic/fetch_address/fetchaddress_bloc.dart';
-import 'package:parkr/presentation/screens/home/parkinglots.dart';
+import 'package:parkr/presentation/screens/home/widgets/bookparkingcontainer.dart';
 import 'package:parkr/presentation/screens/home/widgets/nearbylotcontainer.dart';
 import 'package:parkr/presentation/screens/home/widgets/searchbar.dart';
 import 'package:parkr/utils/colors.dart';
@@ -19,7 +19,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // String placemark = '';
 
   @override
   void initState() {
@@ -34,62 +33,35 @@ class _HomeScreenState extends State<HomeScreen> {
     TextEditingController searchController = TextEditingController();
     return Scaffold(
       appBar: appBar(context),
-      body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Searchbar(
-              controller: searchController,
-            ),
-            sizedtwenty(context),
-            Text(
-              'Parking Lot Nearby',
-              style: KTextTheme.darkTextTheme.titleMedium,
-            ),
-            sizedten(context),
-            const NearbyLots(),
-            sizedtwenty(context),
-            Text(
-              'Services',
-              style: KTextTheme.darkTextTheme.titleMedium,
-            ),
-            sizedten(context),
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) {
-                    return const ParkingLots();
-                  },
-                ));
-              },
-              child: Container(
-                height: 110,
-                width: 110,
-                decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    border: Border.all(color: whitet150),
-                    borderRadius: BorderRadius.circular(15)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.local_parking,
-                      size: 40,
-                      color: white,
-                    ),
-                    Text(
-                      'Book a Parking',
-                      style: KTextTheme.darkTextTheme.labelMedium,
-                    ),
-                  ],
-                ),
+      body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: SafeArea(
+            child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Searchbar(
+                controller: searchController,
               ),
-            ),
-          ],
-        ),
-      )),
+              sizedtwenty(context),
+              Text(
+                'Parking Lot Nearby',
+                style: KTextTheme.darkTextTheme.titleMedium,
+              ),
+              sizedten(context),
+              const NearbyLots(),
+              sizedtwenty(context),
+              Text(
+                'Services',
+                style: KTextTheme.darkTextTheme.titleMedium,
+              ),
+              sizedten(context),
+              const BookParkingContainer()
+            ],
+          ),
+        )),
+      ),
     );
   }
 }
@@ -101,7 +73,7 @@ AppBar appBar(BuildContext context) {
       builder: (context, state) {
         if (state is FetchaddressLoading) {
           debugPrint('loading');
-          return Lottie.asset('assets/animations/location.json');
+          return Lottie.asset('assets/animations/locationloadingraw.json');
         } else if (state is FetchaddressError) {
           debugPrint('load');
           return Text('Error');

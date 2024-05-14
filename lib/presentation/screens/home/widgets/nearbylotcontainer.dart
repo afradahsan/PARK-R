@@ -11,6 +11,7 @@ import 'package:parkr/presentation/screens/parking/parkingdetails.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
+import 'package:shimmer/shimmer.dart';
 
 class NearbyLots extends StatelessWidget {
   const NearbyLots({super.key});
@@ -22,12 +23,20 @@ class NearbyLots extends StatelessWidget {
         builder: (context, state) {
       if (state is ParkingdetailsInitial) {
         context.read<ParkingdetailsBloc>().add(ParkingdescEvent());
-        return CircularProgressIndicator(
-          color: greenColor,
+        return const CircularProgressIndicator(
+          color: Colors.amber,
         );
       } else if (state is ParkingDetailsLoadingState) {
-        return CircularProgressIndicator(
-          color: white,
+        return Shimmer.fromColors(
+          period: const Duration(milliseconds: 1000),
+          baseColor: Colors.grey.shade500,
+          highlightColor: Colors.grey.shade300,
+          child: Container(
+            height: 200,
+            width: screenW(context),
+            decoration: BoxDecoration(
+                color: whitet50, borderRadius: BorderRadius.circular(15)),
+          ),
         );
       } else if (state is ParkingDetailsSuccessState) {
         parkinglist = state.parkingList;
@@ -35,7 +44,18 @@ class NearbyLots extends StatelessWidget {
             future: fetchPosition(context),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return CircularProgressIndicator(color: white);
+                return Shimmer.fromColors(
+                  period: const Duration(milliseconds: 1000),
+                  baseColor: Colors.grey.shade500,
+                  highlightColor: Colors.grey.shade300,
+                  child: Container(
+                    height: 200,
+                    width: screenW(context),
+                    decoration: BoxDecoration(
+                        color: whitet50,
+                        borderRadius: BorderRadius.circular(15)),
+                  ),
+                );
               } else if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else if (snapshot.hasData) {
@@ -92,9 +112,11 @@ class NearbyLots extends StatelessWidget {
                             startLongitude, endLatitude, endLongitude);
                         return GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                              return ParkingDetails(index: index);
-                            },));
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) {
+                                return ParkingDetails(index: index);
+                              },
+                            ));
                           },
                           child: Stack(
                             children: [
@@ -132,8 +154,8 @@ class NearbyLots extends StatelessWidget {
                                       children: [
                                         Text(
                                           parkinglist[index].parkingName,
-                                          style:
-                                              KTextTheme.darkTextTheme.bodyLarge,
+                                          style: KTextTheme
+                                              .darkTextTheme.bodyLarge,
                                         ),
                                         Text(
                                           parkinglist[index].locationName,
@@ -173,17 +195,17 @@ class NearbyLots extends StatelessWidget {
                                                   style: TextStyle(
                                                       color: greenColor,
                                                       fontSize: 16,
-                                                      fontFamily:
-                                                          GoogleFonts.montserrat()
-                                                              .fontFamily)),
+                                                      fontFamily: GoogleFonts
+                                                              .montserrat()
+                                                          .fontFamily)),
                                               TextSpan(
                                                   text: '/hr',
                                                   style: TextStyle(
                                                       color: whitet150,
                                                       fontSize: 12,
-                                                      fontFamily:
-                                                          GoogleFonts.montserrat()
-                                                              .fontFamily))
+                                                      fontFamily: GoogleFonts
+                                                              .montserrat()
+                                                          .fontFamily))
                                             ]))
                                           ],
                                         )

@@ -37,7 +37,7 @@ class TotalPayContainer extends StatelessWidget {
     debugPrint('dfgh${difference.toString()}');
     return Container(
       padding: const EdgeInsets.all(15),
-      height: 120,
+      height: 130,
       width: double.maxFinite,
       decoration: BoxDecoration(
           color: whitet50, borderRadius: BorderRadius.circular(15)),

@@ -7,6 +7,7 @@ import 'package:parkr/business_logic/myvehicles/myvehicles_bloc.dart';
 import 'package:parkr/data/models/bookingmodel.dart';
 import 'package:parkr/data/repositories/bookings/booking_repo.dart';
 import 'package:parkr/data/repositories/payment/razorpay.dart';
+import 'package:parkr/presentation/screens/auth/widgets/snackbar.dart';
 import 'package:parkr/presentation/screens/parking/successscreen.dart';
 import 'package:parkr/presentation/screens/parking/widgets/coupons.dart';
 import 'package:parkr/presentation/screens/parking/widgets/parkingbutton.dart';
@@ -132,6 +133,7 @@ class PaymentScreen extends StatelessWidget {
                     ));
                   },
                   onFailure: (response) {
+                    showSnackbar(context, 'Payment Failed');
                     debugPrint('payment failed');
                   },
                 );

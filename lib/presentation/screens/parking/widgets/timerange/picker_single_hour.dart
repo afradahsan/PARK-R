@@ -32,10 +32,10 @@ class HourPickerSingleHour extends StatelessWidget {
       decoration: BoxDecoration(
         color: whitet50,
         borderRadius: BorderRadius.only(
-          topLeft: state == HourPickerHourState.START ? Radius.circular(12) : Radius.circular(0),
-          bottomLeft: state == HourPickerHourState.START ? Radius.circular(12) : Radius.circular(0),
-          topRight: state == HourPickerHourState.END ? Radius.circular(START_END_CIRCLE_RADIUS) : Radius.circular(0),
-          bottomRight: state == HourPickerHourState.END ? Radius.circular(START_END_CIRCLE_RADIUS) : Radius.circular(0),
+          topLeft: state == HourPickerHourState.START ? const Radius.circular(12) : const Radius.circular(0),
+          bottomLeft: state == HourPickerHourState.START ? const Radius.circular(12) : const Radius.circular(0),
+          topRight: state == HourPickerHourState.END ? Radius.circular(START_END_CIRCLE_RADIUS) : const Radius.circular(0),
+          bottomRight: state == HourPickerHourState.END ? Radius.circular(START_END_CIRCLE_RADIUS) : const Radius.circular(0),
         )
       ),
       alignment: Alignment.center,
