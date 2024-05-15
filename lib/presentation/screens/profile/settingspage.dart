@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:parkr/data/repositories/auth_repo.dart';
+import 'package:parkr/presentation/screens/auth/widgets/snackbar.dart';
+import 'package:parkr/presentation/screens/profile/widgets/alertdialog.dart';
 import 'package:parkr/presentation/screens/profile/widgets/settingswidget.dart';
 import 'package:parkr/utils/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -11,10 +14,10 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -28,19 +31,32 @@ class SettingsPage extends StatelessWidget {
               ],
             ),
             sizedtwenty(context),
-            const SettingsWidget(
-                iconname: Icons.help_outline_rounded, text: 'Help & Support'),
+            SettingsWidget(
+                iconname: Icons.help_outline_rounded, text: 'Help & Support', onTap: () {
+                  launchEmail();
+                }),
             sizedten(context),
-            const SettingsWidget(
-                iconname: Icons.privacy_tip_outlined, text: 'Privacy Policy'),
+             SettingsWidget(
+                iconname: Icons.privacy_tip_outlined, text: 'Privacy Policy', onTap: () {
+                  launchUrl(Uri.parse('https://sites.google.com/view/parkwiser-app-privacy-policy/home'), mode: LaunchMode.inAppBrowserView);
+                }),
             sizedten(context),
             SettingsWidget(
-                iconname: Icons.delete_forever, text: 'Delete My Data', onTap: () {
-                  showDialog(context: context, builder: (context) {
-                    return Dialog();
-                  },);
-                },),
-                sizedten(context),
+              iconname: Icons.delete_forever,
+              text: 'Delete My Data',
+              onTap: () {
+                alertdialog(
+                    context,
+                    const Text('Alert'),
+                    const Text(
+                        'This will send a request to delete all your data, do you want to continue?'),
+                    () {
+                  Navigator.of(context).pop();
+                  showSnackbar(context, 'Request sent!');
+                });
+              },
+            ),
+            sizedten(context),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -52,9 +68,27 @@ class SettingsPage extends StatelessWidget {
                     label: const Text('Log Out')),
               ],
             )
-                    ],
-                  ),
-          )),
+          ],
+        ),
+      )),
     );
+  }
+}
+
+dynamic launchEmail() async {
+  try
+  {
+    Uri email = Uri(
+      scheme: 'mailto',
+      path: "afradahsan02@gmail.com",
+      queryParameters: {
+        'subject': "Parkwiser Support"
+      },
+    );
+
+    await launchUrl(email);
+  }
+  catch(e) {
+    debugPrint(e.toString());
   }
 }

@@ -3,7 +3,7 @@
     <application
         android:label="parkr"
         android:name="${applicationName}"
-        android:icon="@mipmap/parkwiser">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"

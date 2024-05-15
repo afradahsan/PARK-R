@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:parkr/data/repositories/auth_repo.dart';
+import 'package:parkr/presentation/screens/profile/couponspage.dart';
 import 'package:parkr/presentation/screens/profile/myvehicles.dart';
 import 'package:parkr/presentation/screens/profile/settingspage.dart';
+import 'package:parkr/presentation/screens/profile/walletpage.dart';
 import 'package:parkr/presentation/screens/profile/widgets/profilecontainer.dart';
 import 'package:parkr/presentation/screens/profile/widgets/profilelistwidget.dart';
 import 'package:parkr/utils/constants.dart';
@@ -38,13 +39,9 @@ class ProfilePage extends StatelessWidget {
               returnpage: MyVehicles(),
             ),
             sizedten(context),
-            const ProfileListWidget(iconname: Icons.wallet, text: 'Wallet'),
+            const ProfileListWidget(iconname: Icons.wallet, text: 'Wallet', returnpage: WalletPage(),),
             sizedten(context),
-            const ProfileListWidget(
-                iconname: Icons.compare_arrows_rounded,
-                text: 'Transaction History'),
-            sizedten(context),
-            const ProfileListWidget(iconname: Icons.discount, text: 'Coupons'),
+            const ProfileListWidget(iconname: Icons.discount, text: 'Coupons', returnpage: CouponsPage(),),
             sizedten(context),
             const ProfileListWidget(iconname: Icons.settings, text: 'Settings', returnpage: SettingsPage(),),
             sizedtwenty(context),
