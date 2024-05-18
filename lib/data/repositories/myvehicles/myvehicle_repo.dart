@@ -33,7 +33,6 @@ class MyVehicleRepo {
       debugPrint('Response status code: ${res.statusCode}');
       debugPrint('Response body: ${res.body}');
 
-      // ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,
@@ -44,6 +43,7 @@ class MyVehicleRepo {
         },
       );
     } catch (e) {
+      showSnackbar(context, 'Failed Adding Vehicle');
       debugPrint('Error: $e');
     }
   }

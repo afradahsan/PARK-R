@@ -2,11 +2,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parkr/presentation/screens/auth/signupwemail.dart';
-import 'package:parkr/presentation/screens/home/homepage.dart';
 import 'package:parkr/presentation/screens/auth/widgets/elevatedbutton.dart';
 import 'package:parkr/presentation/screens/auth/widgets/grayedbutton.dart';
+import 'package:parkr/presentation/screens/auth/widgets/snackbar.dart';
 import 'package:parkr/presentation/screens/auth/widgets/textformfeild.dart';
-import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
 
@@ -39,6 +38,11 @@ class VerifyOtp extends StatelessWidget {
                 'Enter the OTP',
                 style: KTextTheme.darkTextTheme.titleLarge,
               ),
+              sizedfive(context),
+              Text(
+                'The OTP has been sent to +91$phonenumber',
+                style: KTextTheme.darkwhiteTextTheme.labelMedium ,
+              ),
               sizedten(context),
               TFormFeild(
                 icon: Icons.timelapse_rounded,
@@ -56,6 +60,7 @@ class VerifyOtp extends StatelessWidget {
               GrayedButton(onPressed: (){}, ButtonText: 'Resend Code'),
               sizedfive(context),
               AuthButton(
+                loading: false,
                   onPressed: () async {
                     if (_formKey.currentState != null &&
                         _formKey.currentState!.validate()) {
@@ -72,7 +77,7 @@ class VerifyOtp extends StatelessWidget {
                                   builder: (context) =>
                                       SignupwEmail(phonenumber: phonenumber)));
                         } catch (e) {
-                          const SnackBar(content: Text('error'));
+                          showSnackbar(context, 'Wrong OTP');
                           debugPrint('erroorr');
                         }
                       }

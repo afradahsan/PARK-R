@@ -83,9 +83,9 @@ Widget mainImage(
           onPressed: () {
             Navigator.pop(context);
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back,
-            color: Color.fromARGB(255, 48, 48, 48),
+            color: white
           ))
     ],
   );

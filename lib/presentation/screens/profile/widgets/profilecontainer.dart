@@ -22,7 +22,7 @@ class ProfileContainer extends StatelessWidget {
             const CircleAvatar(
                 radius: 30,
                 backgroundImage: NetworkImage(
-                    'https://www.gravatar.com/avatar/2c7d99fe281ecd3bcd65ab915bac6dd5?s=250')),
+                    'https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg')),
             sizedwten(context),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -40,11 +40,7 @@ class ProfileContainer extends StatelessWidget {
               ],
             ),
             const Spacer(),
-            const Icon(
-              Icons.arrow_forward_ios,
-              color: Color.fromARGB(170, 255, 255, 255),
-              size: 17,
-            )
+
           ],
         ),
       ),

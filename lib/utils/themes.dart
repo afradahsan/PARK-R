@@ -18,7 +18,7 @@ class KTextTheme {
     titleSmall: const TextStyle().copyWith(
         fontSize: 16.0, fontWeight: FontWeight.w400, color: Colors.black),
     bodyLarge: const TextStyle().copyWith(
-        fontSize: 14.0, fontWeight: FontWeight.w500, color: Colors.black),
+        fontSize: 14.0, fontWeight: FontWeight.w700, color: Colors.black),
     bodyMedium: const TextStyle().copyWith(
         fontSize: 14.0, fontWeight: FontWeight.normal, color: Colors.black),
     bodySmall: const TextStyle().copyWith(
@@ -42,7 +42,7 @@ class KTextTheme {
     titleMedium: const TextStyle().copyWith(
         fontSize: 18.0, fontWeight: FontWeight.w600, color: greenColor),
     titleSmall: const TextStyle().copyWith(
-        fontSize: 18.0, fontWeight: FontWeight.w600, color: greenColor),
+        fontSize: 16.0, fontWeight: FontWeight.bold, color: greenColor),
     bodyLarge: const TextStyle().copyWith(
         fontSize: 16.0, fontWeight: FontWeight.w600, color: greenColor),
     bodyMedium: const TextStyle().copyWith(
@@ -65,18 +65,18 @@ class KTextTheme {
     titleLarge: const TextStyle().copyWith(
         fontSize: 20.0, fontWeight: FontWeight.bold, color: white),
     titleMedium: const TextStyle().copyWith(
-        fontSize: 16.0, fontWeight: FontWeight.w600, color: white),
-    titleSmall: const TextStyle().copyWith(
         fontSize: 18.0, fontWeight: FontWeight.w600, color: white),
+    titleSmall: const TextStyle().copyWith(
+        fontSize: 16.0, fontWeight: FontWeight.bold, color: white),
     bodyLarge: const TextStyle().copyWith(
-        fontSize: 16.0, fontWeight: FontWeight.w500, color: white),
+        fontSize: 16.0, fontWeight: FontWeight.w600, color: white),
     bodyMedium: const TextStyle().copyWith(
-        fontSize: 14.0, fontWeight: FontWeight.normal, color: white),
+        fontSize: 16.0, fontWeight: FontWeight.w500, color: white),
     bodySmall: const TextStyle().copyWith(
         fontSize: 14.0, fontWeight: FontWeight.normal, color: white),
     labelLarge: const TextStyle().copyWith(
         fontSize: 12.0, fontWeight: FontWeight.normal, color: white),
     labelMedium: const TextStyle().copyWith(
-        fontSize: 10.0, fontWeight: FontWeight.normal, color: whitet200),
+        fontSize: 12.0, fontWeight: FontWeight.normal, color: whitet200),
   );
 }

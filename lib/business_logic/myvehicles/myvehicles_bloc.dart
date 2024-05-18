@@ -22,11 +22,15 @@ class MyvehiclesBloc extends Bloc<MyvehiclesEvent, MyvehiclesState> {
 
     List<Vehicle> myvehiclesList = await MyVehicleRepo().getVehicles(context);
 
-    if(myvehiclesList.isNotEmpty){
-      debugPrint('myvehicledone');
-      emit(MyVehiclesSuccess(myVehicles: myvehiclesList));
-    } else {
-      debugPrint('myv not done');
+    try {
+      if (myvehiclesList.isNotEmpty) {
+        debugPrint('myvehicledone');
+        emit(MyVehiclesSuccess(myVehicles: myvehiclesList));
+      } else {
+        debugPrint('myv empty');
+        emit(MyVehiclesEmptyState());
+      }
+    } catch (e) {
       emit(MyVehiclesError());
     }
   }

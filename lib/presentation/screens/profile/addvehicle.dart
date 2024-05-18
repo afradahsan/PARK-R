@@ -23,7 +23,7 @@ class _AddVehicleState extends State<AddVehicle> {
 
   void saveVehicle() {
     setState(() {
-      isLoading = true; // Set loading state to true when API call starts
+      isLoading = true; 
     });
     MyVehicleRepo().addVehicles(
         context: context,
@@ -36,10 +36,7 @@ class _AddVehicleState extends State<AddVehicle> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(
-          Icons.arrow_back,
-          color: Colors.white,
-        ),
+        iconTheme: IconThemeData(color: greenColor),
         title: const Text(
           'Add Vehicle',
           style: TextStyle(color: Colors.white),
@@ -109,12 +106,12 @@ class _AddVehicleState extends State<AddVehicle> {
                 },
                 icon: Icons.confirmation_number_sharp),
             sizedten(context),
-            isLoading
-                ? const Center(
-                    child:
-                        CircularProgressIndicator()) // Show loader if isLoading is true
-                : AuthButton(
+            AuthButton(
+                  loading: isLoading,
                     onPressed: () {
+                      setState(() {
+                        isLoading = true;
+                      });
                       saveVehicle();
                     },
                     ButtonText: 'Save')

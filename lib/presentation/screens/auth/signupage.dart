@@ -106,11 +106,10 @@ class SignupPage extends StatelessWidget {
         verificationFailed: (e) {
           if (e.code == 'Invalid Phone number') {
             debugPrint('invalid');
-            SnackBar(content: Text('Invalid'));
+            showSnackbar(context, 'Invalid Phone number');
           } else {
-            debugPrint('wrong');
-
-            SnackBar(content: Text('Something went wrong'));
+            debugPrint('wrong, $e');
+            showSnackbar(context, 'Something went wrong');
           }
         },
         codeSent: (String verificationId, int? resendToken) {

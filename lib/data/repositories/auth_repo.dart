@@ -29,7 +29,7 @@ class AuthRepo {
           });
       debugPrint(res.body);
       debugPrint('${res.statusCode}');
-      if (res.statusCode == 201) {
+      if (res.statusCode == 201 || res.statusCode == 200) {
         return 'success';
       }
       if (res.statusCode == 400) {

@@ -23,7 +23,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
         if (bookingList.isNotEmpty) {
           emit(BookingSuccessState(bookingList: bookingList));
         } else {
-          emit(BookingErrorState());
+          emit(BookingsEmptyState());
         }
       } catch (e) {
         emit(BookingErrorState());

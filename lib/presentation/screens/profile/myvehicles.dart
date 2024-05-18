@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:parkr/data/models/vehiclemodel.dart';
 import 'package:parkr/data/repositories/myvehicles/myvehicle_repo.dart';
 import 'package:parkr/presentation/screens/profile/addvehicle.dart';
@@ -53,7 +54,9 @@ class _MyVehiclesState extends State<MyVehicles> {
               color: darkbgColor,
             )), 
         body: SafeArea(
-            child: ListView.separated(
+            child: vehicleList.isEmpty ? Column(children: [
+              Lottie.asset('')
+            ],) : ListView.separated(
           padding: const EdgeInsets.all(15),
           itemCount: vehicleList.length,
           separatorBuilder: (context, index) {

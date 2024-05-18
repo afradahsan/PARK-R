@@ -76,7 +76,7 @@ AppBar appBar(BuildContext context) {
           return Lottie.asset('assets/animations/locationloadingraw.json');
         } else if (state is FetchaddressError) {
           debugPrint('load');
-          return Text('Error');
+          return const Text('Error');
         } else if (state is FetchaddressSuccess) {
           debugPrint('success geocode ${state.address}');
           return Row(children: [

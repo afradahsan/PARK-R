@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parkr/business_logic/cubits/selectvehindex/selectvehindex_cubit.dart';
 import 'package:parkr/business_logic/myvehicles/myvehicles_bloc.dart';
 import 'package:parkr/data/models/parkingmodel.dart';
+import 'package:parkr/presentation/screens/auth/widgets/grayedbutton.dart';
 import 'package:parkr/presentation/screens/parking/choseparking.dart';
 import 'package:parkr/presentation/screens/parking/widgets/choosevehiclecontainer.dart';
 import 'package:parkr/presentation/screens/parking/widgets/includewash.dart';
@@ -108,6 +109,32 @@ class ChooseVehicle extends StatelessWidget {
                           : sizedten(context)
                     ],
                   );
+                } else if (state is MyVehiclesEmptyState) {
+                  return SizedBox(
+                    width: double.maxFinite,
+                    height: 500,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/7317981.png',
+                          height: 180,
+                        ),
+                        Text(
+                          'No Vehicles Found!',
+                          style: KTextTheme.darkwhiteTextTheme.titleMedium,
+                        ),
+                        sizedfive(context),
+                        Text(
+                          'Add your vehicle to continue',
+                          style: KTextTheme.darkTextTheme.bodyMedium,
+                        ),
+                        sizedten(context),
+                        addvehContainer(context),
+                      ],
+                    ),
+                  );
                 } else if (state is MyVehiclesError) {
                   return const Text('Error: Failed to load parking details');
                 } else {
@@ -116,19 +143,21 @@ class ChooseVehicle extends StatelessWidget {
               },
             ),
             const Spacer(),
-            ParkingButton(
-                text: 'Proceed',
-                onpressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) {
-                      return ChooseParking(
-                        parkingname: parkingname,
-                        vehicleType: vehicletype,
-                        index: index,
-                      );
-                    },
-                  ));
-                })
+            myVehNumber == ''
+                ? GrayedButton(onPressed: () {}, ButtonText: 'Proceed')
+                : ParkingButton(
+                    text: 'Proceed',
+                    onpressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) {
+                          return ChooseParking(
+                            parkingname: parkingname,
+                            vehicleType: vehicletype,
+                            index: index,
+                          );
+                        },
+                      ));
+                    })
           ],
         ),
       )),
@@ -172,7 +201,7 @@ Widget addvehContainer(BuildContext context) {
           ),
           sizedwten(context),
           Text(
-            'Add Another Vehicle',
+            'Add New Vehicle',
             style: KTextTheme.darkwhiteTextTheme.titleMedium,
           )
         ],
