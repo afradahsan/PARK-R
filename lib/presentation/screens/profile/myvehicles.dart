@@ -6,6 +6,7 @@ import 'package:parkr/presentation/screens/profile/addvehicle.dart';
 import 'package:parkr/presentation/screens/profile/widgets/vehiclecontainer.dart';
 import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
+import 'package:parkr/utils/themes.dart';
 
 class MyVehicles extends StatefulWidget {
   const MyVehicles({super.key});
@@ -54,9 +55,30 @@ class _MyVehiclesState extends State<MyVehicles> {
               color: darkbgColor,
             )), 
         body: SafeArea(
-            child: vehicleList.isEmpty ? Column(children: [
-              Lottie.asset('')
-            ],) : ListView.separated(
+            child: vehicleList.isEmpty ? SizedBox(
+                    width: double.maxFinite,
+                    height: 600,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/7317981.png',
+                          height: 180,
+                        ),
+                        Text(
+                          'No Vehicles Found!',
+                          style: KTextTheme.darkwhiteTextTheme.titleMedium,
+                        ),
+                        sizedfive(context),
+                        Text(
+                          'Tap on \'+\' to add a new vehicle',
+                          style: KTextTheme.darkTextTheme.bodyMedium,
+                        ),
+                        sizedten(context),
+                      ],
+                    ),
+                  ) : ListView.separated(
           padding: const EdgeInsets.all(15),
           itemCount: vehicleList.length,
           separatorBuilder: (context, index) {

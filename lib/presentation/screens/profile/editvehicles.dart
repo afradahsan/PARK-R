@@ -21,6 +21,8 @@ class _EditVehicleState extends State<EditVehicle> {
 
   String dropdownvalue = '';
 
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
   TextEditingController vehicleNameC = TextEditingController();
   TextEditingController vehicleNumberC = TextEditingController();
   bool isLoading = false;
@@ -37,7 +39,9 @@ class _EditVehicleState extends State<EditVehicle> {
     setState(() {
       isLoading = true; 
     });
-    MyVehicleRepo().editVehicle(context: context, vehicleName: vehicleNameC.text, vehicleNumber: vehicleNumberC.text, vehicleType: dropdownvalue, vehicleId: widget.vehicle.id!);
+    MyVehicleRepo().editVehicle(context: context, vehicleName: vehicleNameC.text, vehicleNumber: vehicleNumberC.text, vehicleType: dropdownvalue, vehicleId: widget.vehicle.id!, scaffoldMessengerKey: scaffoldMessengerKey, onSuccess: () {
+      Navigator.of(context).pop();
+    },);
   }
 
   @override

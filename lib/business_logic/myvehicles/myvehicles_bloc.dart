@@ -13,12 +13,14 @@ class MyvehiclesBloc extends Bloc<MyvehiclesEvent, MyvehiclesState> {
   final BuildContext context;
 
   MyvehiclesBloc(this.context) : super(MyvehiclesInitial()) {
-    on<MyvehiclesEvent>(myvehiclesevent);
+    on<FetchVehiclesEvent>(myvehiclesevent);
   }
 
   FutureOr<void> myvehiclesevent(
       MyvehiclesEvent event, Emitter<MyvehiclesState> emit) async {
     emit(MyVehiclesLoading());
+
+    debugPrint('myvehevent called');
 
     List<Vehicle> myvehiclesList = await MyVehicleRepo().getVehicles(context);
 

@@ -15,8 +15,7 @@ import 'package:parkr/utils/themes.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ChooseVehicle extends StatelessWidget {
-  const ChooseVehicle(
-      {super.key, required this.parkingList, required this.index});
+  const ChooseVehicle({super.key, required this.parkingList, required this.index});
 
   final List<ParkingModel> parkingList;
   final int index;
@@ -26,6 +25,8 @@ class ChooseVehicle extends StatelessWidget {
     String parkingname = parkingList[index].parkingName;
     String myVehNumber = '';
     String vehicletype = '';
+
+    context.read<MyvehiclesBloc>().add(const FetchVehiclesEvent());
 
     return Scaffold(
       appBar: appbar(),
@@ -40,112 +41,115 @@ class ChooseVehicle extends StatelessWidget {
               style: KTextTheme.darkwhiteTextTheme.titleLarge,
             ),
             sizedten(context),
-            BlocBuilder<MyvehiclesBloc, MyvehiclesState>(
-              builder: (context, state) {
-                if (state is MyvehiclesInitial) {
-                  context
-                      .read<MyvehiclesBloc>()
-                      .add(const FetchVehiclesEvent());
-                  return CircularProgressIndicator(
-                    color: greenColor,
-                  );
-                } else if (state is MyVehiclesLoading) {
-                  return Shimmer.fromColors(
-                    baseColor: Colors.grey.shade300,
-                    highlightColor: Colors.grey.shade100,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ListView.separated(
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                height: 80,
-                                width: screenW(context),
-                                decoration: BoxDecoration(
-                                    color: whitet50,
-                                    borderRadius: BorderRadius.circular(15)),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return sizedten(context);
-                            },
-                            itemCount: 4),
-                        sizedten(context),
-                        Container(
-                          height: 10,
-                          width: screenW(context) - 300,
-                          decoration: BoxDecoration(
-                              color: whitet50,
-                              borderRadius: BorderRadius.circular(15)),
-                        ),
-                        sizedten(context),
-                        Container(
-                          height: 10,
-                          width: screenW(context) - 200,
-                          decoration: BoxDecoration(
-                              color: whitet50,
-                              borderRadius: BorderRadius.circular(15)),
-                        ),
-                      ],
-                    ),
-                  );
-                } else if (state is MyVehiclesSuccess) {
-                  final selectedIndex =
-                      context.read<SelectvehindexCubit>().state;
+            BlocListener<MyvehiclesBloc, MyvehiclesState>(
+              listener: (context, state) {
+                if (state is MyVehiclesSuccess) {
+                  final selectedIndex = context.read<SelectvehindexCubit>().state;
                   myVehNumber = state.myVehicles[selectedIndex].vehicleNumber;
                   vehicletype = state.myVehicles[selectedIndex].vehicleType;
-
-                  return Column(
-                    children: [
-                      ChooseVehiclesContainer(
-                        myvehiclesList: state.myVehicles,
+                }
+              },
+              child: BlocBuilder<MyvehiclesBloc, MyvehiclesState>(
+                builder: (context, state) {
+                  if (state is MyvehiclesInitial || state is MyVehiclesLoading) {
+                    return Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.grey.shade100,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ListView.separated(
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  height: 80,
+                                  width: screenW(context),
+                                  decoration: BoxDecoration(
+                                      color: whitet50,
+                                      borderRadius: BorderRadius.circular(15)),
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return sizedten(context);
+                              },
+                              itemCount: 4),
+                          sizedten(context),
+                          Container(
+                            height: 10,
+                            width: screenW(context) - 300,
+                            decoration: BoxDecoration(
+                                color: whitet50,
+                                borderRadius: BorderRadius.circular(15)),
+                          ),
+                          sizedten(context),
+                          Container(
+                            height: 10,
+                            width: screenW(context) - 200,
+                            decoration: BoxDecoration(
+                                color: whitet50,
+                                borderRadius: BorderRadius.circular(15)),
+                          ),
+                        ],
                       ),
-                      sizedten(context),
-                      addvehContainer(context),
-                      sizedtwenty(context),
-                      parkingList[index].carWash
-                          ? const IncludeWash()
-                          : sizedten(context)
-                    ],
-                  );
-                } else if (state is MyVehiclesEmptyState) {
-                  return SizedBox(
-                    width: double.maxFinite,
-                    height: 500,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    );
+                  } else if (state is MyVehiclesSuccess) {
+                    final selectedIndex = context.read<SelectvehindexCubit>().state;
+                    myVehNumber = state.myVehicles[selectedIndex].vehicleNumber;
+                    vehicletype = state.myVehicles[selectedIndex].vehicleType;
+
+                    return Column(
                       children: [
-                        Image.asset(
-                          'assets/7317981.png',
-                          height: 180,
-                        ),
-                        Text(
-                          'No Vehicles Found!',
-                          style: KTextTheme.darkwhiteTextTheme.titleMedium,
-                        ),
-                        sizedfive(context),
-                        Text(
-                          'Add your vehicle to continue',
-                          style: KTextTheme.darkTextTheme.bodyMedium,
+                        SizedBox(
+                          height: 430,
+                          child: ChooseVehiclesContainer(
+                            myvehiclesList: state.myVehicles,
+                          ),
                         ),
                         sizedten(context),
                         addvehContainer(context),
+                        sizedtwenty(context),
+                        parkingList[index].carWash ? const IncludeWash() : sizedten(context)
                       ],
-                    ),
-                  );
-                } else if (state is MyVehiclesError) {
-                  return const Text('Error: Failed to load parking details');
-                } else {
-                  return const Text('Unknown state');
-                }
-              },
+                    );
+                  } else if (state is MyVehiclesEmptyState) {
+                    return SizedBox(
+                      width: double.maxFinite,
+                      height: 500,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/7317981.png',
+                            height: 180,
+                          ),
+                          Text(
+                            'No Vehicles Found!',
+                            style: KTextTheme.darkwhiteTextTheme.titleMedium,
+                          ),
+                          sizedfive(context),
+                          Text(
+                            'Add your vehicle to continue',
+                            style: KTextTheme.darkTextTheme.bodyMedium,
+                          ),
+                          sizedten(context),
+                          addvehContainer(context),
+                        ],
+                      ),
+                    );
+                  } else if (state is MyVehiclesError) {
+                    return const Text('Error: Failed to load parking details');
+                  } else {
+                    return const Text('Unknown state');
+                  }
+                },
+              ),
             ),
             const Spacer(),
-            myVehNumber == ''
-                ? GrayedButton(onPressed: () {}, ButtonText: 'Proceed')
-                : ParkingButton(
+            BlocBuilder<MyvehiclesBloc, MyvehiclesState>(
+              builder: (context, state) {
+                if (state is MyVehiclesSuccess) {
+                  return ParkingButton(
                     text: 'Proceed',
                     onpressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -157,7 +161,12 @@ class ChooseVehicle extends StatelessWidget {
                           );
                         },
                       ));
-                    })
+                    });
+                } else {
+                  return GrayedButton(onPressed: () {}, ButtonText: 'Proceed');
+                }
+              },
+            ),
           ],
         ),
       )),

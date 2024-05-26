@@ -21,7 +21,7 @@ class SignupPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool? loading;
+    bool loading = false;
     return Scaffold(
       body: SafeArea(
           child: Padding(
@@ -72,7 +72,7 @@ class SignupPage extends StatelessWidget {
                   }
                 },
                 child: AuthButton(
-                  loading: loading ?? false,
+                  loading: loading ,
                   ButtonText: 'Continue',
                   onPressed: () async {
                     if (_formKey.currentState != null &&
@@ -109,7 +109,7 @@ class SignupPage extends StatelessWidget {
             showSnackbar(context, 'Invalid Phone number');
           } else {
             debugPrint('wrong, $e');
-            showSnackbar(context, 'Something went wrong');
+            showSnackbar(context,  '$e Something went wrong');
           }
         },
         codeSent: (String verificationId, int? resendToken) {

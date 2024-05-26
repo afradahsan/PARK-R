@@ -14,27 +14,33 @@ class AddVehicle extends StatefulWidget {
 
 class _AddVehicleState extends State<AddVehicle> {
   var vehicletypes = ['Two Wheeler', 'Three Wheeler', 'Four Wheeler'];
+  final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
   String dropdownvalue = '';
-
   final TextEditingController vehicleNameC = TextEditingController();
   final TextEditingController vehicleNumberC = TextEditingController();
   bool isLoading = false; // Track loading state
 
-  void saveVehicle() {
+  void saveVehicle(BuildContext mainContext) {
     setState(() {
-      isLoading = true; 
+      isLoading = true;
     });
     MyVehicleRepo().addVehicles(
-        context: context,
-        vehicleName: vehicleNameC.text,
-        vehicleNumber: vehicleNumberC.text,
-        vehicleType: dropdownvalue);
+      context: mainContext,
+      vehicleName: vehicleNameC.text,
+      vehicleNumber: vehicleNumberC.text,
+      vehicleType: dropdownvalue,
+      scaffoldMessengerKey: scaffoldMessengerKey, // Pass the GlobalKey here
+      onSuccess: () {
+        Navigator.of(context).pop();
+      },
+    );
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext mainContext) {
     return Scaffold(
+      key: scaffoldMessengerKey,
       appBar: AppBar(
         iconTheme: IconThemeData(color: greenColor),
         title: const Text(
@@ -45,28 +51,28 @@ class _AddVehicleState extends State<AddVehicle> {
         elevation: 0,
       ),
       body: SafeArea(
-          child: Padding(
-        padding: const EdgeInsets.only(left: 12, right: 12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Choose Vehicle Type'),
-            sizedten(context),
-            Container(
+        child: Padding(
+          padding: const EdgeInsets.only(left: 12, right: 12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Choose Vehicle Type'),
+              sizedten(context),
+              Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15.0),
                   border: Border.all(
-                      color: Colors.grey,
-                      style: BorderStyle.solid,
-                      width: 0.80),
+                    color: Colors.grey,
+                    style: BorderStyle.solid,
+                    width: 0.80,
+                  ),
                 ),
                 child: DropdownButtonHideUnderline(
                   child: DropdownButton(
                     dropdownColor: darkbgColor,
-                    value:
-                        dropdownvalue == '' ? vehicletypes[0] : dropdownvalue,
+                    value: dropdownvalue == '' ? vehicletypes[0] : dropdownvalue,
                     icon: const Icon(Icons.keyboard_arrow_down),
                     items: vehicletypes.map((String items) {
                       return DropdownMenuItem(
@@ -80,9 +86,10 @@ class _AddVehicleState extends State<AddVehicle> {
                       });
                     },
                   ),
-                )),
-            sizedten(context),
-            TFormFeild(
+                ),
+              ),
+              sizedten(context),
+              TFormFeild(
                 controller: vehicleNameC,
                 hintText: 'Vehicle Name',
                 validator: (value) {
@@ -92,9 +99,10 @@ class _AddVehicleState extends State<AddVehicle> {
                     return null;
                   }
                 },
-                icon: Icons.local_taxi),
-            sizedten(context),
-            TFormFeild(
+                icon: Icons.local_taxi,
+              ),
+              sizedten(context),
+              TFormFeild(
                 controller: vehicleNumberC,
                 hintText: 'Vehicle Number',
                 validator: (value) {
@@ -104,20 +112,20 @@ class _AddVehicleState extends State<AddVehicle> {
                     return null;
                   }
                 },
-                icon: Icons.confirmation_number_sharp),
-            sizedten(context),
-            AuthButton(
-                  loading: isLoading,
-                    onPressed: () {
-                      setState(() {
-                        isLoading = true;
-                      });
-                      saveVehicle();
-                    },
-                    ButtonText: 'Save')
-          ],
+                icon: Icons.confirmation_number_sharp,
+              ),
+              sizedten(context),
+              AuthButton(
+                loading: isLoading,
+                onPressed: () {
+                  saveVehicle(mainContext);
+                },
+                ButtonText: 'Save',
+              ),
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }

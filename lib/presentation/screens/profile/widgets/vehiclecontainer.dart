@@ -20,6 +20,8 @@ class VehicleContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+
     return Container(
       height: 80,
       width: double.infinity,
@@ -84,9 +86,11 @@ class VehicleContainer extends StatelessWidget {
                                 actions: [
                                   ElevatedButton(
                                       onPressed: () {
-                                        MyVehicleRepo().deleteVehicle(context: context, vehicles: vehicle, onSuccess: () {
+                                        MyVehicleRepo().deleteVehicle(context: context, vehicles: vehicle,
+                                        scaffoldMessengerKey: scaffoldMessengerKey,
+                                        onSuccess: () {
                                           Navigator.of(context).pop();
-                                          showSnackbar(context, 'Deleted Successfully!');
+                                          showSnackbar(scaffoldMessengerKey, 'Deleted Successfully!');
                                         },);
                                       }, child: const Text('Yes')),
                                   ElevatedButton(
@@ -108,4 +112,9 @@ class VehicleContainer extends StatelessWidget {
       ),
     );
   }
+}
+
+void showSnackbar(GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey, String text) {
+  final scaffoldMessenger = scaffoldMessengerKey.currentState!;
+  scaffoldMessenger.showSnackBar(SnackBar(content: Text(text)));
 }

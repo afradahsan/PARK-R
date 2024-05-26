@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -65,4 +62,14 @@ class DefaultFirebaseOptions {
     storageBucket: 'parking-app-a93b0.appspot.com',
     iosBundleId: 'com.example.parkr',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCesDAp61NeYpjwXC7EZO4W4qRZw7GSKLE',
+    appId: '1:502976423427:web:532f56ae68ccb481c05036',
+    messagingSenderId: '502976423427',
+    projectId: 'parking-app-a93b0',
+    authDomain: 'parking-app-a93b0.firebaseapp.com',
+    storageBucket: 'parking-app-a93b0.appspot.com',
+  );
+
 }
