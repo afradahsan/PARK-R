@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:parkr/business_logic/onboarding/bloc/onboarding_bloc.dart';
 import 'package:parkr/data/repositories/auth_repo.dart';
-import 'package:parkr/presentation/screens/auth/loginpage.dart';
+import 'package:parkr/presentation/screens/auth/login_page.dart';
 import 'package:parkr/presentation/screens/auth/verify_otp.dart';
 import 'package:parkr/presentation/screens/auth/widgets/elevatedbutton.dart';
 import 'package:parkr/presentation/screens/auth/widgets/snackbar.dart';

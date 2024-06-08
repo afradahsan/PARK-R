@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:parkr/utils/colors.dart';
 
-String uri = 'https://parkwiser.ddns.net';
+// String uri = 'https://parkwiser.ddns.net';
+String uri = 'http://192.168.102.182:3000';
 
 String formatTime(String timeString) {
   final List<String> parts =

@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepo {
+  
   Future<String> signupUser(
       {required UserModel usermodel, BuildContext? context}) async {
     try {

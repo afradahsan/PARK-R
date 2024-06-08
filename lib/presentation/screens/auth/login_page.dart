@@ -8,6 +8,7 @@ import 'package:parkr/presentation/screens/home/bottomnav.dart';
 import 'package:parkr/presentation/screens/auth/widgets/elevatedbutton.dart';
 import 'package:parkr/presentation/screens/auth/widgets/snackbar.dart';
 import 'package:parkr/presentation/screens/auth/widgets/textformfeild.dart';
+import 'package:parkr/utils/colors.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
 import 'package:provider/provider.dart';
@@ -52,7 +53,7 @@ class LoginPage extends StatelessWidget {
                     return null;
                   }
                 }),
-            sizedten(context),
+            sizedfive(context),
             BlocListener<SigninBloc, SigninState>(
               listener: (context, state) {
                 if (state is SigninSuccessState) {
@@ -98,7 +99,11 @@ class LoginPage extends StatelessWidget {
                     }
                   },
                   ButtonText: 'Log In'),
-            )
+            ),
+            sizedfive(context),
+            TextButton(onPressed: (){
+              
+            }, child: Text('Forgot Password?', style: KTextTheme.darkTextTheme.bodySmall!.copyWith(color: greenColor.withAlpha(200), decoration: TextDecoration.underline, decorationColor: greenColor.withAlpha(200)),),)
           ],
         ),
       ),

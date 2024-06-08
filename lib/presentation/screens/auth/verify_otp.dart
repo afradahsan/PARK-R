@@ -3,24 +3,31 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:parkr/presentation/screens/auth/signupwemail.dart';
 import 'package:parkr/presentation/screens/auth/widgets/elevatedbutton.dart';
-import 'package:parkr/presentation/screens/auth/widgets/grayedbutton.dart';
+import 'package:parkr/presentation/screens/auth/widgets/resend_code.dart';
 import 'package:parkr/presentation/screens/auth/widgets/snackbar.dart';
 import 'package:parkr/presentation/screens/auth/widgets/textformfeild.dart';
 import 'package:parkr/utils/constants.dart';
 import 'package:parkr/utils/themes.dart';
 
-class VerifyOtp extends StatelessWidget {
+class VerifyOtp extends StatefulWidget {
   final String verificationId;
   final String phonenumber;
 
-  VerifyOtp({
+  const VerifyOtp({
     Key? key,
     required this.verificationId,
     required this.phonenumber,
   }) : super(key: key);
 
+  @override
+  State<VerifyOtp> createState() => _VerifyOtpState();
+}
+
+class _VerifyOtpState extends State<VerifyOtp> {
   final TextEditingController otpController = TextEditingController();
+
   final auth = FirebaseAuth.instance;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -40,7 +47,7 @@ class VerifyOtp extends StatelessWidget {
               ),
               sizedfive(context),
               Text(
-                'The OTP has been sent to +91$phonenumber',
+                'The OTP has been sent to +91 ${widget.phonenumber}',
                 style: KTextTheme.darkwhiteTextTheme.labelMedium ,
               ),
               sizedten(context),
@@ -57,7 +64,7 @@ class VerifyOtp extends StatelessWidget {
                 },
               ),
               sizedten(context),
-              GrayedButton(onPressed: (){}, ButtonText: 'Resend Code'),
+              ResendCode(phoneNo: widget.phonenumber,),
               sizedfive(context),
               AuthButton(
                 loading: false,
@@ -66,7 +73,7 @@ class VerifyOtp extends StatelessWidget {
                         _formKey.currentState!.validate()) {
                       {
                         final credential = PhoneAuthProvider.credential(
-                            verificationId: verificationId,
+                            verificationId: widget.verificationId,
                             smsCode: otpController.text);
 
                         try {
@@ -75,7 +82,7 @@ class VerifyOtp extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      SignupwEmail(phonenumber: phonenumber)));
+                                      SignupwEmail(phonenumber: widget.phonenumber)));
                         } catch (e) {
                           showSnackbar(context, 'Wrong OTP');
                           debugPrint('erroorr');

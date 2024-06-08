@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:parkr/business_logic/cubits/fetchlocation/fetchlocation_cubit.dart';
 import 'package:parkr/data/providers/user_provider.dart';
 import 'package:parkr/presentation/screens/admin/pages/adminnav.dart';
 import 'package:parkr/presentation/screens/auth/onboardingpage.dart';
 import 'package:parkr/presentation/screens/home/bottomnav.dart';
 import 'package:parkr/presentation/screens/owner/pages/ownernav.dart';
-import 'package:parkr/utils/themes.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -24,25 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     debugPrint('statement');
     initializeApp();
-    Timer(
-        const Duration(seconds: 3),
-        () => Navigator.pushReplacement(context, MaterialPageRoute(
-              builder: (context) {
-                return Builder(
-                  builder: (context) {
-                    final userProvider =
-                        Provider.of<UserProvider>(context, listen: false);
-                    return userProvider.user.token.isNotEmpty
-                        ? userProvider.user.type == 'user'
-                            ? const BottomNav()
-                            : userProvider.user.type == 'admin'
-                                ? const AdminNav()
-                                : const OwnerNav()
-                        : OnboardingPage();
-                  },
-                );
-              },
-            )));
+    Timer(const Duration(seconds: 3), navigateToNextScreen);
     debugPrint('statement1');
   }
 
@@ -50,16 +30,38 @@ class _SplashScreenState extends State<SplashScreen> {
     FetchlocationCubit().fetchLocation();
   }
 
+  void navigateToNextScreen() {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    Widget nextPage;
+    if (userProvider.user.token.isNotEmpty) {
+      if (userProvider.user.type == 'user') {
+        debugPrint('user');
+        nextPage = const BottomNav();
+      } else if (userProvider.user.type == 'admin') {
+        debugPrint('user');
+        nextPage = const AdminNav();
+      } else {
+        debugPrint('owner');
+        nextPage = const OwnerNav();
+      }
+    } else {
+      debugPrint('onbiard');
+      nextPage = OnboardingPage();
+    }
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => nextPage),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
           child: Center(
-              child: Text(
-        'PARK\'R',
-        style: KTextTheme.darkTextTheme.headlineLarge,
-      ))),
+              child: Image.asset('assets/parkwiser-logo.png', height: 250,))),
     );
   }
 }
